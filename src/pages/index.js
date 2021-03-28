@@ -10,10 +10,11 @@ import {
   EditableParagraph,
   EditableBackgroundImage,
   EditableEmbeddedIframe,
+  EditableImageUpload,
 } from "react-easy-editables";
 
 import {
-  updatePage,
+  updatePageContent,
   loadPageData,
 } from "../redux/actions";
 
@@ -24,8 +25,8 @@ import Section from "../components/common/Section"
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdatePageData: (page, id, data) => {
-      dispatch(updatePage(page, id, data));
+    onUpdatePageContent: (id, data) => {
+      dispatch(updatePageContent(id, data));
     },
     onLoadPageData: data => {
       dispatch(loadPageData(data));
@@ -55,7 +56,7 @@ class HomePage extends React.Component {
   }
 
   onSave = id => content => {
-    this.props.onUpdatePageData("home", id, content);
+    this.props.onUpdatePageContent(id, content);
   };
 
 
@@ -63,32 +64,31 @@ class HomePage extends React.Component {
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
 
     return (
-      <Layout theme="gray" location={this.props.location}>
-        <EditableBackgroundImage
-          classes="header-bg-image animate__animated animate__fadeIn"
-          content={content["landing-bg-image"]}
-          onSave={this.onSave("landing-bg-image")}
-          uploadImage={uploadImage}
-          styles={{ backgroundPosition: 'bottom' }}
-        >
-          <div className="" />
-          <section id="landing" data-aos="fade-down">
-            <Container maxWidth="lg" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <Grid container>
-                <Grid item md={8}>
-                  <div className="mb-4">
-                      <div className="text-white font-size-h4 mb-4 event-dates">
-                        <EditableText content={content["landing-subtitle"]} onSave={this.onSave("landing-subtitle")} />
-                      </div>
-                    </div>
-                    <div className="">
-                      <h1 className="text-white"><EditableText content={content["landing-title"]} onSave={this.onSave("landing-title")} /></h1>
-                    </div>
-                </Grid>
-              </Grid>
-            </Container>
-          </section>
-        </EditableBackgroundImage>
+      <Layout theme="white" location={this.props.location}>
+        <div className="" />
+        <section id="landing" data-aos="fade-down">
+          <Grid container>
+            <Grid item md={6}>
+              <div className="landing-body">
+                <div className="">
+                  <h1 className="">
+                    <EditableText content={content["landing-title"]} onSave={this.onSave("landing-title")} />
+                  </h1>
+                  <div className="font-size-h4 mb-4 event-dates">
+                    <EditableText content={content["landing-subtitle"]} onSave={this.onSave("landing-subtitle")} />
+                  </div>
+                </div>
+              </div>
+            </Grid>
+            <Grid item md={6}>
+              <EditableImageUpload
+                content={content["landing-image"]}
+                onSave={this.onSave("landing-image")}
+                uploadImage={uploadImage}
+              />
+            </Grid>
+          </Grid>
+        </section>
       </Layout>
     );
   }

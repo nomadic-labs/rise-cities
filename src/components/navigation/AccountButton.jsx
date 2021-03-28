@@ -20,7 +20,7 @@ const styles = {
   container: {
     position: "fixed",
     left: "10px",
-    top: "10px",
+    bottom: "10px",
     zIndex: "1000",
   },
   iconLabel: {

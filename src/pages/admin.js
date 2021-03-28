@@ -19,7 +19,6 @@ import {
   fetchPages,
   fetchUsers,
   fetchBrowserNotifications,
-  fetchAccessCode,
   updateFirebaseData,
   deploy,
   userLoggedOut,
@@ -41,9 +40,6 @@ const mapDispatchToProps = dispatch => {
     },
     fetchBrowserNotifications: () => {
       dispatch(fetchBrowserNotifications())
-    },
-    fetchAccessCode: () => {
-      dispatch(fetchAccessCode())
     },
     deploy: () => {
       dispatch(deploy())
@@ -76,23 +72,6 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     this.props.fetchPages()
-    this.props.fetchAccessCode()
-    this.props.fetchBrowserNotifications()
-    if (this.props.user?.isAdmin) {
-      this.props.fetchUsers()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.user !== this.props.user) {
-      if (this.props.user?.isAdmin) {
-        this.props.fetchUsers()
-      }
-    }
-
-    if (prevProps.accessCode !== this.props.accessCode) {
-      this.setState({ accessCode: this.props.accessCode })
-    }
   }
 
   filterPagesByLanguage = (pages, lang) => {
@@ -209,13 +188,6 @@ class AdminPage extends React.Component {
     this.props.updateTranslation(newTranslation)
   }
 
-  updateAccessCode = (e) => {
-    e.preventDefault()
-    const { accessCode } = this.state;
-    this.props.updateFirebaseData({ access_code: accessCode })
-    this.setState({ accessCode: '' })
-  }
-
   logout = e => {
     this.props.userLoggedOut();
     push("/");
@@ -239,16 +211,6 @@ class AdminPage extends React.Component {
             <h1 className="">
               Website Configuration
             </h1>
-          </Container>
-
-          <Container>
-            <h2>Access Code</h2>
-            <div className="my-40">
-              <form onSubmit={this.updateAccessCode} autoComplete="off" className="login-form mt-10 mb-6 display-flex flex-wrap">
-                <input type="text" id="access-code" onChange={e => this.setState({ accessCode: e.currentTarget.value })} value={this.state.accessCode} />
-                <input type="submit" value="Update access code" className="btn ml-2" />
-              </form>
-            </div>
           </Container>
 
           <Container>

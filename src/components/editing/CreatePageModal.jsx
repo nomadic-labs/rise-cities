@@ -30,8 +30,6 @@ const mapStateToProps = state => {
     showNewPageModal: state.adminTools.showNewPageModal,
     options: state.adminTools.options || {},
     page: state.page.data,
-    categories: state.categories.categories,
-    topics: state.topics.topics,
     pages: state.pages.pages,
   };
 };

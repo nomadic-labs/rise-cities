@@ -119,6 +119,9 @@ export function updatePageContent(key, newContent) {
     const pageId = getState().page.data.id;
     const content = { ...getState().page.data.content };
 
+    console.log({pageId})
+    console.log({content})
+
     if (!newContent) {
       delete content[key]
     } else {
@@ -140,6 +143,7 @@ export function updatePageContent(key, newContent) {
         )
       })
       .catch(error => {
+        console.log({error})
         dispatch(
           showNotification(
             `There was an error saving your changes: ${error}`,

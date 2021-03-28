@@ -62,36 +62,37 @@ class ProtectedPage extends React.Component {
   state = { firebaseAuth: null }
 
   componentDidMount() {
-    this.setState({ loading: true, firebaseAuth: firebase.auth() }, () => {
-      this.state.firebaseAuth.onAuthStateChanged(user => {
-        if (user) {
-          const ref = firebase
-            .app()
-            .database()
-            .ref(`users/${user.uid}`);
-          ref.once("value").then(snapshot => {
-            const userData = snapshot.val();
-            if (userData) {
-              this.props.userLoggedIn(userData);
-              this.setState({ loading: false })
-            } else {
-              const newUser = {
-                uid: user.uid,
-                displayName: user.displayName,
-                email: user.email,
-                photoURL: user.photoURL
-              };
-              ref.set(newUser);
-              this.props.userLoggedIn(newUser);
-              this.setState({ loading: false })
-            }
-          });
-        } else {
-          this.props.userLoggedOut();
-          this.setState({ loading: false })
-        }
-      });
-    })
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const ref = firebase
+          .app()
+          .firestore()
+          .collection('users')
+          .doc(user.uid);
+
+        ref.get().then(snapshot => {
+          const userData = snapshot.data();
+          if (userData) {
+            this.props.userLoggedIn(userData);
+          } else {
+            const newUser = {
+              uid: user.uid,
+              displayName: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL
+            };
+            ref.set(newUser);
+            this.props.userLoggedIn(newUser);
+          }
+        });
+      } else {
+        this.props.userLoggedOut();
+      }
+
+      if (this.props.showRegistrationModal) {
+        this.props.onToggleRegistrationModal();
+      }
+    });
   }
 
   render () {

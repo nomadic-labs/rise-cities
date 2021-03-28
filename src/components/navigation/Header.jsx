@@ -1,45 +1,80 @@
 import React from "react";
-import { StaticQuery, graphql, Link } from "gatsby"
-import T from "../common/Translation"
+import ReactDOM from 'react-dom';
+import { Link, navigate } from 'gatsby'
+import logo from "../../assets/images/RISE_logo.svg"
 
-import { HOME_URLS } from '../../utils/constants'
+class Header extends React.Component {
 
-import lightLogo from "../../assets/images/nawl-logo-white.svg"
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuIsOpen: false
+    }
+  }
 
-const Header = props => (
-  <StaticQuery
-    query={graphql`
-      query {
-        allPages {
-          edges {
-            node {
-              id
-              title
-              slug
-            }
+  componentDidMount() {
+    this.appRoot = document.querySelector('.nl-page');
+    this.container = document.createElement('div');
+    this.appRoot.appendChild(this.container);
+  }
+
+  handleClick = (e) => {
+    e.preventDefault();
+    this.setState({ menuIsOpen: false })
+
+    if (typeof window !== 'undefined' && window.location.pathname !== '/') {
+      navigate(`/${e.target.getAttribute('href')}`)
+    } else {
+      document.querySelector(e.target.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
+
+  toggleMenu = (e) => {
+    e.preventDefault();
+    this.setState({ menuIsOpen: !this.state.menuIsOpen })
+  }
+
+  onSave = id => content => {
+    this.props.onUpdatePageData("home", id, content);
+  };
+
+  menu = () => {
+    return (
+      <div className={`menu animate__animated animate__slideInDown ${this.state.menuIsOpen ? 'is-active' : ''}`}>
+        <a className='menu-item' href="#intro" onClick={this.handleClick}>Featured Content</a>
+        <a className='menu-item' href="#program" onClick={this.handleClick}>Program</a>
+        <a className='menu-item' href="#connecting-tree" onClick={this.handleClick}>RISE City Lab</a>
+        <a className='menu-item' href="#participants" onClick={this.handleClick}>Events</a>
+        <a className='menu-item' href="#connect" onClick={this.handleClick}>People</a>
+        <a className='menu-item' href="#session-materials" onClick={this.handleClick}>Partners</a>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <nav className={`navbar`}>
+        <div className="logo">
+          <Link to={'/'} className="display-flex"><img src={logo} alt="BMW Foundation | Herbert Quant"/></Link>
+        </div>
+          <div className='navbar-items'>
+            <a className='navbar-item menu-item' href="#menu" onClick={this.toggleMenu}>{this.state.menuIsOpen ? 'Close' : 'Menu'}</a>
+            <a className='navbar-item' href="#intro" onClick={this.handleClick}>Featured Content</a>
+            <a className='navbar-item' href="#program" onClick={this.handleClick}>Program</a>
+            <a className='navbar-item' href="#connecting-tree" onClick={this.handleClick}>RISE City Lab</a>
+            <a className='navbar-item' href="#participants" onClick={this.handleClick}>Events</a>
+            <a className='navbar-item' href="#connect" onClick={this.handleClick}>People</a>
+            <a className='navbar-item' href="#session-materials" onClick={this.handleClick}>Partners</a>
+          </div>
+          {
+            this.container && ReactDOM.createPortal(this.menu(), this.container)
           }
-        }
-      }
-    `}
-    render={data => {
-      const currentLang = props.pageData ? props.pageData.lang : "en";
-      const home = HOME_URLS[currentLang];
-      const moduleClass = props.pageData && props.pageData.template === "course-module.js" ? "module" : ""
-      return (
-        <nav className={`navbar ${moduleClass}`}>
-          <div className="site-title d-none">
-            <Link to={home}>
-              <span className="title-script"><T id="title_part_1" /></span>
-              <span className="title-print"><T id="title_part_2" /></span>
-            </Link>
-          </div>
-          <div className="logo">
-            <a href={'https://nawl.ca/'}><img src={lightLogo} alt="NAWL | ANFD" /></a>
-          </div>
-        </nav>
-      );
-    }}
-  />
-)
+      </nav>
+    );
+  }
+}
 
 export default Header;
