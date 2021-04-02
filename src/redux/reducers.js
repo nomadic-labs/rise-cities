@@ -357,70 +357,6 @@ export const projectForm = (state={}, action) => {
   }
 }
 
-export const topics = (state={topics: {}}, action) => {
-  switch (action.type) {
-    case 'SELECT_TOPIC':
-      return {
-        ...state,
-        selected: action.selected
-      }
-    case 'UNSELECT_TOPIC':
-      return {
-        ...state,
-        selected: null,
-      }
-
-    case 'SET_TOPICS':
-      return {
-        ...state,
-        topics: action.topics
-      }
-
-    case 'ADD_TOPIC':
-      return {
-        ...state,
-        topics: {
-          ...state.topics,
-          [action.topic.id]: action.topic
-        }
-      }
-    default:
-      return state
-  }
-}
-
-export const categories = (state={ categories: {}}, action) => {
-  switch (action.type) {
-    case 'SELECT_CATEGORY':
-      return {
-        ...state,
-        selected: action.selected
-      }
-    case 'UNSELECT_CATEGORY':
-      return {
-        ...state,
-        selected: null,
-      }
-
-    case 'ADD_CATEGORY':
-      return {
-        ...state,
-        categories: {
-          ...state.categories,
-          [action.category.id]: action.category
-        }
-      }
-
-    case 'SET_CATEGORIES':
-      return {
-        ...state,
-        categories: action.categories
-      }
-    default:
-      return state
-  }
-}
-
 export const pages = (state={ pages: {}}, action) => {
   switch (action.type) {
     case 'SET_PAGES':
@@ -438,16 +374,21 @@ export const pages = (state={ pages: {}}, action) => {
   }
 }
 
-export const translations = (state={}, action) => {
+export const profiles = (state={profiles: []}, action) => {
   switch (action.type) {
-    case 'SET_TRANSLATIONS':
-      return {
-        ...action.strings
-      }
-    case "UPDATE_TRANSLATION_STATE":
+    case 'SET_PROFILES':
       return {
         ...state,
-        [action.translation.id]: action.translation
+        profiles: action.profiles
+      }
+
+    case 'UPDATE_PROFILE':
+      return {
+        ...state,
+        profiles: {
+          ...state.profiles,
+          [action.profile.id]: action.profile
+        }
       }
     default:
       return state
@@ -455,17 +396,58 @@ export const translations = (state={}, action) => {
 }
 
 
+export const events = (state={events: []}, action) => {
+  switch (action.type) {
+    case 'SET_EVENTS':
+      return {
+        ...state,
+        events: action.events
+      }
+
+    case 'UPDATE_EVENT':
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          [action.event.id]: action.event
+        }
+      }
+    default:
+      return state
+  }
+}
+
+export const partners = (state={partners: []}, action) => {
+  switch (action.type) {
+    case 'SET_PARTNERS':
+      return {
+        ...state,
+        partners: action.partners
+      }
+
+    case 'UPDATE_PARTNER':
+      return {
+        ...state,
+        partners: {
+          ...state.partners,
+          [action.partner.id]: action.partner
+        }
+      }
+    default:
+      return state
+  }
+}
+
 export const appReducers = (state = {}, action) => {
   return {
     notifications: notifications(state.notifications, action),
     adminTools: adminTools(state.adminTools, action),
     navigation: navigation(state.navigation, action),
     page: page(state.page, action),
-    projectForm: projectForm(state.projectForm, action),
-    topics: topics(state.topics, action),
-    categories: categories(state.categories, action),
     pages: pages(state.pages, action),
-    translations: translations(state.translations, action),
+    profiles: profiles(state.profiles, action),
+    events: events(state.events, action),
+    partners: partners(state.partners, action),
   }
 }
 

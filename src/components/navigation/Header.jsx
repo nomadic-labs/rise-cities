@@ -56,7 +56,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <nav className={`navbar`}>
+      <nav className={`navbar bg-white`}>
         <div className="logo">
           <Link to={'/'} className="display-flex"><img src={logo} alt="BMW Foundation | Herbert Quant"/></Link>
         </div>

@@ -11,116 +11,99 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ImageUpload from '../editing/ImageUpload';
 import {uploadImage} from "../../firebase/operations";
-import { saveProfile, removeProfile } from "../../redux/actions"
-import { connect } from "react-redux";
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveProfile: (id, profile) => {
-      dispatch(saveProfile(id, profile));
-    },
-    removeProfile: (id) => {
-      dispatch(removeProfile(id));
-    },
-  };
-};
 
-const emptyParticipant = {
+const emptyPartner = {
   name: '',
-  role: '',
   image: {},
-  bio: '',
-  email: ''
+  url: ''
 }
 
-class ParticipantModal extends React.Component {
+class PartnerModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newParticipant: props.participant || emptyParticipant,
+      newPartner: props.partner || emptyPartner,
       errors: {}
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.participant !== this.props.participant && !Boolean(this.props.participant)) {
-      this.setState({ newParticipant: emptyParticipant })
+    if (prevProps.partner !== this.props.partner && !Boolean(this.props.partner)) {
+      this.setState({ newPartner: emptyPartner })
     }
 
-    if (prevProps.participant !== this.props.participant && this.props.participant?.id) {
-      this.setState({ newParticipant: this.props.participant })
+    if (prevProps.partner !== this.props.partner && this.props.partner?.id) {
+      this.setState({ newPartner: this.props.partner })
     }
   }
 
   handleChange = key => event => {
     this.setState({ errors: {} })
     const value = event.currentTarget.value
-    this.setState({ newParticipant: {...this.state.newParticipant, [key]: value} })
+    this.setState({ newPartner: {...this.state.newPartner, [key]: value} })
   }
 
   handleCheckboxChange = key => event => {
     this.setState({ errors: {} })
     const value = event.currentTarget.checked
-    this.setState({ newParticipant: {...this.state.newParticipant, [key]: value} })
+    this.setState({ newPartner: {...this.state.newPartner, [key]: value} })
   }
 
   handleImageChange = key => image => {
-    this.setState({ newParticipant: {...this.state.newParticipant, [key]: { imageSrc: image.imageSrc } } })
+    this.setState({ newPartner: {...this.state.newPartner, [key]: { imageSrc: image.imageSrc } } })
   }
 
   handleDescChange = key => desc => {
-    this.setState({ newParticipant: {...this.state.newParticipant, [key]: desc.text} })
+    this.setState({ newPartner: {...this.state.newPartner, [key]: desc.text} })
   }
 
   handleSaveProfile = () => {
-    const { newParticipant } = this.state;
-    const id = newParticipant.id ? newParticipant.id : `profile-${Date.now()}`
+    const { newPartner } = this.state;
+    const id = newPartner.id ? newPartner.id : `partner-${Date.now()}`
 
     const data = {
-      ...newParticipant,
+      ...newPartner,
       id
     }
 
-    // this.props.saveProfile(id, data)
     this.props.onSaveItem(id, data)
     this.props.closeModal()
-    this.setState({ newParticipant: emptyParticipant })
+    this.setState({ newPartner: emptyPartner })
   }
 
   handleCancel = () => {
     this.props.closeModal()
-    this.setState({ newParticipant: emptyParticipant })
+    this.setState({ newPartner: emptyPartner })
   }
 
-  handleDeleteParticipant = () => {
-    this.props.onDeleteItem(this.state.newParticipant.id)
+  handleDeletePartner = () => {
+    this.props.onDeleteItem(this.state.newPartner.id)
     this.props.closeModal()
-    this.setState({ newParticipant: emptyParticipant })
+    this.setState({ newPartner: emptyPartner })
   }
 
   render() {
-    const { handleDeleteParticipant, handleSaveProfile, handleChange, handleCheckboxChange, handleImageChange, handleCancel } = this;
+    const { handleDeletePartner, handleSaveProfile, handleChange, handleCheckboxChange, handleImageChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       name,
-      role,
       image,
       id,
-      bio,
-      email
-    } = this.state.newParticipant;
+      url
+    } = this.state.newPartner;
 
     const { errors } = this.state;
 
     return (
       <Dialog open={showModal} onClose={closeModal} aria-labelledby="form-dialog-title" scroll="body">
-        <DialogTitle id="form-dialog-title">{id ? 'Edit Participant' : 'Create a Profile' }</DialogTitle>
+        <DialogTitle id="form-dialog-title">{id ? 'Edit Partner' : 'Create a Profile' }</DialogTitle>
         <DialogContent>
           <ImageUpload
             content={image}
             onContentChange={handleImageChange('image')}
             uploadImage={uploadImage}
-            label="Add a profile photo"
+            label="Add a logo"
             round
           />
           <TextField
@@ -135,36 +118,13 @@ class ParticipantModal extends React.Component {
             required
           />
           <TextField
-            value={role || ''}
+            value={url || ''}
             margin="dense"
-            id="role"
-            label="Role"
-            type="text"
+            id="url"
+            label="Website URL"
+            type="url"
             fullWidth
-            onChange={handleChange('role')}
-            variant="outlined"
-            required
-          />
-          <TextField
-            value={bio || ''}
-            margin="dense"
-            id="bio"
-            label="Bio"
-            type="text"
-            fullWidth
-            onChange={handleChange('bio')}
-            variant="outlined"
-            multiline
-            rows={4}
-          />
-          <TextField
-            value={email || ''}
-            margin="dense"
-            id="email"
-            label="Email address"
-            type="email"
-            fullWidth
-            onChange={handleChange('email')}
+            onChange={handleChange('url')}
             variant="outlined"
           />
         </DialogContent>
@@ -174,7 +134,7 @@ class ParticipantModal extends React.Component {
               <Grid item>
                 {
                   id &&
-                  <Button onClick={handleDeleteParticipant} color="secondary">
+                  <Button onClick={handleDeletePartner} color="secondary">
                     Delete
                   </Button>
                 }
@@ -207,11 +167,11 @@ class ParticipantModal extends React.Component {
 
 }
 
-ParticipantModal.defaultProps = {
+PartnerModal.defaultProps = {
   onSaveItem: () => console.log("uh oh you're missing onSaveItem"),
-  participant: emptyParticipant,
+  partner: emptyPartner,
   showModal: false
 }
 
-export default connect(null, mapDispatchToProps)(ParticipantModal)
+export default PartnerModal
 

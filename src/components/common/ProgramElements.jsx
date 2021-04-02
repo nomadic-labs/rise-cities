@@ -68,9 +68,7 @@ class ProgramElements extends React.Component {
   render() {
     // show lastest item first
     const { showModal, editingEvent } = this.state;
-    let itemsKeys = Object.keys(this.props.events).reverse()
-    const eventsArr = itemsKeys.map(key => {
-      const event = this.props.events[key]
+    const eventsArr = this.props.events.map(event => {
       return {
         ...event,
         startDate: DateTime.fromISO(event.startDate),
@@ -81,12 +79,6 @@ class ProgramElements extends React.Component {
 
     return (
       <div className={`collection width-100 mt-2 ${this.props.classes}`}>
-        <Link to="/session-proposal" className="add-item-btn">
-          <div className="icon-btn">
-            <AddIcon />
-          </div>
-          <span className="pretty-link">Host a session</span>
-        </Link>
         {
           this.props.isEditingPage &&
           <div className="row mt-6 mb-4">

@@ -192,9 +192,9 @@
   font-size: inherit;
   padding: 1rem 2rem;
   background: $primary-color;
-  border: 0;
+  border: 1px solid $text-color;
   border-radius: 0;
-  color: $white;
+  color: $text-color;
   text-decoration: none;
   outline: none;
   display: inline-block;
@@ -210,7 +210,7 @@
   }
 
   &:focus {
-    background: $gray-600;
+    background: $secondary-color;
   }
 
   &-sm {
@@ -359,6 +359,20 @@
   }
   &-xs {
     font-size: $font-size-xs;
+  }
+  &-green-gradient {
+    color: $green;
+    background-image: $green-gradient;
+    background-size: 100%;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+  }
+  &-yellow-gradient {
+    color: $yellow-gradient;
   }
 }
 

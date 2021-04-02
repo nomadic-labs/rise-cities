@@ -4,12 +4,11 @@ import AddIcon from "@material-ui/icons/Add"
 import { connect } from "react-redux";
 import Slider from "react-slick";
 
-import ParticipantGalleryItem from "./ParticipantGalleryItem"
-import ParticipantModal from "./ParticipantModal";
+import PartnerGalleryItem from "./PartnerGalleryItem"
+import PartnerModal from "./PartnerModal";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
 import Grid from "@material-ui/core/Grid";
-import { fetchProfiles } from "../../redux/actions"
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -29,26 +28,18 @@ const muiTheme = createMuiTheme({
   }
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchProfiles: () => {
-      dispatch(fetchProfiles());
-    },
-  };
-};
-
 const mapStateToProps = state => {
   return {
     isEditingPage: state.adminTools.isEditingPage,
   };
 };
 
-class ParticipantGallery extends React.Component {
+class PartnerGallery extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       showModal: false,
-      editingParticipant: null,
+      editingPartner: null,
       itemsToShow: ITEM_NUMBER,
     }
   }
@@ -62,19 +53,19 @@ class ParticipantGallery extends React.Component {
     this.props.onSave(newContent)
   }
 
-  onDeleteItem = itemId => () => {
+  onDeleteItem = itemId => {
     let newContent = { ...this.props.content }
-    newContent[itemId] = null
+    delete newContent[itemId]
 
     this.props.onSave(newContent)
   }
 
   render() {
-    const { showModal, editingParticipant, itemsToShow } = this.state;
-    const profiles = Object.keys(this.props.content).map(key => this.props.content[key])
-    const orderedProfiles = profiles.sort((a,b) => a.name.localeCompare(b.name))
-    const profilesToShow = orderedProfiles.slice(0, itemsToShow)
-    const totalItems = profiles.length
+    const { showModal, editingPartner, itemsToShow } = this.state;
+    const partners = Object.keys(this.props.content).map(key => this.props.content[key])
+    const orderedPartners = partners.sort((a,b) => a.name.localeCompare(b.name))
+    const partnersToShow = orderedPartners.slice(0, itemsToShow)
+    const totalItems = partners.length
     const slidesToShow = totalItems >= DEFAULT_SLIDES ? DEFAULT_SLIDES : totalItems
 
     const settings = {
@@ -83,7 +74,6 @@ class ParticipantGallery extends React.Component {
       autoplay: true,
       slidesToShow: slidesToShow,
       slidesToScroll: slidesToShow,
-      dots: true,
       arrows: true,
       responsive: [
         {
@@ -106,31 +96,31 @@ class ParticipantGallery extends React.Component {
                 onClick={() => this.setState({ showModal: true })}
                 color="default"
                 variant="contained">
-                Add profile
+                Add partner
               </Button>
             </div>
           </div>
         }
         <Slider {...settings}>
-          {profilesToShow.map((profile,index) => {
+          {partnersToShow.map((partner,index) => {
             return (
               <div
                 className='pr-2 pl-2'
-                key={profile.id}>
+                key={partner.id}>
                 {
                   this.props.isEditingPage &&
                   <ThemeProvider theme={muiTheme}>
                     <EditorWrapper
                       theme={this.context.theme}
-                      startEditing={() => this.setState({ showModal: true, editingParticipant: profile })}
+                      startEditing={() => this.setState({ showModal: true, editingPartner: partner })}
                     >
-                      <ParticipantGalleryItem content={profile} id={profile.id} />
+                      <PartnerGalleryItem content={partner} id={partner.id} />
                     </EditorWrapper>
                   </ThemeProvider>
                 }
                 {
                   !this.props.isEditingPage &&
-                  <ParticipantGalleryItem content={profile} id={profile.id} />
+                  <PartnerGalleryItem content={partner} id={partner.id} />
                 }
               </div>
             )
@@ -151,11 +141,11 @@ class ParticipantGallery extends React.Component {
           </Grid>
         }
 
-        <ParticipantModal
-          participant={editingParticipant}
+        <PartnerModal
+          partner={editingPartner}
           onSaveItem={this.onSaveItem}
           showModal={showModal}
-          closeModal={() => this.setState({ showModal: false, editingParticipant: null })}
+          closeModal={() => this.setState({ showModal: false, editingPartner: null })}
           onDeleteItem={this.onDeleteItem}
         />
       </div>
@@ -163,14 +153,14 @@ class ParticipantGallery extends React.Component {
   }
 }
 
-ParticipantGallery.contextType = EditablesContext;
+PartnerGallery.contextType = EditablesContext;
 
 
-ParticipantGallery.defaultProps = {
+PartnerGallery.defaultProps = {
   content: {},
   classes: "",
   onSave: () => { console.log('Implement a function to save changes') }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ParticipantGallery)
+export default connect(mapStateToProps, null)(PartnerGallery)
 

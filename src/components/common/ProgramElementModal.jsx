@@ -168,7 +168,6 @@ class ProgramElementModal extends React.Component {
       iframe
     } = this.state.newEvent;
 
-    console.log({description})
 
     return (
       <Dialog open={showModal} onClose={closeModal} aria-labelledby="form-dialog-title" scroll="body">

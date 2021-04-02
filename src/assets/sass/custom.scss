@@ -106,6 +106,7 @@ a, button {
 
 .paragraph, p {
   font-family: $body-font;
+  margin-top: 0;
 
   a {
     color: inherit;
@@ -132,7 +133,6 @@ body .nl-page {
 
   .navbar {
     padding: 0.75rem 1rem;
-    background-color: transparent;
     position: fixed;
     top: 0;
     width: 100%;
@@ -214,8 +214,23 @@ body .nl-page {
   }
 
   footer {
-    padding: 1rem;
     width: 100%;
+
+    .footer-legal {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      text-transform: uppercase;
+
+      span {
+        padding-right: 0.5em;
+        padding-left: 0.5em;
+        border-right: 1px solid $black;
+
+        &:last-of-type {
+          border-right: none;
+        }
+      }
+    }
   }
 
   .header-bg-image {
@@ -229,7 +244,6 @@ body .nl-page {
 
   #landing {
     position: relative;
-    height: calc(100vh); /*footer height and header height*/
 
     .landing-body {
       display: flex;
@@ -241,7 +255,6 @@ body .nl-page {
     h1 {
       margin: 0;
       line-height: 1.2;
-      color: $white;
     }
   }
 
@@ -564,7 +577,7 @@ body .nl-page {
 }
 
 .participant {
-  text-align: center;
+  text-align: left;
   cursor: pointer;
   background: transparent;
   border: none;
@@ -599,77 +612,18 @@ body .nl-page {
   }
 
   .participant-image {
-    border-radius: 105px;
     position: relative;
-    width: 190px;
-    height: 190px;
+    height: 45vh;
+    min-height: 200px;
+    max-height: 400px;
     margin: 0 auto 20px;
 
-    .participant-image-container {
-      width: 180px;
-      height: 180px;
-      border-radius: 100px;
-      object-fit: cover;
-      margin: 0 auto;
-      display: block;
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      overflow: hidden;
-      z-index: 2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      img {
-        min-height: 100%;
-        max-width: 100%;
-        object-fit: cover;
-        transition: all 0.3s ease;
-        filter: grayscale(100%);
-      }
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
+    img {
       height: 100%;
       width: 100%;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      border-radius: 100px;
-      z-index: 2;
-      filter: opacity(100%);
+      max-width: 250px;
+      object-fit: cover;
       transition: all 0.3s ease;
-    }
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: calc(50% - 95px);
-      width: 190px;
-      height: 190px;
-      z-index: 1;
-      border-radius: 100px;
-      margin: 0 auto;
-      background-image: linear-gradient(to right, $primary-color, $secondary-color);
-    }
-  }
-
-
-  &:hover, &:focus {
-    .participant-image {
-      img {
-        filter: grayscale(1%);
-        transform: scale(1.075);
-      }
-
-      &:after {
-        filter: opacity(1%);
-      }
     }
   }
 
@@ -701,13 +655,15 @@ body .nl-page {
 }
 
 .participant-modal {
-  padding: 36px !important;
+  padding: 0 !important;
+  padding-top: 16px;
+  padding-bottom: 16px;
   border-radius: 1px;
 
   .links {
     margin-top: 24px;
     display: flex;
-    margin-left: 24px;
+    /*margin-left: 24px;*/
 
     a {
       margin-left: 20px;
@@ -728,25 +684,42 @@ body .nl-page {
     }
   }
 
-  .participant-image-lg img {
-    max-width: 250px;
-    border-radius: 100%;
-    height: 175px;
-    width: 175px;
+  .participant-image-lg {
+    height: 100%;
+    width: 100%;
     object-fit: cover;
+    display: block;
   }
 
   h2 {
     margin-bottom: 0;
     margin-top: 0;
-    margin-left: 24px;
   }
 
   .participant-affiliate-organization {
     font-size: $font-size-h4;
     color: $gray-400;
-    margin-top: 16px;
-    margin-left: 24px;
+    margin-bottom: 16px;
+  }
+}
+
+.partner {
+  padding: 20px;
+  filter: grayscale(100%);
+  display: flex;
+  align-items: center;
+
+  .partner-image {
+    position: relative;
+    height: 140px;
+    width: 140px;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transition: all 0.3s ease;
+    }
   }
 }
 
@@ -879,6 +852,13 @@ section.highlight {
       padding: 8px 16px;
     }
   }
+}
+
+.fancy-border {
+  background: linear-gradient(90deg, $yellow 0%, $yellow 40%, $dark-yellow 40%, $dark-yellow 75%, $green 75%, $green 100%);
+  width: 100%;
+  height: 6px;
+  margin: 0 auto;
 }
 
 @import "responsive";

@@ -581,63 +581,44 @@ export function setCurrentLang(currentLang) {
   return { type: "SET_CURRENT_LANG", currentLang }
 }
 
+// ---------- Profiles
 
-// CATEGORIES ------------------------
-
-export function selectCategory(selected) {
-  return { type: "SELECT_CATEGORY", selected };
-}
-
-export function unselectCategory(selected) {
-  return { type: "UNSELECT_CATEGORY", selected };
-}
-
-export function addCategory(category) {
-  return { type: "ADD_CATEGORY", category }
-}
-
-export function setCategories(categories) {
-  return { type: "SET_CATEGORIES", categories }
-}
-
-// TRANSLATIONS ------------------------
-
-export function updateTranslationState(translation) {
-  return { type: "UPDATE_TRANSLATION_STATE", translation}
-}
-
-
-export function fetchTranslations() {
+export function fetchProfiles() {
   return (dispatch, getState) => {
     const db = firestore;
 
-    db
-      .collection('translations')
+    db.collection(`profiles`)
       .get()
       .then(snap => {
-        const transArr = snap.docs.map(d => ({ ...d.data(), id: d.id }))
-        const transObj = transArr.reduce((obj, t) => {
-          obj[t.id] = t
-          return obj
-        }, {})
-        dispatch(setTranslations(transObj))
+        const profiles = snap.docs.map(d => ({ ...d.data(), id: d.id }))
+        if (profiles) {
+          dispatch(setProfiles(profiles));
+        }
       })
       .catch(error => {
-        console.log("Error fetching translations", error)
+        console.log("Error fetching profiles", error)
       })
   };
 }
 
-export function updateTranslation(translation) {
+export function updateProfile(id, profile) {
+  return { type: "UPDATE_PROFILE", id, profile }
+}
+
+export function setProfiles(profiles) {
+  return { type: "SET_PROFILES", profiles }
+}
+
+export function saveProfile(profileId, profile) {
   return (dispatch, getState) => {
     const db = firestore;
 
     db
-      .collection('translations')
-      .doc(translation.id)
-      .update(translation)
-      .then(res => {
-        dispatch(fetchTranslations());
+      .collection('profiles')
+      .doc(profileId)
+      .update(profile)
+      .then(() => {
+        dispatch(updateProfile(profileId, profile));
         dispatch(
           showNotification(
             "Your changes have been saved.",
@@ -656,6 +637,199 @@ export function updateTranslation(translation) {
   };
 }
 
-export function setTranslations(strings) {
-  return { type: "SET_TRANSLATIONS", strings }
+export function removeProfile(profileId) {
+  return (dispatch, getState) => {
+    const db = firestore;
+
+    db
+      .collection(`profiles`)
+      .doc(profileId)
+      .delete()
+      .then(() => {
+        dispatch(fetchProfiles());
+        dispatch(
+          showNotification(
+            "Your changes have been saved.",
+            "success"
+          )
+        );
+      })
+      .catch(error => {
+        return dispatch(
+          showNotification(
+            `There was an error saving your changes: ${error}`,
+            "success"
+          )
+        );
+      })
+  };
+}
+
+// ---------- Events
+
+export function fetchEvents() {
+  return (dispatch, getState) => {
+    const db = firestore;
+
+    db.collection(`events`)
+      .get()
+      .then(snap => {
+        const events = snap.docs.map(d => ({ ...d.data(), id: d.id }))
+        console.log({events})
+        if (events) {
+          dispatch(setEvents(events));
+        }
+      })
+      .catch(error => {
+        console.log("Error fetching events", error)
+      })
+  };
+}
+
+export function updateEvent(id, event) {
+  return { type: "UPDATE_EVENT", id, event }
+}
+
+export function setEvents(events) {
+  return { type: "SET_EVENTS", events }
+}
+
+export function saveEvent(eventId, event) {
+  return (dispatch, getState) => {
+    const db = firestore;
+
+    db
+      .collection('events')
+      .doc(eventId)
+      .update(event)
+      .then(() => {
+        dispatch(updateEvent(eventId, event));
+        dispatch(
+          showNotification(
+            "Your changes have been saved.",
+            "success"
+          )
+        );
+      })
+      .catch(error => {
+        dispatch(
+          showNotification(
+            `There was an error saving your changes: ${error}`,
+            "error"
+          )
+        );
+      })
+  };
+}
+
+export function removeEvent(eventId) {
+  return (dispatch, getState) => {
+    const db = firestore;
+
+    db
+      .collection(`events`)
+      .doc(eventId)
+      .delete()
+      .then(() => {
+        dispatch(fetchEvents());
+        dispatch(
+          showNotification(
+            "Your changes have been saved.",
+            "success"
+          )
+        );
+      })
+      .catch(error => {
+        return dispatch(
+          showNotification(
+            `There was an error saving your changes: ${error}`,
+            "success"
+          )
+        );
+      })
+  };
+}
+
+// ---------- Partners
+
+export function fetchPartners() {
+  return (dispatch, getState) => {
+    const db = firestore;
+
+    db.collection(`partners`)
+      .get()
+      .then(snap => {
+        const partners = snap.docs.map(d => ({ ...d.data(), id: d.id }))
+        if (partners) {
+          dispatch(setProfiles(partners));
+        }
+      })
+      .catch(error => {
+        console.log("Error fetching partners", error)
+      })
+  };
+}
+
+export function updatePartner(id, partner) {
+  return { type: "UPDATE_PARTNER", id, partner }
+}
+
+export function setPartners(partners) {
+  return { type: "SET_PARTNERS", partners }
+}
+
+export function savePartner(partnerId, partner) {
+  return (dispatch, getState) => {
+    const db = firestore;
+
+    db
+      .collection('partners')
+      .doc(partnerId)
+      .update(partner)
+      .then(() => {
+        dispatch(updateProfile(partnerId, partner));
+        dispatch(
+          showNotification(
+            "Your changes have been saved.",
+            "success"
+          )
+        );
+      })
+      .catch(error => {
+        dispatch(
+          showNotification(
+            `There was an error saving your changes: ${error}`,
+            "error"
+          )
+        );
+      })
+  };
+}
+
+export function removePartner(partnerId) {
+  return (dispatch, getState) => {
+    const db = firestore;
+
+    db
+      .collection(`partners`)
+      .doc(partnerId)
+      .delete()
+      .then(() => {
+        dispatch(fetchPartners());
+        dispatch(
+          showNotification(
+            "Your changes have been saved.",
+            "success"
+          )
+        );
+      })
+      .catch(error => {
+        return dispatch(
+          showNotification(
+            `There was an error saving your changes: ${error}`,
+            "success"
+          )
+        );
+      })
+  };
 }

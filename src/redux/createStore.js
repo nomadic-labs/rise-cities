@@ -7,7 +7,9 @@ const initialState = {
   adminTools: { isLoggedIn: false, isEditingPage: false },
   navigation: { currentLang: "en" },
   pages: { pages: {}, orderedPages: [] },
-  translations: {}
+  profiles: { profiles: [] },
+  events: { events: [] },
+  partners: { partners: [] },
 }
 
 const createStore = () => reduxCreateStore(appReducers, initialState, applyMiddleware(thunk))

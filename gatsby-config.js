@@ -39,7 +39,7 @@ module.exports = {
           {
             type: "Pages",
             collection: "pages",
-          }
+          },
         ]
       }
     },
