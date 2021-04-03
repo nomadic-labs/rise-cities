@@ -1,5 +1,11 @@
 /* RESPONSIVE FOR TABLETS */
 
+@media (max-width: 1350px) {
+  .landing-slide {
+    padding-right: 30px;
+  }
+}
+
 @media (min-width: 992px) {
   .navbar-item:not(.menu-item) {
     display: block !important;

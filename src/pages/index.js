@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import Slider from "react-slick";
 
 import {
   EditableText,
@@ -28,6 +29,11 @@ import ProgramElements from "../components/common/ProgramElements"
 import ParticipantGallery from "../components/common/ParticipantGallery"
 import PartnerGallery from "../components/common/PartnerGallery"
 
+import resilientIcon from "../assets/images/icons/resilient-icon-32px.svg"
+import intelligentIcon from "../assets/images/icons/digital-icon-32px.svg"
+import sustainableIcon from "../assets/images/icons/sustainable-icon-32px.svg"
+import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
+
 const mapDispatchToProps = dispatch => {
   return {
     onUpdatePageContent: (id, data) => {
@@ -47,6 +53,53 @@ const mapStateToProps = state => {
 };
 
 const isClient = typeof window !== 'undefined';
+
+const sliderSettings = {
+  infinite: true,
+  speed: 250,
+  autoplay: true,
+  autoplaySpeed: 5000,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: true,
+  dots: true,
+  appendDots: dots => (
+    <div
+      style={{
+        backgroundColor: "transparent",
+        padding: "10px",
+        height: '100%',
+        width: 'unset',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: 0,
+        right: 0,
+        marginRight: '20px',
+      }}
+    >
+      <ul
+        style={{
+          margin: "0px",
+          padding: "0px",
+          display: 'flex',
+          flexDirection: 'column',
+        }}> {dots} </ul>
+    </div>
+  ),
+  customPaging: i => (
+    <div
+      style={{
+        width: "30px",
+        color: "inherit",
+        padding: "16px 8px",
+        fontSize: '14px'
+      }}
+    >
+      {i + 1}
+    </div>
+  )
+};
 
 class HomePage extends React.Component {
 
@@ -72,33 +125,153 @@ class HomePage extends React.Component {
     return (
       <Layout theme="white" location={this.props.location}>
         <div className="" />
-        <section id="landing" data-aos="fade-up" className="">
-          <Container>
-          <Grid container>
-            <Grid item md={6}>
-              <div className="landing-body">
-                <div className="">
-                  <h1 className="text-black">
-                    <EditableText content={content["landing-title"]} onSave={this.onSave("landing-title")} />
-                  </h1>
-                  <div className="font-size-h4 mb-4">
-                    <EditableText content={content["landing-subtitle"]} onSave={this.onSave("landing-subtitle")} />
-                  </div>
-                  <div className="">
-                    <EditableLink classes="btn" content={content["landing-link"]} onSave={this.onSave("landing-link")} />
-                  </div>
-                </div>
-              </div>
-            </Grid>
-            <Grid item md={6}>
-              <EditableImageUpload
-                content={content["landing-image"]}
-                onSave={this.onSave("landing-image")}
-                uploadImage={uploadImage}
-              />
-            </Grid>
-          </Grid>
-          </Container>
+        <section id="landing" data-aos="fade-up" className="pt-15 pb-15">
+          <Slider {...sliderSettings}>
+            <div className="landing-slide">
+              <Container>
+                <Grid container spacing={8}>
+                  <Grid item md={6}>
+                    <div className="landing-body">
+                      <div className="">
+                        <h1 className="text-black">
+                          <EditableText content={content["landing-title"]} onSave={this.onSave("landing-title")} />
+                        </h1>
+                        <div className="font-size-h4 mb-4">
+                          <EditableText content={content["landing-subtitle"]} onSave={this.onSave("landing-subtitle")} />
+                        </div>
+                        <div className="">
+                          <EditableLink classes="btn" content={content["landing-link"]} onSave={this.onSave("landing-link")} />
+                        </div>
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid item md={6}>
+                    <EditableImageUpload
+                      content={content["landing-image"]}
+                      onSave={this.onSave("landing-image")}
+                      uploadImage={uploadImage}
+                    />
+                  </Grid>
+                </Grid>
+              </Container>
+            </div>
+
+            <div className="landing-slide">
+              <Container>
+                <Grid container spacing={8}>
+                  <Grid item md={6}>
+                    <div className="landing-body">
+                      <h1 className="text-black">
+                        <EditableText content={content["resilient-title"]} onSave={this.onSave("resilient-title")} />
+                      </h1>
+                      <div className="font-size-h4 mb-4">
+                        <EditableText content={content["resilient-subtitle"]} onSave={this.onSave("resilient-subtitle")} />
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid item md={6}>
+                    <div className="landing-image">
+                      <EditableImageUpload
+                        content={content["resilient-image"]}
+                        onSave={this.onSave("resilient-image")}
+                        uploadImage={uploadImage}
+                      />
+                      <div className="rise-icon">
+                        <img src={resilientIcon} alt="" />
+                      </div>
+                    </div>
+                  </Grid>
+                </Grid>
+              </Container>
+            </div>
+
+            <div className="landing-slide">
+              <Container>
+                <Grid container spacing={8}>
+                  <Grid item md={6}>
+                    <div className="landing-body">
+                      <h1 className="text-black">
+                        <EditableText content={content["intelligent-title"]} onSave={this.onSave("intelligent-title")} />
+                      </h1>
+                      <div className="font-size-h4 mb-4">
+                        <EditableText content={content["intelligent-subtitle"]} onSave={this.onSave("intelligent-subtitle")} />
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid item md={6}>
+                    <div className="landing-image">
+                      <EditableImageUpload
+                        content={content["intelligent-image"]}
+                        onSave={this.onSave("intelligent-image")}
+                        uploadImage={uploadImage}
+                      />
+                      <div className="rise-icon">
+                        <img src={intelligentIcon} alt="" />
+                      </div>
+                    </div>
+                  </Grid>
+                </Grid>
+              </Container>
+            </div>
+
+            <div className="landing-slide">
+              <Container>
+                <Grid container spacing={8}>
+                  <Grid item md={6}>
+                    <div className="landing-body">
+                      <h1 className="text-black">
+                        <EditableText content={content["sustainable-title"]} onSave={this.onSave("sustainable-title")} />
+                      </h1>
+                      <div className="font-size-h4 mb-4">
+                        <EditableText content={content["sustainable-subtitle"]} onSave={this.onSave("sustainable-subtitle")} />
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid item md={6}>
+                    <div className="landing-image">
+                      <EditableImageUpload
+                        content={content["sustainable-image"]}
+                        onSave={this.onSave("sustainable-image")}
+                        uploadImage={uploadImage}
+                      />
+                      <div className="rise-icon">
+                        <img src={sustainableIcon} alt="" />
+                      </div>
+                    </div>
+                  </Grid>
+                </Grid>
+              </Container>
+            </div>
+
+            <div className="landing-slide">
+              <Container>
+                <Grid container spacing={8}>
+                  <Grid item md={6}>
+                    <div className="landing-body">
+                      <h1 className="text-black">
+                        <EditableText content={content["equitable-title"]} onSave={this.onSave("equitable-title")} />
+                      </h1>
+                      <div className="font-size-h4 mb-4">
+                        <EditableText content={content["equitable-subtitle"]} onSave={this.onSave("equitable-subtitle")} />
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid item md={6}>
+                    <div className="landing-image">
+                      <EditableImageUpload
+                        content={content["equitable-image"]}
+                        onSave={this.onSave("equitable-image")}
+                        uploadImage={uploadImage}
+                      />
+                      <div className="rise-icon">
+                        <img src={equitableIcon} alt="" />
+                      </div>
+                    </div>
+                  </Grid>
+                </Grid>
+              </Container>
+            </div>
+          </Slider>
         </section>
 
         <Container><div className="fancy-border" /></Container>

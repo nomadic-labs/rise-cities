@@ -2,7 +2,7 @@ import React from "react";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import bmwfLogo from '../../assets/images/logo_bmwf.svg'
-import riseLogo from '../../assets/images/RISE_logo.svg'
+import riseLogo from '../../assets/images/RISE_wordmark.svg'
 
 
 const Footer = () => (
@@ -12,7 +12,7 @@ const Footer = () => (
         <Grid container justify="space-between">
           <Grid item md={3}>
             <p className="m-0 text-small">Presented by</p>
-            <img src={bmwfLogo} alt="The BMW Foundation Herbert Quandt" className="mt-4 mb-4" />
+            <img src={bmwfLogo} alt="The BMW Foundation Herbert Quandt" className="mt-4 mb-4" style={{ width: '220px'}} />
             <p className="text-small">The BMW Foundation Herbert Quandt promotes responsible leadership and inspires leaders worldwide to work towards a more peaceful, just and sustainable future.</p>
           </Grid>
           <Grid item md={3}>

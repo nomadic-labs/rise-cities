@@ -245,11 +245,31 @@ body .nl-page {
   #landing {
     position: relative;
 
-    .landing-body {
+    .landing-body, .landing-image {
       display: flex;
       flex-direction: column;
       height: 100%;
       justify-content: center;
+    }
+
+    .landing-image {
+      position: relative;
+      .rise-icon {
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        left: -50px;
+      }
+    }
+
+    .slick-dots {
+      li {
+        height: 40px;
+      }
+
+      .slick-active {
+        color: $primary-color;
+      }
     }
 
     h1 {
@@ -860,5 +880,6 @@ section.highlight {
   height: 6px;
   margin: 0 auto;
 }
+
 
 @import "responsive";
