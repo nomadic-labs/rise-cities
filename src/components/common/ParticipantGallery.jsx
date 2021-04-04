@@ -80,7 +80,8 @@ class ParticipantGallery extends React.Component {
     const settings = {
       infinite: true,
       speed: 250,
-      autoplay: !this.props.isEditingPage,
+      // autoplay: !this.props.isEditingPage,
+      autoplay: false,
       slidesToShow: slidesToShow,
       slidesToScroll: slidesToShow,
       dots: true,
@@ -114,7 +115,7 @@ class ParticipantGallery extends React.Component {
             padding: "10px"
           }}
         >
-          <ul style={{ margin: "0px" }}> {dots} </ul>
+          <ul style={{ margin: "0", padding: "0" }}> {dots} </ul>
         </div>
       ),
       customPaging: i => (

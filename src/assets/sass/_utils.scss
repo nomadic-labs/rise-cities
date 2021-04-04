@@ -468,3 +468,83 @@
     font-size: $font-size-h6;
   }
 }
+
+
+@media (max-width: 600px) {
+  @for $i from -20 through 20 {
+    $margin: 2 * $i;
+    .m-#{$i} {
+      margin: $margin + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $margin: 2 * $i;
+    .ml-#{$i} {
+      margin-left: $margin + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $margin: 2 * $i;
+    .mr-#{$i} {
+      margin-right: $margin + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $margin: 2 * $i;
+    .mb-#{$i} {
+      margin-bottom: $margin + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $margin: 2 * $i;
+    .mt-#{$i} {
+      margin-top: $margin + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $padding: 2 * $i;
+    .p-#{$i} {
+      padding: $padding + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $padding: 2 * $i;
+    .pl-#{$i} {
+      padding-left: $padding + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $padding: 2 * $i;
+    .pr-#{$i} {
+      padding-right: $padding + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $padding: 2 * $i;
+    .pb-#{$i} {
+      padding-bottom: $padding + 0px;
+    }
+  }
+
+  @for $i from -20 through 20 {
+    $padding: 2 * $i;
+    .pt-#{$i} {
+      padding-top: $padding + 0px;
+    }
+  }
+
+  @for $i from 1 through 200 {
+    $width: 5 * $i;
+    .max-width-#{$width} {
+      max-width: $width + 0px;
+    }
+  }
+}

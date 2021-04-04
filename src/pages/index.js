@@ -56,53 +56,7 @@ const mapStateToProps = state => {
 };
 
 const isClient = typeof window !== 'undefined';
-
-const sliderSettings = {
-  infinite: true,
-  speed: 350,
-  autoplay: true,
-  autoplaySpeed: 5000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  arrows: false,
-  dots: true,
-  appendDots: dots => (
-    <div
-      style={{
-        backgroundColor: "transparent",
-        padding: "10px",
-        height: '100%',
-        width: 'unset',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        top: 0,
-        right: 0,
-        marginRight: '20px',
-      }}
-    >
-      <ul
-        style={{
-          margin: "0px",
-          padding: "0px",
-          display: 'flex',
-          flexDirection: 'column',
-        }}> {dots} </ul>
-    </div>
-  ),
-  customPaging: i => (
-    <div
-      style={{
-        width: "30px",
-        color: "inherit",
-        padding: "4px 8px",
-        fontSize: '14px'
-      }}
-    >
-      {i + 1}
-    </div>
-  )
-};
+const isMobile = isClient && window.innerWidth < 600;
 
 class HomePage extends React.Component {
 
@@ -138,7 +92,8 @@ class HomePage extends React.Component {
     const sliderSettings = {
       infinite: true,
       speed: 350,
-      autoplay: !this.props.isEditingPage,
+      // autoplay: !this.props.isEditingPage,
+      autoplay: false,
       autoplaySpeed: 5000,
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -147,25 +102,11 @@ class HomePage extends React.Component {
       appendDots: dots => (
         <div
           style={{
-            backgroundColor: "transparent",
             padding: "10px",
-            height: '100%',
-            width: 'unset',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: 0,
-            right: 0,
-            marginRight: '20px',
+            bottom: "-40px"
           }}
         >
-          <ul
-            style={{
-              margin: "0px",
-              padding: "0px",
-              display: 'flex',
-              flexDirection: 'column',
-            }}> {dots} </ul>
+          <ul style={{ margin: "0", padding: "0" }}> {dots} </ul>
         </div>
       ),
       customPaging: i => (
@@ -179,7 +120,15 @@ class HomePage extends React.Component {
         >
           {i + 1}
         </div>
-      )
+      ),
+      responsive: [
+        {
+          breakpoint: 600,
+          settings: {
+            adaptiveHeight: true,
+          }
+        },
+      ]
     };
 
     return (
@@ -193,8 +142,7 @@ class HomePage extends React.Component {
 
                   <Grid item sm={6}>
                     <div className="landing-body">
-                      <div className="">
-
+                      <div className="landing-intro">
                           <h1 className="text-black pb-8">
                             <span className="no-wrap"><img className="title-icon" src={localIcon} alt="" />{`Local`}</span>
                             <span>{` Solutions for `}</span>
@@ -220,6 +168,7 @@ class HomePage extends React.Component {
                         content={content["landing-image"]}
                         onSave={this.onSave("landing-image")}
                         uploadImage={uploadImage}
+                        classes="slide-img"
                       />
                     </div>
                   </Grid>
@@ -246,10 +195,11 @@ class HomePage extends React.Component {
                         content={content["resilient-image"]}
                         onSave={this.onSave("resilient-image")}
                         uploadImage={uploadImage}
+                        classes="slide-img"
                       />
-                      <div className="rise-icon">
+                      <button className="rise-icon" onClick={this.play}>
                         <img src={resilientIcon} alt="" />
-                      </div>
+                      </button>
                     </div>
                   </Grid>
                 </Grid>
@@ -275,10 +225,11 @@ class HomePage extends React.Component {
                         content={content["intelligent-image"]}
                         onSave={this.onSave("intelligent-image")}
                         uploadImage={uploadImage}
+                        classes="slide-img"
                       />
-                      <div className="rise-icon">
+                      <button className="rise-icon" onClick={this.play}>
                         <img src={intelligentIcon} alt="" />
-                      </div>
+                      </button>
                     </div>
                   </Grid>
                 </Grid>
@@ -304,10 +255,11 @@ class HomePage extends React.Component {
                         content={content["sustainable-image"]}
                         onSave={this.onSave("sustainable-image")}
                         uploadImage={uploadImage}
+                        classes="slide-img"
                       />
-                      <div className="rise-icon">
+                      <button className="rise-icon" onClick={this.play}>
                         <img src={sustainableIcon} alt="" />
-                      </div>
+                      </button>
                     </div>
                   </Grid>
                 </Grid>
@@ -333,10 +285,11 @@ class HomePage extends React.Component {
                         content={content["equitable-image"]}
                         onSave={this.onSave("equitable-image")}
                         uploadImage={uploadImage}
+                        classes="slide-img"
                       />
-                      <div className="rise-icon">
+                      <button className="rise-icon" onClick={this.play}>
                         <img src={equitableIcon} alt="" />
-                      </div>
+                      </button>
                     </div>
                   </Grid>
                 </Grid>
@@ -470,7 +423,7 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up" id="people">
+        <section className="mt-10 mb-15" data-aos="fade-up" id="people">
           <Container>
             <h2 className="text-black">
               <EditableText content={content["participants-title"]} onSave={this.onSave("participants-title")} />

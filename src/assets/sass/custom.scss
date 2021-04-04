@@ -254,18 +254,20 @@ body .nl-page {
 
     .landing-image {
       position: relative;
+
       .rise-icon {
         position: absolute;
         height: 100px;
         width: 100px;
         left: -50px;
+        border: none;
+        background: transparent;
       }
     }
 
     .slick-dots {
       li {
-        height: 40px;
-        display: block;
+        /*bottom: -40px;*/
       }
 
       .slick-active > div {

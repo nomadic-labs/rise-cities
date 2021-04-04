@@ -1,11 +1,5 @@
 /* RESPONSIVE FOR TABLETS */
 
-@media (max-width: 1350px) {
-  .landing-slide {
-    padding-right: 40px;
-  }
-}
-
 @media (min-width: 992px) {
   .navbar-item:not(.menu-item) {
     display: block !important;
@@ -215,10 +209,23 @@
 /* RESPONSIVE FOR MOBILE */
 
 @media (max-width: 600px) {
+  body {
+    /*font-size: 12px;*/
+  }
+
   body .nl-page {
     #landing {
       padding: 0;
-      padding-bottom: 40px;
+      padding-bottom: 60px;
+
+      h1 {
+        text-align: center;
+        padding-top: 20px;
+      }
+
+      .landing-intro {
+        text-align: center;
+      }
 
       .header-image {
         padding: 0;
@@ -228,13 +235,19 @@
         text-align: center;
       }
 
-      .landing-slide {
-        padding-right: 50px;
-      }
-
       .landing-image .rise-icon {
         top: -50px;
         left: 0;
+      }
+
+      .landing-slide {
+        .slide-img {
+          img {
+            max-height: 33vh;
+            width: 100%;
+            object-fit: cover;
+          }
+        }
       }
     }
 
@@ -251,9 +264,16 @@
     }
 
     .participant {
-      .participant-image img {
+      .participant-image {
         width: 120px;
         height: 160px;
+        max-height: unset;
+        min-height: unset;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
@@ -287,6 +307,16 @@
         transition: all 0.3s ease;
       }
     }
+  }
+
+  .btn {
+    font-size: $font-size-sm;
+    padding: 0.5rem 1rem;
+  }
+
+  .MuiGrid-spacing-xs-6 > .MuiGrid-item {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
   }
 }
 
