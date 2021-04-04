@@ -50,7 +50,8 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "slick-carousel": "^1.8.1",
-    "slugify": "^1.2.9"
+    "slugify": "^1.2.9",
+    "splitting": "^1.0.6"
   },
   "keywords": [
     "gatsby",

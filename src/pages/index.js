@@ -3,15 +3,12 @@ import { graphql } from "gatsby";
 import { connect } from "react-redux";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Hidden from '@material-ui/core/Hidden';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Slider from "react-slick";
 
 import {
   EditableText,
   EditableParagraph,
-  EditableBackgroundImage,
-  EditableEmbeddedIframe,
   EditableImageUpload,
   EditableLink
 } from "react-easy-editables";
@@ -24,10 +21,9 @@ import {
 import { uploadImage } from '../firebase/operations';
 
 import Layout from "../layouts/default.js";
-import Section from "../components/common/Section"
-import ProgramElements from "../components/common/ProgramElements"
 import ParticipantGallery from "../components/common/ParticipantGallery"
 import PartnerGallery from "../components/common/PartnerGallery"
+import EventGallery from "../components/common/EventGallery"
 
 import resilientIcon from "../assets/images/icons/resilient-icon-32px.svg"
 import intelligentIcon from "../assets/images/icons/digital-icon-32px.svg"
@@ -35,6 +31,9 @@ import sustainableIcon from "../assets/images/icons/sustainable-icon-32px.svg"
 import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
 import globalIcon from "../assets/images/icons/global-icon-32px.svg"
 import localIcon from "../assets/images/icons/neighbourhood-icon-32px.svg"
+
+import "splitting/dist/splitting.css";
+import "splitting/dist/splitting-cells.css";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -59,11 +58,11 @@ const isClient = typeof window !== 'undefined';
 const sliderSettings = {
   infinite: true,
   speed: 350,
-  autoplay: false,
+  autoplay: true,
   autoplaySpeed: 5000,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true,
+  arrows: false,
   dots: true,
   appendDots: dots => (
     <div
@@ -115,6 +114,12 @@ class HomePage extends React.Component {
     this.props.onLoadPageData(initialPageData);
     this.slider = React.createRef()
   }
+
+  // componentDidMount() {
+  //   Splitting({
+  //     whitespace: true
+  //   })
+  // }
 
   onSave = id => content => {
     console.log("saving content", content)
@@ -362,34 +367,41 @@ class HomePage extends React.Component {
 
         <section className="mt-10 mb-10" data-aos="fade-up">
           <Container>
-            <h2 className="text-black">
-              <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
-            </h2>
-            <Grid container justify={'flex-end'}>
-              <Grid item md={4}>
-                Engage > Engineer > Activate
+            <div className="rise-lab position-relative">
+              <div className="rise-lab-graphic">
+                <img src='/rise-city-lab.gif' alt="Engage Engineer Activate" />
+                <div className="circle bg-gradient" />
+              </div>
+
+              <h2 className="text-black">
+                <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
+              </h2>
+              <Grid container spacing={8}>
+                <Grid item md={4}>
+                  <div className="labs-item" data-aos="fade-up">
+                    <h3 className="text-uppercase mb-2"><EditableText content={content["engage-title"]} onSave={this.onSave("engage-title")} /></h3>
+                    <div className="mb-8 text-bold"><EditableText content={content["engage-subtitle"]} onSave={this.onSave("engage-subtitle")} /></div>
+                    <EditableParagraph content={content["engage-description"]} onSave={this.onSave("engage-description")} />
+                  </div>
+                </Grid>
+
+                <Grid item md={4}>
+                  <div className="labs-item" data-aos="fade-up" style={{ marginTop: '180px' }}>
+                    <h3 className="text-uppercase mb-2"><EditableText content={content["engineer-title"]} onSave={this.onSave("engineer-title")} /></h3>
+                    <div className="mb-8 text-bold"><EditableText content={content["engineer-subtitle"]} onSave={this.onSave("engineer-subtitle")} /></div>
+                    <EditableParagraph content={content["engineer-description"]} onSave={this.onSave("engineer-description")} />
+                  </div>
+                </Grid>
+
+                <Grid item md={4}>
+                  <div className="labs-item" data-aos="fade-up" style={{ marginTop: '360px' }}>
+                    <h3 className="text-uppercase mb-2"><EditableText content={content["activate-title"]} onSave={this.onSave("activate-title")} /></h3>
+                    <div className="mb-8 text-bold"><EditableText content={content["activate-subtitle"]} onSave={this.onSave("activate-subtitle")} /></div>
+                    <EditableParagraph content={content["activate-description"]} onSave={this.onSave("activate-description")} />
+                  </div>
+                </Grid>
               </Grid>
-
-              <Grid item md={8}>
-                <div className="labs-item display-flex">
-                  <div><EditableText content={content["engage-title"]} onSave={this.onSave("engage-title")} /></div>
-                  <div><ArrowForwardIcon /></div>
-                  <EditableParagraph content={content["engage-description"]} onSave={this.onSave("engage-description")} />
-                </div>
-
-                <div className="labs-item display-flex">
-                  <div><EditableText content={content["engineer-title"]} onSave={this.onSave("engineer-title")} /></div>
-                  <div><ArrowForwardIcon /></div>
-                  <EditableParagraph content={content["engineer-description"]} onSave={this.onSave("engineer-description")} />
-                </div>
-
-                <div className="labs-item display-flex">
-                  <div><EditableText content={content["activate-title"]} onSave={this.onSave("activate-title")} /></div>
-                  <div><ArrowForwardIcon /></div>
-                  <EditableParagraph content={content["activate-description"]} onSave={this.onSave("activate-description")} />
-                </div>
-              </Grid>
-            </Grid>
+            </div>
           </Container>
         </section>
 
@@ -401,7 +413,7 @@ class HomePage extends React.Component {
               <EditableText content={content["events-title"]} onSave={this.onSave("events-title")} />
             </h2>
 
-            <ProgramElements />
+            <EventGallery content={content["events-collection"]} onSave={this.onSave("events-collection")} />
           </Container>
         </section>
 

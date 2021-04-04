@@ -93,11 +93,32 @@ class ParticipantGallery extends React.Component {
             slidesToScroll: 1,
           }
         },
-      ]
+      ],
+      appendDots: dots => (
+        <div
+          style={{
+            padding: "10px"
+          }}
+        >
+          <ul style={{ margin: "0px" }}> {dots} </ul>
+        </div>
+      ),
+      customPaging: i => (
+        <div
+          style={{
+            width: "30px",
+            color: "inherit",
+            padding: "4px 8px",
+            fontSize: '14px'
+          }}
+        >
+          {i + 1}
+        </div>
+      )
     };
 
     return (
-      <div className={`collection width-100 mt-2 ${this.props.classes}`}>
+      <div id="participant-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>
         {
           this.props.isEditingPage &&
           <div className="row mt-6 mb-4">
@@ -111,7 +132,7 @@ class ParticipantGallery extends React.Component {
             </div>
           </div>
         }
-        <Slider {...settings}>
+        <Slider {...settings} id="participants-slider">
           {profilesToShow.map((profile,index) => {
             return (
               <div

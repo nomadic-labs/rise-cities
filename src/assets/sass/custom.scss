@@ -893,5 +893,47 @@ section.highlight {
   margin: 0 auto;
 }
 
+.rise-lab-graphic {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  width: 350px;
+  height: 350px;
+
+  img {
+    position: absolute;
+    height: 350px;
+    width: 350px;
+  }
+
+  .circle {
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    border-radius: 150px;
+    /*background: $primary-color;*/
+  }
+}
+
+#participant-gallery {
+  .slick-dots {
+    bottom: -40px;
+
+    .slick-active > div {
+      border: 2px solid $primary-color;
+    }
+  }
+}
+
+.event {
+  .event-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
 
 @import "responsive";
