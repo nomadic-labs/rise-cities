@@ -39,15 +39,7 @@ export const CONTENT_MAP = {
   link: { type: "link", content: { anchor: "Link text", link: "/" } },
   expandableText: { type: "expandableText", content: { header: "Name", description: "<p>Bio</p>" } },
   videos: { type: "videos", content: { playlistId: { text: ""} }},
-  quote: {
-    type: "quote",
-    content: {
-      image: { imageSrc: "" },
-      "quote-text": { text: "Quote text" },
-      author: { text: "Author" },
-      position: { text: "Position or organization" }
-    }
-  }
+  quote: { type: "quote", content: { text: "Quote text" }}
 }
 
 export const SECTION_MAP = {

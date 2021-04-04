@@ -6,9 +6,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Checkbox from '@material-ui/core/Checkbox';
 import ImageUpload from '../editing/ImageUpload';
 import {uploadFile as uploadImage} from "../../aws/operations";
 
@@ -41,12 +38,6 @@ class PartnerModal extends React.Component {
   handleChange = key => event => {
     this.setState({ errors: {} })
     const value = event.currentTarget.value
-    this.setState({ newPartner: {...this.state.newPartner, [key]: value} })
-  }
-
-  handleCheckboxChange = key => event => {
-    this.setState({ errors: {} })
-    const value = event.currentTarget.checked
     this.setState({ newPartner: {...this.state.newPartner, [key]: value} })
   }
 
@@ -84,7 +75,7 @@ class PartnerModal extends React.Component {
   }
 
   render() {
-    const { handleDeletePartner, handleSaveProfile, handleChange, handleCheckboxChange, handleImageChange, handleCancel } = this;
+    const { handleDeletePartner, handleSaveProfile, handleChange, handleImageChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       name,
@@ -93,7 +84,7 @@ class PartnerModal extends React.Component {
       url
     } = this.state.newPartner;
 
-    const { errors } = this.state;
+    // const { errors } = this.state;
 
     return (
       <Dialog open={showModal} onClose={closeModal} aria-labelledby="form-dialog-title" scroll="body">

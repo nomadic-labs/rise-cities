@@ -3,7 +3,6 @@ import { graphql } from "gatsby";
 import { connect } from "react-redux";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Hidden from '@material-ui/core/Hidden';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Slider from "react-slick";
 
@@ -25,6 +24,7 @@ import Layout from "../layouts/default.js";
 import ParticipantGallery from "../components/common/ParticipantGallery"
 import PartnerGallery from "../components/common/PartnerGallery"
 import EventGallery from "../components/common/EventGallery"
+import FeaturedContent from "../components/common/FeaturedContent"
 
 import resilientIcon from "../assets/images/icons/resilient-icon-32px.svg"
 import intelligentIcon from "../assets/images/icons/digital-icon-32px.svg"
@@ -56,7 +56,6 @@ const mapStateToProps = state => {
 };
 
 const isClient = typeof window !== 'undefined';
-const isMobile = isClient && window.innerWidth < 600;
 
 class HomePage extends React.Component {
 
@@ -138,8 +137,6 @@ class HomePage extends React.Component {
             <div className="landing-slide">
               <Container>
                 <Grid container spacing={6}>
-
-
                   <Grid item sm={6}>
                     <div className="landing-body">
                       <div className="landing-intro">
@@ -306,9 +303,11 @@ class HomePage extends React.Component {
               <EditableText content={content["featured-content-title"]} onSave={this.onSave("featured-content-title")} />
             </h2>
 
-            <div className="">
+            <FeaturedContent />
+
+{/*            <div className="">
               <EditableLink classes="btn" content={content["featured-content-link"]} onSave={this.onSave("featured-content-link")} />
-            </div>
+            </div>*/}
           </Container>
         </section>
 

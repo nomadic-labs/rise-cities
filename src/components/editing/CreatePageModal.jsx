@@ -21,7 +21,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import { PAGE_TYPES, LANGUAGE_OPTIONS, CATEGORY_OPTIONS } from "../../utils/constants";
+import { PAGE_TYPES, CATEGORY_OPTIONS } from "../../utils/constants";
 
 import defaultContentJSON from "../../fixtures/pageContent.json";
 

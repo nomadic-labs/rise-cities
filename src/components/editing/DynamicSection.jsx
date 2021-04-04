@@ -117,8 +117,8 @@ const DynamicSection = ({ content, type, sectionIndex, pageData, isEditingPage, 
   }
 
   return(
-    <section className={`dynamic-section pos-relative ${type} mb-8`}>
-      <Container data-aos="fade-up" data-aos-offset="300">
+    <section className={`dynamic-section position-relative ${type} pb-8`}>
+      <Container data-aos="fade-up" data-aos-offset="100">
         <Grid container>
           <Grid item sm={10} md={8}>
             {

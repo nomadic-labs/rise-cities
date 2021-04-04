@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { findIndex } from "lodash"
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import AOS from 'aos';
 
 import { connect } from "react-redux";
@@ -19,8 +19,6 @@ import {
 
 import Layout from "../layouts/default.js";
 import DynamicSection from "../components/editing/DynamicSection";
-import CourseModule from "../components/common/CourseModule";
-import T from "../components/common/Translation"
 
 
 const mapDispatchToProps = dispatch => {
@@ -83,11 +81,10 @@ class ArticlePage extends React.Component {
     const pageData = this.props.pageData ? this.props.pageData : this.props.data.pages;
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
     const sections = content.sections && content.sections.length > 0 ? content.sections : [{ content: [] }];
-    const pageOrder = findIndex(this.props.orderedPages, p => p.id === pageData.id) + 1;
     const nextPage = this.props.pages[pageData.next];
     const dateString = new Date(parseInt(pageData.date)).toDateString()
-    console.log(pageData)
-    console.log(content)
+    console.log({ nextPage})
+    console.log({ content})
 
     return (
       <Layout location={this.props.location}>
@@ -96,11 +93,11 @@ class ArticlePage extends React.Component {
           <meta description={pageData.description} />
         </Helmet>
 
-        <section id="article-landing" data-aos="fade-up" data-aos-delay="500" className="pt-15 mt-15 mb-8">
+        <section id="article-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 mt-10 mb-8">
           <Container>
             <Grid container spacing={6}>
               <Grid item sm={6}>
-                <div className="display-flex align-center pb-4 mb-4 text-xs"><ArrowBackIcon /><Link to='/' className="pretty-link ml-2">Back to featured content</Link></div>
+                <div className="display-flex align-center pb-4 mb-4 text-xs"><ArrowBackIcon /><Link to='/#featured' className="pretty-link ml-2">Back to featured content</Link></div>
                 <h1 className="mb-4">{pageData.title}</h1>
                 <p className="text-large mb-4">{pageData.description}</p>
                 {pageData.author && <p className="text-xs text-uppercase text-dark mb-1">{`By ${pageData.author}`}</p>}
@@ -145,10 +142,14 @@ class ArticlePage extends React.Component {
           nextPage &&
           <section>
             <Container data-aos="fade-in">
-              <header className="module-header">
-                <h2 className="underline"><T id="next_module" /></h2>
-              </header>
-              <CourseModule page={nextPage} order={pageOrder + 1} />
+              <Grid container justify="flex-end">
+                <Grid item sm={6}>
+                  <div className="display-flex align-center pb-4 mb-4 text-large">
+                    <Link to={nextPage.slug} className="pretty-link mr-2">{nextPage.title}</Link>
+                    <ArrowForwardIcon />
+                  </div>
+                </Grid>
+              </Grid>
             </Container>
           </section>
         }

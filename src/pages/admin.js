@@ -4,6 +4,8 @@ import { filter, find } from 'lodash'
 import Container from "@material-ui/core/Container"
 import IconButton from "@material-ui/core/IconButton"
 import DeleteForever from "@material-ui/icons/DeleteForever"
+import ArrowUp from '@material-ui/icons/KeyboardArrowUp';
+import ArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -72,10 +74,6 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     this.props.fetchPages()
-  }
-
-  filterPagesByLanguage = (pages, lang) => {
-    return filter(pages, page => (page.category === "modules" && (page.lang === lang.value)));
   }
 
   nextPage = page => {
@@ -203,9 +201,10 @@ class AdminPage extends React.Component {
 
   render() {
     const unorderedPages = filter(this.props.pages, page => !page.category || page.category === "uncategorized")
+    const articlePages = this.orderedPages(find(this.props.pages, page => page.head))
 
     return(
-      <Layout theme="gray" className="admin-page">
+      <Layout theme="gray" className="admin-page mt-10">
         <ProtectedPage>
           <Container>
             <h1 className="">
@@ -214,7 +213,25 @@ class AdminPage extends React.Component {
           </Container>
 
           <Container>
-            <h2>Pages</h2>
+            <h2>Page Order</h2>
+            <div className="my-40">
+              {
+                articlePages.map(page => {
+                  return(
+                    <div className="ranked-item" key={page.id}>
+                      <IconButton size="small" color="primary" onClick={this.movePageBack(page)} disabled={page.head}><ArrowUp /></IconButton>
+                      <IconButton size="small" color="primary" onClick={this.movePageForward(page)} disabled={!page.next}><ArrowDown /></IconButton>
+                      <IconButton size="small" color="primary" onClick={this.deletePage(page)} disabled={PERMANENT_PAGES.includes(page.id)}><DeleteForever /></IconButton>
+                      <span className="ml-3"><Link to={page.slug}>{page.title}</Link></span>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </Container>
+
+          <Container>
+            <h2>Uncategorized Pages</h2>
             <div className="my-40">
               {
                 unorderedPages.map(page => {
@@ -240,7 +257,7 @@ class AdminPage extends React.Component {
               Account Management
             </h1>
             <div className="mt-10 mb-10">
-              <button onClick={this.props.deleteAccount} className="btn btn-dark">Delete my account</button>
+              <button onClick={this.props.deleteAccount} className="btn btn-white">Delete my account</button>
             </div>
             {
               this.props.user?.isAdmin &&

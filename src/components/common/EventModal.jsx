@@ -6,9 +6,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Checkbox from '@material-ui/core/Checkbox';
 import ImageUpload from '../editing/ImageUpload';
 import {uploadFile as uploadImage} from "../../aws/operations";
 import { saveEvent, removeEvent } from "../../redux/actions"
@@ -59,12 +56,6 @@ class EventModal extends React.Component {
     this.setState({ newEvent: {...this.state.newEvent, [key]: value} })
   }
 
-  handleCheckboxChange = key => event => {
-    this.setState({ errors: {} })
-    const value = event.currentTarget.checked
-    this.setState({ newEvent: {...this.state.newEvent, [key]: value} })
-  }
-
   handleImageChange = key => image => {
     this.setState({ newEvent: {...this.state.newEvent, [key]: { imageSrc: image.imageSrc } } })
   }
@@ -99,7 +90,7 @@ class EventModal extends React.Component {
   }
 
   render() {
-    const { handleDeleteEvent, handleSaveEvent, handleChange, handleCheckboxChange, handleImageChange, handleCancel } = this;
+    const { handleDeleteEvent, handleSaveEvent, handleChange, handleImageChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       id,
