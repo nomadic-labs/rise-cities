@@ -472,70 +472,70 @@
 
 @media (max-width: 600px) {
   @for $i from -20 through 20 {
-    $margin: 2 * $i;
+    $margin: 2.5 * $i;
     .m-#{$i} {
       margin: $margin + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $margin: 2 * $i;
+    $margin: 2.5 * $i;
     .ml-#{$i} {
       margin-left: $margin + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $margin: 2 * $i;
+    $margin: 2.5 * $i;
     .mr-#{$i} {
       margin-right: $margin + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $margin: 2 * $i;
+    $margin: 2.5 * $i;
     .mb-#{$i} {
       margin-bottom: $margin + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $margin: 2 * $i;
+    $margin: 2.5 * $i;
     .mt-#{$i} {
       margin-top: $margin + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $padding: 2 * $i;
+    $padding: 2.5 * $i;
     .p-#{$i} {
       padding: $padding + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $padding: 2 * $i;
+    $padding: 2.5 * $i;
     .pl-#{$i} {
       padding-left: $padding + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $padding: 2 * $i;
+    $padding: 2.5 * $i;
     .pr-#{$i} {
       padding-right: $padding + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $padding: 2 * $i;
+    $padding: 2.5 * $i;
     .pb-#{$i} {
       padding-bottom: $padding + 0px;
     }
   }
 
   @for $i from -20 through 20 {
-    $padding: 2 * $i;
+    $padding: 2.5 * $i;
     .pt-#{$i} {
       padding-top: $padding + 0px;
     }

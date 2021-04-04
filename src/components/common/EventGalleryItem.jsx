@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import EmailIcon from '@material-ui/icons/Email';
@@ -36,7 +37,6 @@ const EventGalleryItem = ({ id, content={} }) => {
           }
         </Grid>
       </Grid>
-
     </div>
   );
 };

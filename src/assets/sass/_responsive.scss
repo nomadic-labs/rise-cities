@@ -183,11 +183,27 @@
       padding-left: 0;
     }
 
-    .rise-lab-graphic {
-      position: relative;
-    }
-
     .rise-lab {
+      overflow: hidden;
+      padding-top: 100px;
+
+      .rise-lab-graphic {
+        top: 0;
+        right: -25%;
+        width: 200px;
+        height: 200px;
+
+        img {
+          height: 250px;
+          width: 250px;
+        }
+
+        .circle {
+          height: 100px;
+          width: 100px;
+        }
+      }
+
       .MuiGrid-item {
         &:nth-of-type(2) {
           .labs-item {
@@ -223,6 +239,10 @@
         padding-top: 20px;
       }
 
+      .landing-body {
+        padding-top: 20px;
+      }
+
       .landing-intro {
         text-align: center;
       }
@@ -238,6 +258,10 @@
       .landing-image .rise-icon {
         top: -50px;
         left: 0;
+      }
+
+      .title-icon {
+        height: calc(1.5rem + 0.75vw);
       }
 
       .landing-slide {
@@ -316,7 +340,7 @@
 
   .MuiGrid-spacing-xs-6 > .MuiGrid-item {
     padding-top: 12px !important;
-    padding-bottom: 12px !important;
+    padding-bottom: 18px !important;
   }
 }
 

@@ -54,10 +54,11 @@ const mapDispatchToProps = dispatch => {
 const emptyPage = {
     title: "",
     description: "",
+    author: "",
     category: CATEGORY_OPTIONS[0].value,
-    lang: LANGUAGE_OPTIONS[0].value,
     content: defaultContentJSON,
     template: PAGE_TYPES[0].value.template,
+    date: Date.now()
   }
 
 class CreatePageModal extends React.Component {
@@ -84,11 +85,10 @@ class CreatePageModal extends React.Component {
 
     if (!prevProps.showNewPageModal && this.props.showNewPageModal) {
       this.props.fetchPages()
-      if (this.props.options.duplicate || this.props.options.translation) {
+      if (this.props.options.duplicate) {
         const newPage = {
           ...this.props.page,
           title: `${this.props.page.title} (copy)`,
-          translation: null,
           next: null,
         }
         this.setState({ page: newPage, errors: {} })
@@ -131,14 +131,14 @@ class CreatePageModal extends React.Component {
     const pageData = {
       ...this.state.page,
       id: pageId,
-      slug: `/${this.state.page.lang}/${pageId}`,
+      slug: `/${pageId}`,
       next: null,
       content: JSON.stringify(this.state.page.content),
     };
 
     this.props.savePage(pageData, pageId);
 
-    const prevPage = find(this.props.pages, (page => page.category === this.state.page.category && page.lang === this.state.page.lang && !page.next));
+    const prevPage = find(this.props.pages, (page => !page.next));
 
     if (prevPage && this.state.page.category !== 'uncategorized') { // don't add next page for uncategorized pages
       this.props.updateFirestoreDoc(prevPage.id, { next: pageId })
@@ -153,48 +153,9 @@ class CreatePageModal extends React.Component {
     this.props.savePage(pageData, this.props.page.id);
   }
 
-  translatePage = () => {
-    const pageId = slugify(this.state.page.title, {
-      lower: true,
-      remove: /[$*_+~.,()'"!\-:@%^&?=]/g
-    })
-
-    if (!this.isUniqueSlug(pageId)) {
-      return this.setState({
-        errors: {
-          ...this.state.errors,
-          title: "The page title must be unique."
-        }
-      })
-    }
-
-    const prevPage = find(this.props.pages, (page => page.category === this.state.page.category && page.lang === this.state.page.lang && !page.next));
-
-    let pageData = {
-      ...this.state.page,
-      content: JSON.stringify(this.state.page.content),
-      id: pageId,
-      slug: `/${this.state.page.lang}/${pageId}`,
-      next: null,
-      translation: this.props.page.slug
-    };
-
-    this.props.savePage(pageData, pageId);
-
-    if (prevPage && this.state.page.category !== 'uncategorized') { // don't add next page for uncategorized pages
-      this.props.updateFirestoreDoc(prevPage.id, { next: pageId })
-    }
-
-    this.props.updateFirestoreDoc(this.props.page.id, { translation: pageData.slug })
-  }
-
   _onSubmit() {
     if (this.props.options.edit) {
       return this.editPage()
-    }
-
-    if (this.props.options.translation) {
-      return this.translatePage()
     }
 
     return this.newPage()
@@ -206,7 +167,7 @@ class CreatePageModal extends React.Component {
     return (
       <Dialog open={open} aria-labelledby="create-page-dialogue">
         <DialogTitle id="create-page-dialogue">
-          {"Module configuration"}
+          {"Page configuration"}
         </DialogTitle>
 
 
@@ -227,34 +188,21 @@ class CreatePageModal extends React.Component {
             <TextField
               className="form-control"
               type="text"
-              label={"Short description"}
+              label={"Description or summary of article"}
               value={this.state.page.description}
               onChange={e => this.updatePage("description", e.currentTarget.value)}
             />
           </FormControl>
 
-          {
-            !this.props.options.edit &&
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="menu-group">Language</InputLabel>
-              <Select
-                value={this.state.page.lang}
-                onChange={selected =>
-                  this.updatePage("lang", selected.target.value)
-                }
-                inputProps={{
-                  name: "menu-group",
-                  id: "menu-group"
-                }}
-              >
-                {LANGUAGE_OPTIONS.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          }
+          <FormControl fullWidth margin="normal">
+            <TextField
+              className="form-control"
+              type="text"
+              label={"Author (optional)"}
+              value={this.state.page.author}
+              onChange={e => this.updatePage("author", e.currentTarget.value)}
+            />
+          </FormControl>
 
           {
             this.props.options.new &&

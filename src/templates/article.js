@@ -1,7 +1,9 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import Helmet from "react-helmet";
 import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { findIndex } from "lodash"
 import AOS from 'aos';
 
@@ -40,13 +42,12 @@ const mapStateToProps = state => {
     pageData: state.page.data,
     orderedPages: state.pages.orderedPages,
     pages: state.pages.pages,
-    currentLang: state.navigation.currentLang,
     isEditingPage: state.adminTools.isEditingPage,
   };
 };
 
 
-class CourseModulePage extends React.Component {
+class ArticlePage extends React.Component {
   constructor(props) {
     super(props)
     const initialPageData = {
@@ -82,8 +83,11 @@ class CourseModulePage extends React.Component {
     const pageData = this.props.pageData ? this.props.pageData : this.props.data.pages;
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
     const sections = content.sections && content.sections.length > 0 ? content.sections : [{ content: [] }];
-    const moduleOrder = findIndex(this.props.orderedPages, p => p.id === pageData.id) + 1;
-    const nextModule = this.props.pages[pageData.next];
+    const pageOrder = findIndex(this.props.orderedPages, p => p.id === pageData.id) + 1;
+    const nextPage = this.props.pages[pageData.next];
+    const dateString = new Date(parseInt(pageData.date)).toDateString()
+    console.log(pageData)
+    console.log(content)
 
     return (
       <Layout location={this.props.location}>
@@ -92,28 +96,33 @@ class CourseModulePage extends React.Component {
           <meta description={pageData.description} />
         </Helmet>
 
-        <Container maxWidth="md">
-          <header className="module-header" data-aos="fade-in">
-            <p className="text-muted bold" style={{ marginTop: 0 }}>
+        <section id="article-landing" data-aos="fade-up" data-aos-delay="500" className="pt-15 mt-15 mb-8">
+          <Container>
+            <Grid container spacing={6}>
+              <Grid item sm={6}>
+                <div className="display-flex align-center pb-4 mb-4 text-xs"><ArrowBackIcon /><Link to='/' className="pretty-link ml-2">Back to featured content</Link></div>
+                <h1 className="mb-4">{pageData.title}</h1>
+                <p className="text-large mb-4">{pageData.description}</p>
+                {pageData.author && <p className="text-xs text-uppercase text-dark mb-1">{`By ${pageData.author}`}</p>}
+                <p className="text-xs text-uppercase text-muted mb-1">{dateString}</p>
+              </Grid>
+
+              <Grid item sm={6}>
               {
-                Boolean(moduleOrder) &&
-                <span><T id="module" />{` ${moduleOrder}`}</span>
+                (content.headerImage || this.props.isEditingPage) &&
+                <EditableImageUpload
+                  styles={{ container: {display: 'flex', alignItems: 'flex-start'}, image: { maxHeight: '60vh', objectFit: 'cover' } }}
+                  onSave={ this.onUpdateHeaderImage }
+                  onDelete={ this.onDeleteHeaderImage }
+                  uploadImage={ uploadFile }
+                  content={ content.headerImage || { imageSrc: null } }
+                  maxSize={1024 * 1024 * 12}
+                />
               }
-            </p>
-            <h1 className="underline">{pageData.title}</h1>
-          </header>
-          {
-            (content.headerImage || this.props.isEditingPage) &&
-            <EditableImageUpload
-              styles={{ container: {display: 'flex', alignItems: 'flex-start'} }}
-              onSave={ this.onUpdateHeaderImage }
-              onDelete={ this.onDeleteHeaderImage }
-              uploadImage={ uploadFile }
-              content={ content.headerImage || { imageSrc: null } }
-              maxSize={1024 * 1024 * 12}
-            />
-          }
-        </Container>
+              </Grid>
+            </Grid>
+          </Container>
+        </section>
 
         {
           sections.map((section, index) => {
@@ -133,13 +142,13 @@ class CourseModulePage extends React.Component {
         }
 
         {
-          nextModule &&
+          nextPage &&
           <section>
-            <Container maxWidth="md" data-aos="fade-in">
+            <Container data-aos="fade-in">
               <header className="module-header">
                 <h2 className="underline"><T id="next_module" /></h2>
               </header>
-              <CourseModule page={nextModule} order={moduleOrder + 1} />
+              <CourseModule page={nextPage} order={pageOrder + 1} />
             </Container>
           </section>
         }
@@ -148,15 +157,21 @@ class CourseModulePage extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseModulePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);
 
 export const query = graphql`
   query BasicPageQuery($slug: String!) {
     pages(slug: { eq: $slug }) {
       id
-      content
       title
+      description
+      author
+      date
+      content
       slug
+      category
+      next
+      head
     }
   }
 `;

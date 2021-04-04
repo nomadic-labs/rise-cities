@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import AOS from 'aos';
 
 import {
@@ -116,22 +117,26 @@ const DynamicSection = ({ content, type, sectionIndex, pageData, isEditingPage, 
   }
 
   return(
-    <section className={`dynamic-section pos-relative ${type}`}>
-      <Container maxWidth="md" data-aos="fade-in">
-      {
-        content.map((component, index ) => {
-          const Component = componentMap[component.type];
-          return (
-            <Component
-              content={component.content}
-              onSave={onUpdateContentItem(sectionIndex, index)}
-              onDelete={onDeleteContentItem(sectionIndex, index)}
-              key={index}
-              isEditingPage={isEditingPage}
-            />
-          )
-        })
-      }
+    <section className={`dynamic-section pos-relative ${type} mb-8`}>
+      <Container data-aos="fade-up" data-aos-offset="300">
+        <Grid container>
+          <Grid item sm={10} md={8}>
+            {
+              content.map((component, index ) => {
+                const Component = componentMap[component.type];
+                return (
+                  <Component
+                    content={component.content}
+                    onSave={onUpdateContentItem(sectionIndex, index)}
+                    onDelete={onDeleteContentItem(sectionIndex, index)}
+                    key={index}
+                    isEditingPage={isEditingPage}
+                  />
+                )
+              })
+            }
+          </Grid>
+        </Grid>
       </Container>
       {
         isEditingPage &&

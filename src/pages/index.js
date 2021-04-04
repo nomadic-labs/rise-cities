@@ -103,7 +103,7 @@ class HomePage extends React.Component {
         <div
           style={{
             padding: "10px",
-            bottom: "-40px"
+            bottom: "-50px"
           }}
         >
           <ul style={{ margin: "0", padding: "0" }}> {dots} </ul>

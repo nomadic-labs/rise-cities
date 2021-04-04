@@ -10,19 +10,20 @@ export const LANGUAGE_OPTIONS = [
 ];
 
 export const CATEGORY_OPTIONS = [
-  { label: "Course module", value: "modules" },
+  { label: "Article", value: "article" },
+  { label: "Podcast", value: "podcast" },
+  { label: "Video", value: "video" },
   { label: "Uncategorized", value: "uncategorized" },
 ];
 
 export const DEFAULT_LANGUAGE = "en"
 
 export const PAGE_TYPES = [
-  { label: "Course Module", value: { type: "course_module", template: "course-module.js" } },
+  { label: "Article", value: { type: "article", template: "article.js" } },
 ];
 
 export const PERMANENT_PAGES = [
-  "nawl",
-  "anfd"
+  "home"
 ]
 
 export const CONTENT_MAP = {
