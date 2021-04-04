@@ -10,7 +10,6 @@ import {
   EditableText,
   EditableParagraph,
   EditableImageUpload,
-  EditableLink
 } from "react-easy-editables";
 
 import {
