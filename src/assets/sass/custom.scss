@@ -61,30 +61,42 @@ a, button {
 
 .pretty-link {
   border: none;
-  border-bottom: 1px solid $black;
-  border-color: inherit;
+  font-weight: bold;
+  font-size: 1rem;
   text-decoration: none;
-  color: inherit;
+  color: $black;
   position: relative;
-  padding-bottom: 3px;
+  padding-bottom: 4px;
   background: transparent;
   padding-right: 0;
   padding-left: 0;
   outline: none;
 
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
+
   &:after {
     content: '';
     width: 0;
-    height: 2px;
-    background-color: $gray-200;
     position: absolute;
     bottom: 0;
     left: 0;
-    transition: 300ms;
+    transition: width 300ms;
+    color: $green;
+  }
+
+  &:hover {
+    transition: width 300ms;
+    color: $green;
   }
 
   &:hover:after {
     width: 100%;
+    color: $green;
+    border-bottom: 2px solid $green;
   }
 
   &:focus:after {
@@ -140,7 +152,7 @@ body .nl-page {
     justify-content: space-between;
     align-items: center;
     z-index: 3;
-    height: 67px;
+    height: 80px;
   }
 
   .navbar-items {
@@ -161,11 +173,15 @@ body .nl-page {
           content: '';
           width: 0;
           height: 2px;
-          background-color: $black;
+          background-color: $green;
           position: absolute;
           bottom: 0;
           left: 0;
-          transition: 300ms;
+          transition: width 300ms;
+        }
+
+        &:hover {
+          color: $green;
         }
 
         &:hover:after {
@@ -625,7 +641,7 @@ body .nl-page {
     border-bottom: 1px solid $black;
     border-color: inherit;
     text-decoration: none;
-    color: inherit;
+    color: $black;
     position: relative;
     padding-bottom: 3px;
     background: transparent;

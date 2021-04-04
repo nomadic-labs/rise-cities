@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import EmailIcon from '@material-ui/icons/Email';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ensureAbsoluteUrl from '../../utils/ensureAbsoluteUrl';
 
 const DEFAULT_IMAGE = '/default-profile-image.jpg'
@@ -31,8 +32,11 @@ const EventGalleryItem = ({ id, content={} }) => {
           </h3>
           <p>{ content.description }</p>
           {
-            content.url &&
-            <a className="pretty-link" href={ ensureAbsoluteUrl(content.url) }>More info</a>
+            content.url && (
+                <a className="pretty-link" href={ ensureAbsoluteUrl(content.url) }>More info
+                  <span><ArrowForwardIcon style={{ fontSize: 20 }} /></span>
+                </a>
+            )
           }
         </Grid>
       </Grid>
