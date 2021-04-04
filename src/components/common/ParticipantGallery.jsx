@@ -80,7 +80,7 @@ class ParticipantGallery extends React.Component {
     const settings = {
       infinite: true,
       speed: 250,
-      autoplay: true,
+      autoplay: !this.props.isEditingPage,
       slidesToShow: slidesToShow,
       slidesToScroll: slidesToShow,
       dots: true,
@@ -144,6 +144,7 @@ class ParticipantGallery extends React.Component {
                     <EditorWrapper
                       theme={this.context.theme}
                       startEditing={() => this.setState({ showModal: true, editingParticipant: profile })}
+                      isContentClickTarget={false}
                     >
                       <ParticipantGalleryItem content={profile} id={profile.id} />
                     </EditorWrapper>

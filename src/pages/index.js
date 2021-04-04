@@ -18,7 +18,7 @@ import {
   loadPageData,
 } from "../redux/actions";
 
-import { uploadImage } from '../firebase/operations';
+import { uploadFile as uploadImage } from '../aws/operations';
 
 import Layout from "../layouts/default.js";
 import ParticipantGallery from "../components/common/ParticipantGallery"
@@ -50,6 +50,7 @@ const mapStateToProps = state => {
   return {
     pageData: state.page.data,
     isLoggedIn: state.adminTools.isLoggedIn,
+    isEditingPage: state.adminTools.isEditingPage,
   };
 };
 
@@ -133,6 +134,52 @@ class HomePage extends React.Component {
 
   render() {
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
+    const sliderSettings = {
+      infinite: true,
+      speed: 350,
+      autoplay: !this.props.isEditingPage,
+      autoplaySpeed: 5000,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      dots: true,
+      appendDots: dots => (
+        <div
+          style={{
+            backgroundColor: "transparent",
+            padding: "10px",
+            height: '100%',
+            width: 'unset',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: 0,
+            right: 0,
+            marginRight: '20px',
+          }}
+        >
+          <ul
+            style={{
+              margin: "0px",
+              padding: "0px",
+              display: 'flex',
+              flexDirection: 'column',
+            }}> {dots} </ul>
+        </div>
+      ),
+      customPaging: i => (
+        <div
+          style={{
+            width: "30px",
+            color: "inherit",
+            padding: "4px 8px",
+            fontSize: '14px'
+          }}
+        >
+          {i + 1}
+        </div>
+      )
+    };
 
     return (
       <Layout theme="white" location={this.props.location}>

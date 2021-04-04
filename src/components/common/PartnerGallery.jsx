@@ -71,10 +71,11 @@ class PartnerGallery extends React.Component {
     const settings = {
       infinite: true,
       speed: 250,
-      autoplay: true,
+      autoplay: !this.props.isEditingPage,
+      autoPlaySpeed: 1500,
       slidesToShow: slidesToShow,
-      slidesToScroll: slidesToShow,
-      arrows: true,
+      slidesToScroll: 1,
+      arrows: false,
       responsive: [
         {
           breakpoint: 1024,
@@ -113,6 +114,7 @@ class PartnerGallery extends React.Component {
                     <EditorWrapper
                       theme={this.context.theme}
                       startEditing={() => this.setState({ showModal: true, editingPartner: partner })}
+                      isContentClickTarget={false}
                     >
                       <PartnerGalleryItem content={partner} id={partner.id} />
                     </EditorWrapper>

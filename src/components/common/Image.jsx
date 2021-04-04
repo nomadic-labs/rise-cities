@@ -1,6 +1,6 @@
 import React from "react";
 import { EditableLightboxImageUpload } from "react-easy-editables";
-import { uploadImage } from "../../firebase/operations";
+import { uploadFile as uploadImage } from "../../aws/operations";
 
 
 export default (props) => {

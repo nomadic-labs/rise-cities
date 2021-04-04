@@ -89,7 +89,7 @@ a, button {
 
   &:focus:after {
     width: 100%;
-    background-color: $secondary-color;
+    background-color: $primary-color;
   }
 
   &.text-white {
@@ -99,7 +99,7 @@ a, button {
 
     &:focus:after {
       width: 100%;
-      background-color: $secondary-color;
+      background-color: $primary-color;
     }
   }
 }

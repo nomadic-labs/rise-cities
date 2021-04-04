@@ -1,6 +1,6 @@
 import React from "react";
 import { EditableText, EditableBackgroundImage, EditableImageUpload } from "react-easy-editables";
-import { uploadImage } from "../../firebase/operations";
+import { uploadFile as uploadImage } from "../../aws/operations";
 import titleBg from "../../assets/images/illustrations/title-bg.png";
 import PageTopics from "./PageTopics"
 import Container from "./Container"

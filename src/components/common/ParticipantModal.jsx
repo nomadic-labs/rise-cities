@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ImageUpload from '../editing/ImageUpload';
-import {uploadImage} from "../../firebase/operations";
+import {uploadFile as uploadImage} from "../../aws/operations";
 import { saveProfile, removeProfile } from "../../redux/actions"
 import { connect } from "react-redux";
 
