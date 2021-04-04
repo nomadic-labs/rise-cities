@@ -296,7 +296,7 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up">
+        <section className="mt-10 mb-10" data-aos="fade-up" id="featured">
           <Container>
             <h2 className="text-black">
               <EditableText content={content["featured-content-title"]} onSave={this.onSave("featured-content-title")} />
@@ -310,7 +310,7 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up">
+        <section className="mt-10 mb-10" data-aos="fade-up" id="program">
           <Container>
             <h2 className="text-black">
               <EditableText content={content["program-title"]} onSave={this.onSave("program-title")} />
@@ -365,7 +365,7 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up">
+        <section className="mt-10 mb-10" data-aos="fade-up" id="rise-city-lab">
           <Container>
             <div className="rise-lab position-relative">
               <div className="rise-lab-graphic">
@@ -407,7 +407,7 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up">
+        <section className="mt-10 mb-10" data-aos="fade-up" id="events">
           <Container>
             <h2 className="text-black">
               <EditableText content={content["events-title"]} onSave={this.onSave("events-title")} />
@@ -419,7 +419,7 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up">
+        <section className="mt-10 mb-10" data-aos="fade-up" id="people">
           <Container>
             <h2 className="text-black">
               <EditableText content={content["participants-title"]} onSave={this.onSave("participants-title")} />
@@ -431,7 +431,7 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up">
+        <section className="mt-10 mb-10" data-aos="fade-up" id="partners">
           <Container>
             <h2 className="text-black">
               <EditableText content={content["partners-title"]} onSave={this.onSave("partners-title")} />

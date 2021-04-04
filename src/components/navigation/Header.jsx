@@ -25,10 +25,9 @@ class Header extends React.Component {
     if (typeof window !== 'undefined' && window.location.pathname !== '/') {
       navigate(`/${e.target.getAttribute('href')}`)
     } else {
-      document.querySelector(e.target.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
+      const el = document.querySelector(e.target.getAttribute('href'))
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({top: y, behavior: 'smooth'});
     }
   }
 
@@ -44,12 +43,12 @@ class Header extends React.Component {
   menu = () => {
     return (
       <div className={`menu animate__animated animate__slideInDown ${this.state.menuIsOpen ? 'is-active' : ''}`}>
-        <a className='menu-item' href="#intro" onClick={this.handleClick}>Featured Content</a>
+        <a className='menu-item' href="#featured" onClick={this.handleClick}>Featured Content</a>
         <a className='menu-item' href="#program" onClick={this.handleClick}>Program</a>
-        <a className='menu-item' href="#connecting-tree" onClick={this.handleClick}>RISE City Lab</a>
-        <a className='menu-item' href="#participants" onClick={this.handleClick}>Events</a>
-        <a className='menu-item' href="#connect" onClick={this.handleClick}>People</a>
-        <a className='menu-item' href="#session-materials" onClick={this.handleClick}>Partners</a>
+        <a className='menu-item' href="#rise-city-lab" onClick={this.handleClick}>RISE City Lab</a>
+        <a className='menu-item' href="#events" onClick={this.handleClick}>Events</a>
+        <a className='menu-item' href="#people" onClick={this.handleClick}>People</a>
+        <a className='menu-item' href="#partners" onClick={this.handleClick}>Partners</a>
       </div>
     )
   }
@@ -62,12 +61,12 @@ class Header extends React.Component {
         </div>
           <div className='navbar-items'>
             <a className='navbar-item menu-item' href="#menu" onClick={this.toggleMenu}>{this.state.menuIsOpen ? 'Close' : 'Menu'}</a>
-            <a className='navbar-item' href="#intro" onClick={this.handleClick}>Featured Content</a>
+            <a className='navbar-item' href="#featured" onClick={this.handleClick}>Featured Content</a>
             <a className='navbar-item' href="#program" onClick={this.handleClick}>Program</a>
-            <a className='navbar-item' href="#connecting-tree" onClick={this.handleClick}>RISE City Lab</a>
-            <a className='navbar-item' href="#participants" onClick={this.handleClick}>Events</a>
-            <a className='navbar-item' href="#connect" onClick={this.handleClick}>People</a>
-            <a className='navbar-item' href="#session-materials" onClick={this.handleClick}>Partners</a>
+            <a className='navbar-item' href="#rise-city-lab" onClick={this.handleClick}>RISE City Lab</a>
+            <a className='navbar-item' href="#events" onClick={this.handleClick}>Events</a>
+            <a className='navbar-item' href="#people" onClick={this.handleClick}>People</a>
+            <a className='navbar-item' href="#partners" onClick={this.handleClick}>Partners</a>
           </div>
           {
             this.container && ReactDOM.createPortal(this.menu(), this.container)
