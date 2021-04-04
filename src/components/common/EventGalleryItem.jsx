@@ -15,18 +15,18 @@ const EventGalleryItem = ({ id, content={} }) => {
 
   return (
     <div className="event">
-      <Grid container spacing={8}>
-        <Grid item md={3}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={3} md={3}>
           <div className="text-secondary text-xs mb-2">{content.location}</div>
           <div className="text-bold text-uppercase">{content.date}</div>
         </Grid>
 
-        <Grid item md={4}>
+        <Grid item xs={4} sm={3} md={4}>
           <img src={eventImage} alt="" className="event-image" />
         </Grid>
 
-        <Grid item md={5}>
-          <h3 className="text-uppercase">
+        <Grid item xs={8} sm={6} md={5}>
+          <h3 className="text-uppercase mt-0">
             { content.title }
           </h3>
           <p>{ content.description }</p>

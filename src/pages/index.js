@@ -183,7 +183,6 @@ class HomePage extends React.Component {
 
     return (
       <Layout theme="white" location={this.props.location}>
-        <div className="" />
         <section id="landing" data-aos="fade-up" data-aos-delay="500" className="pt-15 pb-15">
           <Slider ref={this.slider} {...sliderSettings}>
             <div className="landing-slide">
@@ -426,23 +425,23 @@ class HomePage extends React.Component {
               <Grid container spacing={8}>
                 <Grid item md={4}>
                   <div className="labs-item" data-aos="fade-up">
-                    <h3 className="text-uppercase mb-2"><EditableText content={content["engage-title"]} onSave={this.onSave("engage-title")} /></h3>
+                    <h3 className="text-uppercase mb-2 mt-0"><EditableText content={content["engage-title"]} onSave={this.onSave("engage-title")} /></h3>
                     <div className="mb-8 text-bold"><EditableText content={content["engage-subtitle"]} onSave={this.onSave("engage-subtitle")} /></div>
                     <EditableParagraph content={content["engage-description"]} onSave={this.onSave("engage-description")} />
                   </div>
                 </Grid>
 
                 <Grid item md={4}>
-                  <div className="labs-item" data-aos="fade-up" style={{ marginTop: '180px' }}>
-                    <h3 className="text-uppercase mb-2"><EditableText content={content["engineer-title"]} onSave={this.onSave("engineer-title")} /></h3>
+                  <div className="labs-item" data-aos="fade-up">
+                    <h3 className="text-uppercase mb-2 mt-0"><EditableText content={content["engineer-title"]} onSave={this.onSave("engineer-title")} /></h3>
                     <div className="mb-8 text-bold"><EditableText content={content["engineer-subtitle"]} onSave={this.onSave("engineer-subtitle")} /></div>
                     <EditableParagraph content={content["engineer-description"]} onSave={this.onSave("engineer-description")} />
                   </div>
                 </Grid>
 
                 <Grid item md={4}>
-                  <div className="labs-item" data-aos="fade-up" style={{ marginTop: '360px' }}>
-                    <h3 className="text-uppercase mb-2"><EditableText content={content["activate-title"]} onSave={this.onSave("activate-title")} /></h3>
+                  <div className="labs-item" data-aos="fade-up">
+                    <h3 className="text-uppercase mb-2 mt-0"><EditableText content={content["activate-title"]} onSave={this.onSave("activate-title")} /></h3>
                     <div className="mb-8 text-bold"><EditableText content={content["activate-subtitle"]} onSave={this.onSave("activate-subtitle")} /></div>
                     <EditableParagraph content={content["activate-description"]} onSave={this.onSave("activate-description")} />
                   </div>

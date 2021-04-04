@@ -87,10 +87,24 @@ class ParticipantGallery extends React.Component {
       arrows: true,
       responsive: [
         {
-          breakpoint: 1024,
+          breakpoint: 960,
           settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
+            slidesToShow: totalItems >= 4 ? 4 : totalItems,
+            slidesToScroll: totalItems >= 4 ? 4 : totalItems,
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: totalItems >= 3 ? 3 : totalItems,
+            slidesToScroll: totalItems >= 3 ? 3 : totalItems,
+          }
+        },
+        {
+          breakpoint: 400,
+          settings: {
+            slidesToShow: totalItems >= 2 ? 2 : totalItems,
+            slidesToScroll: totalItems >= 2 ? 2 : totalItems,
           }
         },
       ],

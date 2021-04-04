@@ -933,6 +933,17 @@ section.highlight {
     width: 100%;
     object-fit: cover;
     display: block;
+    aspect-ratio: 1/1;
+  }
+}
+
+.labs-item {
+  &:nth-of-type(2) {
+    margin-top: 180px;
+  }
+
+  &:nth-of-type(3) {
+    margin-top: 360px;
   }
 }
 

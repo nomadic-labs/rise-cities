@@ -52,6 +52,10 @@
       }
     }
 
+    .navbar {
+      position: relative;
+    }
+
     .login-form {
       margin-top: 20px;
       margin-bottom: 20px;
@@ -66,18 +70,6 @@
       input, label {
         margin-left: 0;
         margin-bottom: 10px;
-      }
-    }
-
-    #landing {
-      height: calc(60vh);
-
-      .header-image {
-        padding: 1rem;
-      }
-
-      .event-dates {
-        font-size: 1.125rem;
       }
     }
 
@@ -196,6 +188,20 @@
     .event-page-title {
       padding-left: 0;
     }
+
+    .rise-lab-graphic {
+      position: relative;
+    }
+
+    .labs-item {
+      &:nth-of-type(2) {
+        margin-top: 0;
+      }
+
+      &:nth-of-type(3) {
+        margin-top: 0;
+      }
+    }
   }
 }
 
@@ -229,25 +235,9 @@
     }
 
     .participant {
-      .participant-image {
-        width: 160px;
-        height: 160px;
-
-        &:before {
-          left: calc(50% - 80px);
-          width: 160px;
-          height: 160px;
-        }
-      }
-
-      .participant-image-container {
-        width: 150px;
-        height: 150px;
-      }
-
       .participant-image img {
-        width: 150px;
-        height: 150px;
+        width: 120px;
+        height: 160px;
       }
     }
   }
@@ -260,6 +250,26 @@
     }
     .participant-affiliate-organization {
       margin-left: 0;
+    }
+  }
+
+  .partner {
+    padding: 10px;
+    filter: grayscale(100%);
+    display: flex;
+    align-items: center;
+
+    .partner-image {
+      position: relative;
+      height: 100px;
+      width: 100px;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+      }
     }
   }
 }
