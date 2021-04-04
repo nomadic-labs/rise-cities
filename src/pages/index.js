@@ -3,6 +3,7 @@ import { graphql } from "gatsby";
 import { connect } from "react-redux";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Slider from "react-slick";
 
@@ -187,16 +188,20 @@ class HomePage extends React.Component {
           <Slider ref={this.slider} {...sliderSettings}>
             <div className="landing-slide">
               <Container>
-                <Grid container spacing={8}>
-                  <Grid item md={6}>
+                <Grid container spacing={6}>
+
+
+                  <Grid item sm={6}>
                     <div className="landing-body">
                       <div className="">
-                        <h1 className="text-black pb-8">
-                          <span className="no-wrap"><img className="title-icon" src={localIcon} alt="" />{`Local`}</span>
-                          <span>{` Solutions for `}</span>
-                          <span className="no-wrap"><img className="title-icon" src={globalIcon} alt="" />{`Global`}</span>
-                          <span>{` Challenges`}</span>
-                        </h1>
+
+                          <h1 className="text-black pb-8">
+                            <span className="no-wrap"><img className="title-icon" src={localIcon} alt="" />{`Local`}</span>
+                            <span>{` Solutions for `}</span>
+                            <span className="no-wrap"><img className="title-icon" src={globalIcon} alt="" />{`Global`}</span>
+                            <span>{` Challenges`}</span>
+                          </h1>
+
                         <div className="font-size-h4 mb-8">
                           <EditableText content={content["landing-subtitle"]} onSave={this.onSave("landing-subtitle")} />
                         </div>
@@ -209,7 +214,7 @@ class HomePage extends React.Component {
                       </div>
                     </div>
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item sm={6}>
                     <div data-aos="fade-up" data-aos-delay="750">
                       <EditableImageUpload
                         content={content["landing-image"]}
@@ -224,8 +229,8 @@ class HomePage extends React.Component {
 
             <div className="landing-slide">
               <Container>
-                <Grid container spacing={8}>
-                  <Grid item md={6}>
+                <Grid container spacing={6}>
+                  <Grid item sm={6}>
                     <div className="landing-body">
                       <h2 className="text-black">
                         <EditableText content={content["resilient-title"]} onSave={this.onSave("resilient-title")} />
@@ -235,7 +240,7 @@ class HomePage extends React.Component {
                       </div>
                     </div>
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item sm={6}>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["resilient-image"]}
@@ -253,8 +258,8 @@ class HomePage extends React.Component {
 
             <div className="landing-slide">
               <Container>
-                <Grid container spacing={8}>
-                  <Grid item md={6}>
+                <Grid container spacing={6}>
+                  <Grid item sm={6}>
                     <div className="landing-body">
                       <h2 className="text-black">
                         <EditableText content={content["intelligent-title"]} onSave={this.onSave("intelligent-title")} />
@@ -264,7 +269,7 @@ class HomePage extends React.Component {
                       </div>
                     </div>
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item sm={6}>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["intelligent-image"]}
@@ -282,8 +287,8 @@ class HomePage extends React.Component {
 
             <div className="landing-slide">
               <Container>
-                <Grid container spacing={8}>
-                  <Grid item md={6}>
+                <Grid container spacing={6}>
+                  <Grid item sm={6}>
                     <div className="landing-body">
                       <h2 className="text-black">
                         <EditableText content={content["sustainable-title"]} onSave={this.onSave("sustainable-title")} />
@@ -293,7 +298,7 @@ class HomePage extends React.Component {
                       </div>
                     </div>
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item sm={6}>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["sustainable-image"]}
@@ -311,8 +316,8 @@ class HomePage extends React.Component {
 
             <div className="landing-slide">
               <Container>
-                <Grid container spacing={8}>
-                  <Grid item md={6}>
+                <Grid container spacing={6}>
+                  <Grid item sm={6}>
                     <div className="landing-body">
                       <h2 className="text-black">
                         <EditableText content={content["equitable-title"]} onSave={this.onSave("equitable-title")} />
@@ -322,7 +327,7 @@ class HomePage extends React.Component {
                       </div>
                     </div>
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item sm={6}>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["equitable-image"]}
@@ -362,7 +367,7 @@ class HomePage extends React.Component {
               <EditableText content={content["program-title"]} onSave={this.onSave("program-title")} />
             </h2>
 
-            <Grid container spacing={8}>
+            <Grid container spacing={6}>
               <Grid item md={6}>
                 <div className="font-size-h4 mb-4 text-bold">
                   <EditableText content={content["program-subtitle"]} onSave={this.onSave("program-subtitle")} />
@@ -376,7 +381,7 @@ class HomePage extends React.Component {
               </Grid>
             </Grid>
 
-            <Grid container justify={'flex-end'} spacing={8}>
+            <Grid container justify={'flex-end'} spacing={6}>
               <Grid item md={6}>
                 <div className="metric">
                   <h3 className="font-size-h2 mt-2 mb-1">
@@ -422,7 +427,7 @@ class HomePage extends React.Component {
               <h2 className="text-black">
                 <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
               </h2>
-              <Grid container spacing={8}>
+              <Grid container spacing={6}>
                 <Grid item md={4}>
                   <div className="labs-item" data-aos="fade-up">
                     <h3 className="text-uppercase mb-2 mt-0"><EditableText content={content["engage-title"]} onSave={this.onSave("engage-title")} /></h3>

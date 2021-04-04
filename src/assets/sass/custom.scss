@@ -280,7 +280,7 @@ body .nl-page {
 
     .title-icon {
       display: inline-block;
-      height: 50px;
+      height: calc(2rem + 1vw);
       width: auto;
       margin-right: 0.1em;
     }
@@ -929,7 +929,6 @@ section.highlight {
 
 .event {
   .event-image {
-    height: 100%;
     width: 100%;
     object-fit: cover;
     display: block;
@@ -937,14 +936,21 @@ section.highlight {
   }
 }
 
-.labs-item {
-  &:nth-of-type(2) {
-    margin-top: 180px;
-  }
+.rise-lab {
+  .MuiGrid-item {
+    &:nth-of-type(2) {
+      .labs-item {
+        margin-top: 180px;
+      }
+    }
 
-  &:nth-of-type(3) {
-    margin-top: 360px;
+    &:nth-of-type(3) {
+      .labs-item {
+        margin-top: 360px;
+      }
+    }
   }
 }
+
 
 @import "responsive";

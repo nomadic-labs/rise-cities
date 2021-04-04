@@ -193,15 +193,22 @@
       position: relative;
     }
 
-    .labs-item {
-      &:nth-of-type(2) {
-        margin-top: 0;
-      }
+    .rise-lab {
+      .MuiGrid-item {
+        &:nth-of-type(2) {
+          .labs-item {
+            margin-top: 0;
+          }
+        }
 
-      &:nth-of-type(3) {
-        margin-top: 0;
+        &:nth-of-type(3) {
+          .labs-item {
+            margin-top: 0;
+          }
+        }
       }
     }
+
   }
 }
 
@@ -219,6 +226,15 @@
 
       .title {
         text-align: center;
+      }
+
+      .landing-slide {
+        padding-right: 50px;
+      }
+
+      .landing-image .rise-icon {
+        top: -50px;
+        left: 0;
       }
     }
 
