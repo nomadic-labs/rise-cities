@@ -193,12 +193,16 @@
   padding: 1rem 2rem;
   background: $primary-color;
   border-radius: 0;
+  border: none;
   color: $text-color;
   text-decoration: none;
   outline: none;
   display: inline-block;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 
   &.disabled {
     cursor: not-allowed;

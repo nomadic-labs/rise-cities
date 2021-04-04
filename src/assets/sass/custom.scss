@@ -265,16 +265,28 @@ body .nl-page {
     .slick-dots {
       li {
         height: 40px;
+        display: block;
       }
 
-      .slick-active {
-        color: $primary-color;
+      .slick-active > div {
+        border: 2px solid $primary-color;
       }
     }
 
     h1 {
       margin: 0;
       line-height: 1.2;
+    }
+
+    .title-icon {
+      display: inline-block;
+      height: 50px;
+      width: auto;
+      margin-right: 0.1em;
+    }
+
+    .no-wrap {
+      white-space: nowrap;
     }
   }
 
