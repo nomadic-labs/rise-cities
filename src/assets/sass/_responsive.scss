@@ -183,11 +183,27 @@
       padding-left: 0;
     }
 
-    .rise-lab-graphic {
-      position: relative;
-    }
-
     .rise-lab {
+      overflow: hidden;
+      padding-top: 100px;
+
+      .rise-lab-graphic {
+        top: 0;
+        right: -75px;
+        width: 200px;
+        height: 200px;
+
+        img {
+          height: 250px;
+          width: 250px;
+        }
+
+        .circle {
+          height: 100px;
+          width: 100px;
+        }
+      }
+
       .MuiGrid-item {
         &:nth-of-type(2) {
           .labs-item {
@@ -203,16 +219,34 @@
       }
     }
 
+    .event-link {
+      text-decoration: none;
+
+      h3 {
+        text-decoration: underline;
+      }
+    }
+
+    .featured-content-collection {
+      display: flex;
+      flex-wrap: wrap;
+
+      .featured-content-item {
+        flex-grow: 0;
+        max-width: calc(50% - 16px);
+        flex-basis: calc(50% - 16px);
+
+        img {
+          width: 100%;
+        }
+      }
+    }
   }
 }
 
 /* RESPONSIVE FOR MOBILE */
 
 @media (max-width: 600px) {
-  body {
-    /*font-size: 12px;*/
-  }
-
   body .nl-page {
     #landing {
       padding: 0;
@@ -220,6 +254,10 @@
 
       h1 {
         text-align: center;
+        padding-top: 20px;
+      }
+
+      .landing-body {
         padding-top: 20px;
       }
 
@@ -238,6 +276,10 @@
       .landing-image .rise-icon {
         top: -50px;
         left: 0;
+      }
+
+      .title-icon {
+        height: calc(1.5rem + 0.75vw);
       }
 
       .landing-slide {
@@ -316,7 +358,11 @@
 
   .MuiGrid-spacing-xs-6 > .MuiGrid-item {
     padding-top: 12px !important;
-    padding-bottom: 12px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .featured-content-item {
+    width: 49%;
   }
 }
 

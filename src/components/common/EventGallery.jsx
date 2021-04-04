@@ -1,16 +1,11 @@
 import React from "react";
 import Button from "@material-ui/core/Button"
-import AddIcon from "@material-ui/icons/Add"
 import { connect } from "react-redux";
 
 import EventGalleryItem from "./EventGalleryItem"
 import EventModal from "./EventModal";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
-import Grid from "@material-ui/core/Grid";
-
-const ITEM_NUMBER = 12
-const DEFAULT_SLIDES = 5
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -36,7 +31,6 @@ class EventGallery extends React.Component {
     this.state = {
       showModal: false,
       editingEvent: null,
-      itemsToShow: ITEM_NUMBER,
     }
   }
 
@@ -57,11 +51,9 @@ class EventGallery extends React.Component {
   }
 
   render() {
-    const { showModal, editingEvent, itemsToShow } = this.state;
+    const { showModal, editingEvent } = this.state;
     const events = Object.keys(this.props.content).map(key => this.props.content[key])
     const orderedEvents = events.sort((a,b) => a.name.localeCompare(b.name))
-    const eventsToShow = orderedEvents.slice(0, itemsToShow)
-    const totalItems = events.length
 
     return (
       <div id="event-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>
@@ -78,7 +70,7 @@ class EventGallery extends React.Component {
             </div>
           </div>
         }
-        {eventsToShow.map((event,index) => {
+        {orderedEvents.map((event,index) => {
           return (
             <div
               className='pr-2 pl-2'

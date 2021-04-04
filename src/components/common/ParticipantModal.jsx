@@ -6,9 +6,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Checkbox from '@material-ui/core/Checkbox';
 import ImageUpload from '../editing/ImageUpload';
 import {uploadFile as uploadImage} from "../../aws/operations";
 import { saveProfile, removeProfile } from "../../redux/actions"
@@ -58,12 +55,6 @@ class ParticipantModal extends React.Component {
     this.setState({ newParticipant: {...this.state.newParticipant, [key]: value} })
   }
 
-  handleCheckboxChange = key => event => {
-    this.setState({ errors: {} })
-    const value = event.currentTarget.checked
-    this.setState({ newParticipant: {...this.state.newParticipant, [key]: value} })
-  }
-
   handleImageChange = key => image => {
     this.setState({ newParticipant: {...this.state.newParticipant, [key]: { imageSrc: image.imageSrc } } })
   }
@@ -99,7 +90,7 @@ class ParticipantModal extends React.Component {
   }
 
   render() {
-    const { handleDeleteParticipant, handleSaveProfile, handleChange, handleCheckboxChange, handleImageChange, handleCancel } = this;
+    const { handleDeleteParticipant, handleSaveProfile, handleChange, handleImageChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       name,

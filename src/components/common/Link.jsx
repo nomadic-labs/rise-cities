@@ -5,7 +5,7 @@ import { EditableLink } from "react-easy-editables";
 export default (props) => {
   return (
     <div className="my-1">
-      <EditableLink { ...props } />
+      <EditableLink { ...props } classes="pretty-link" />
     </div>
   );
 };

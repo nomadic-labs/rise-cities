@@ -156,7 +156,6 @@ class SectionEditingActions extends React.Component {
               >
                 Expandable text
               </MenuItem>
-
               <MenuItem
                 onClick={() => {
                   this.props.onAddSection("default")
@@ -166,6 +165,7 @@ class SectionEditingActions extends React.Component {
                 Empty Section
               </MenuItem>
 
+{/*
               <MenuItem
                 onClick={() => {
                   this.props.onAddSection("highlight")
@@ -218,7 +218,7 @@ class SectionEditingActions extends React.Component {
                 }}
               >
                 Additional Resources Section
-              </MenuItem>
+              </MenuItem>*/}
             </Menu>
           </div>
         )}
