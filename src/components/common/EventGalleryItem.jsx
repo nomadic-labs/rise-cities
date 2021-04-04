@@ -32,7 +32,7 @@ const EventGalleryItem = ({ id, content={} }) => {
             <p>{ content.description }</p>
             {
               content.url &&
-              <a className="pretty-link" href={ ensureAbsoluteUrl(content.url) }>More info</a>
+              <a className="pretty-link" href={ ensureAbsoluteUrl(content.url) }>More info <span><ArrowForwardIcon style={{ fontSize: 20 }} /></span></a>
             }
           </Grid>
         </Grid>
