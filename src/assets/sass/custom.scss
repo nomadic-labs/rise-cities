@@ -939,11 +939,47 @@ blockquote {
 
   .featured-content-item {
     flex-grow: 0;
-    max-width: calc(33% - 16px);
-    flex-basis: calc(33% - 16px);
+    max-width: calc(25% - 16px);
+    flex-basis: calc(25% - 16px);
 
     img {
       width: 100%;
+    }
+  }
+}
+
+#articles {
+  ul.filter {
+    display: flex;
+    padding: 0;
+
+    li {
+      margin-right: 40px;
+      list-style: none;
+
+      button {
+        background: transparent;
+        border: none;
+        font-size: $font-size-xs;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          height: 30px;
+          width: 30px;
+        }
+      }
+
+      &.active {
+        button {
+          &:after {
+            width: 100%;
+            border-color: $primary-color;
+          }
+        }
+      }
     }
   }
 }

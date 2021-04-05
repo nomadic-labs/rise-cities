@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { connect } from "react-redux";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -294,9 +294,9 @@ class HomePage extends React.Component {
 
             <FeaturedContent />
 
-{/*            <div className="">
-              <EditableLink classes="btn" content={content["featured-content-link"]} onSave={this.onSave("featured-content-link")} />
-            </div>*/}
+            <div className="">
+              <Link className="btn" to='/articles'>Explore more content</Link>
+            </div>
           </Container>
         </section>
 
