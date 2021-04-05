@@ -1,34 +1,13 @@
 import React from 'react'
-import { connect } from "react-redux";
 import { Link } from "gatsby";
 import { find } from 'lodash'
 import Masonry from 'react-masonry-component'
-
-import {
-  fetchPages
-} from "../../redux/actions";
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchPages: () => {
-      dispatch(fetchPages())
-    }
-  };
-};
-
-const mapStateToProps = state => {
-  return {
-    pages: state.pages.pages
-  };
-};
+import { StaticQuery, graphql } from "gatsby"
 
 class FeaturedContent extends React.Component {
-  componentDidMount() {
-    this.props.fetchPages()
-  }
 
   nextPage = page => {
-    return this.props.pages[page.next];
+    return find(this.props.pages, p => p.id === page.next);
   }
 
   prevPage = page => {
@@ -61,7 +40,6 @@ class FeaturedContent extends React.Component {
         {
           articlePages.map(page => {
             const content = JSON.parse(page.content)
-            console.log(page)
             return(
               <div className="featured-content-item mb-10" key={page.id}>
                 {content.headerImage && <img src={content.headerImage.imageSrc} alt="" />}
@@ -77,4 +55,37 @@ class FeaturedContent extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeaturedContent);
+const Wrapper = () => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query FeaturedContentQuery {
+          allPages(filter: {template: { in: ["article.js"]}}) {
+            edges {
+              node {
+                id
+                title
+                description
+                slug
+                template
+                content
+                category
+                author
+                date
+                next
+                head
+              }
+            }
+          }
+        }
+      `}
+      render={data => {
+        console.log(data)
+        const pages = data.allPages.edges.map(e => e.node)
+        return <FeaturedContent pages={pages} />
+      }}
+    />
+  )
+}
+
+export default Wrapper;

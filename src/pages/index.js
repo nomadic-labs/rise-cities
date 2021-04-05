@@ -180,7 +180,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["resilient-title"]} onSave={this.onSave("resilient-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4">
+                      <div className="font-size-h4 mb-4 mr-4">
                         <EditableText content={content["resilient-subtitle"]} onSave={this.onSave("resilient-subtitle")} />
                       </div>
                     </div>
@@ -210,7 +210,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["intelligent-title"]} onSave={this.onSave("intelligent-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4">
+                      <div className="font-size-h4 mb-4 mr-4">
                         <EditableText content={content["intelligent-subtitle"]} onSave={this.onSave("intelligent-subtitle")} />
                       </div>
                     </div>
@@ -240,7 +240,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["sustainable-title"]} onSave={this.onSave("sustainable-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4">
+                      <div className="font-size-h4 mb-4 mr-4">
                         <EditableText content={content["sustainable-subtitle"]} onSave={this.onSave("sustainable-subtitle")} />
                       </div>
                     </div>
@@ -270,7 +270,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["equitable-title"]} onSave={this.onSave("equitable-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4">
+                      <div className="font-size-h4 mb-4 mr-4">
                         <EditableText content={content["equitable-subtitle"]} onSave={this.onSave("equitable-subtitle")} />
                       </div>
                     </div>
@@ -294,7 +294,7 @@ class HomePage extends React.Component {
           </Slider>
         </section>
 
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
+        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
 
         <section className="mt-10 mb-10" data-aos="fade-up" id="featured">
           <Container>
@@ -310,7 +310,7 @@ class HomePage extends React.Component {
           </Container>
         </section>
 
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
+        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
 
         <section className="mt-10 mb-10" data-aos="fade-up" id="program">
           <Container>
@@ -365,7 +365,7 @@ class HomePage extends React.Component {
           </Container>
         </section>
 
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
+        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
 
         <section className="mt-10 mb-10" data-aos="fade-up" id="rise-city-lab">
           <Container>
@@ -407,7 +407,7 @@ class HomePage extends React.Component {
           </Container>
         </section>
 
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
+        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
 
         <section className="mt-10 mb-10" data-aos="fade-up" id="events">
           <Container>
@@ -419,7 +419,7 @@ class HomePage extends React.Component {
           </Container>
         </section>
 
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
+        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
 
         <section className="mt-10 mb-15" data-aos="fade-up" id="people">
           <Container>
@@ -431,7 +431,7 @@ class HomePage extends React.Component {
           </Container>
         </section>
 
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="250" /></Container>
+        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
 
         <section className="mt-10 mb-10" data-aos="fade-up" id="partners">
           <Container>

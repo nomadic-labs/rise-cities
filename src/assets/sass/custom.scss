@@ -224,6 +224,36 @@ body .nl-page {
     .no-wrap {
       white-space: nowrap;
     }
+
+    .landing-slide {
+      &:hover {
+        button.rise-icon {
+          box-shadow: inset 0 0 0 2px $primary-color;
+        }
+      }
+
+      &:focus {
+        button.rise-icon {
+          transform: translateY(4px);
+        }
+      }
+
+      button.rise-icon {
+        box-shadow: inset 0 0 0 0 $primary-color;
+        transition: all 0.3s ease;
+
+        &:hover {
+          box-shadow: inset 100px 0 0 0 $primary-color;
+        }
+
+        &:focus {
+          animation-name: bump;
+          animation-duration: 0.5s;
+          animation-timing-function: ease;
+          animation-iteration-count: 1;
+        }
+      }
+    }
   }
 
   .login-form {
@@ -654,9 +684,20 @@ body .nl-page {
   }
 }
 
+@keyframes dip {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .partner {
   padding: 20px;
-  filter: grayscale(100%);
   display: flex;
   align-items: center;
 
@@ -664,12 +705,24 @@ body .nl-page {
     position: relative;
     height: 140px;
     width: 140px;
+    transition: all 0.3s ease;
 
     img {
       height: 100%;
       width: 100%;
       object-fit: cover;
       transition: all 0.3s ease;
+      filter: grayscale(100%);
+    }
+  }
+
+  .partner-link {
+    padding-bottom: 0;
+
+    &:focus {
+      .partner-image img {
+        filter: grayscale(100%) brightness(1.1);
+      }
     }
   }
 }
@@ -806,9 +859,9 @@ section.highlight {
 }
 
 .fancy-border {
-  background: linear-gradient(90deg, $yellow 0%, $yellow 40%, $dark-yellow 40%, $dark-yellow 75%, $green 75%, $green 100%);
+  background: linear-gradient(90deg, $yellow 0%, $yellow 40%, $green 100%);
   width: 100%;
-  height: 6px;
+  height: 2px;
   margin: 0 auto;
 }
 

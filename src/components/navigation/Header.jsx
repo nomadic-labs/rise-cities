@@ -57,7 +57,7 @@ class Header extends React.Component {
     return (
       <nav className={`navbar bg-white`}>
         <div className="logo">
-          <Link to={'/'} className="display-flex"><img src={logo} alt="BMW Foundation | Herbert Quant"/></Link>
+          <Link to={'/'} className="display-flex"><img src={logo} alt="RISE Cities"/></Link>
         </div>
           <div className='navbar-items'>
             <a className='navbar-item menu-item' href="#menu" onClick={this.toggleMenu}>{this.state.menuIsOpen ? 'Close' : 'Menu'}</a>
