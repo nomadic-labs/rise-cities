@@ -42,10 +42,14 @@ class FeaturedContent extends React.Component {
             const content = JSON.parse(page.content)
             return(
               <div className="featured-content-item mb-10" key={page.id}>
-                {content.headerImage && <img src={content.headerImage.imageSrc} alt="" />}
-                <p className="mb-1 text-xs text-uppercase">{page.category}</p>
-                <h3 className="mb-3 mt-0">{page.title}</h3>
-                <Link to={page.slug} className="pretty-link text-sm">Read more</Link>
+                {content.headerImage &&
+                  <img src={content.headerImage.imageSrc} alt="" />
+                }
+                <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
+                <Link to={page.slug} className="pretty-link">
+                  <h3 className="mb-0 mt-0">{page.title}</h3>
+                </Link>
+                <p className="text-xs mt-2">{page.description}</p>
               </div>
             )
           })

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import { Link, navigate } from 'gatsby'
 import logo from "../../assets/images/RISE_logo.svg"
+import Hidden from "@material-ui/core/Hidden"
 
 class Header extends React.Component {
 
@@ -59,8 +60,8 @@ class Header extends React.Component {
         <div className="logo">
           <Link to={'/'} className="display-flex"><img src={logo} alt="RISE Cities"/></Link>
         </div>
+        <Hidden smDown>
           <div className='navbar-items'>
-            <a className='navbar-item menu-item' href="#menu" onClick={this.toggleMenu}>{this.state.menuIsOpen ? 'Close' : 'Menu'}</a>
             <a className='navbar-item' href="#featured" onClick={this.handleClick}>Featured Content</a>
             <a className='navbar-item' href="#program" onClick={this.handleClick}>Program</a>
             <a className='navbar-item' href="#rise-city-lab" onClick={this.handleClick}>RISE City Lab</a>
@@ -68,9 +69,15 @@ class Header extends React.Component {
             <a className='navbar-item' href="#people" onClick={this.handleClick}>People</a>
             <a className='navbar-item' href="#partners" onClick={this.handleClick}>Partners</a>
           </div>
-          {
-            this.container && ReactDOM.createPortal(this.menu(), this.container)
-          }
+        </Hidden>
+        <Hidden mdUp>
+          <div className='navbar-items'>
+            <a className='navbar-item menu-item' href="#menu" onClick={this.toggleMenu}>{this.state.menuIsOpen ? 'Close' : 'Menu'}</a>
+            {
+              this.container && ReactDOM.createPortal(this.menu(), this.container)
+            }
+          </div>
+        </Hidden>
       </nav>
     );
   }

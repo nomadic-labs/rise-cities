@@ -402,6 +402,11 @@
   &-uppercase {
     text-transform: uppercase;
   }
+  &-clamped {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .height-100 {

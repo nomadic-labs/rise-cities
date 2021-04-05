@@ -32,8 +32,6 @@ import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
 import globalIcon from "../assets/images/icons/global-icon-32px.svg"
 import localIcon from "../assets/images/icons/neighbourhood-icon-32px.svg"
 
-import "splitting/dist/splitting.css";
-import "splitting/dist/splitting-cells.css";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -69,19 +67,11 @@ class HomePage extends React.Component {
     this.slider = React.createRef()
   }
 
-  // componentDidMount() {
-  //   Splitting({
-  //     whitespace: true
-  //   })
-  // }
-
   onSave = id => content => {
-    console.log("saving content", content)
     this.props.onUpdatePageContent(id, content);
   };
 
   play = () => {
-    console.log("this.slider", this.slider)
     this.slider.current.slickNext();
   }
 
