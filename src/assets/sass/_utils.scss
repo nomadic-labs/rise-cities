@@ -350,6 +350,9 @@
   &-bold {
     font-family: $header-font;
   }
+  &-normal {
+    font-weight: normal !important;
+  }
   &-italic {
     font-style: italic;
   }

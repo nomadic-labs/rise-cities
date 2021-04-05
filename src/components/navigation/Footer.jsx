@@ -25,8 +25,8 @@ const Footer = () => (
       <Container>
         <div className="display-flex footer-legal text-xs">
           <span>© 2021 Rise cities</span>
-          <span className="m-0"><a href="https://bmw-foundation.org/privacy-policy/" target="_blank" rel="noopener noreferrer" className="pretty-link text-white">Legal notice</a></span>
-          <span className="m-0"><a href="https://bmw-foundation.org/privacy-policy/" target="_blank" rel="noopener noreferrer" className="pretty-link text-white">Privacy Policy</a></span>
+          <span className="m-0"><a href="https://bmw-foundation.org/privacy-policy/" target="_blank" rel="noopener noreferrer" className="pretty-link text-normal">Legal notice</a></span>
+          <span className="m-0"><a href="https://bmw-foundation.org/privacy-policy/" target="_blank" rel="noopener noreferrer" className="pretty-link text-normal">Privacy Policy</a></span>
         </div>
       </Container>
     </div>
