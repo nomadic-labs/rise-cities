@@ -195,6 +195,7 @@
   background: $primary-color;
   border-radius: 0;
   border: none;
+  outline: 2px solid $primary-color;
   color: $text-color;
   text-decoration: none;
   outline: none;
@@ -203,7 +204,7 @@
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
-  box-shadow: inset 0 0 0 0 $green;
+  box-shadow: inset 0 0 0 2px $primary-color;
   transition: ease-out 0.4s;
 
   &.disabled {
@@ -211,7 +212,7 @@
   }
 
   &:hover {
-    box-shadow: inset 400px 0 0 0 $green;
+    background: $white;
   }
 
   &:hover:after {
@@ -220,7 +221,7 @@
   }
 
   &:focus {
-    background: $secondary-color;
+    box-shadow: inset 400px 0 0 0 $green;
   }
 
   &-sm {
@@ -370,6 +371,17 @@
   &-xs {
     font-size: $font-size-xs;
   }
+  &-gradient {
+    color: $green;
+    background-image: $theme-gradient;
+    background-size: 100%;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+  }
   &-green-gradient {
     color: $green;
     background-image: $green-gradient;
@@ -473,6 +485,71 @@
   }
   &-h6 {
     font-size: $font-size-h6;
+  }
+}
+
+@keyframes bump {
+  0% {
+    transform: translateY(0);
+    padding-bottom: 4px;
+  }
+  50% {
+    transform: translateY(-2px);
+    padding-bottom: 8px;
+  }
+  100% {
+    transform: translateY(0);
+    padding-bottom: 4px;
+  }
+}
+
+@mixin pretty-link {
+  border: none;
+  background: transparent;
+  outline: none;
+  display: inline-block;
+  font-weight: 700;
+  text-decoration: none;
+  color: $black;
+  position: relative;
+  padding-bottom: 4px;
+  padding-right: 0;
+  padding-left: 0;
+  transform: translateY(0);
+  transition: all 300ms;
+  font-size: inherit;
+
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
+
+  &:after {
+    content: '';
+    width: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all 300ms;
+    color: $green;
+    border-bottom: 2px solid $secondary-color;
+  }
+
+  &:hover:after {
+    width: 100%;
+  }
+
+  &:focus {
+    animation-name: bump;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-iteration-count: 1;
+
+    &:after {
+      width: 100%;
+      border-color: $primary-color;
+    }
   }
 }
 

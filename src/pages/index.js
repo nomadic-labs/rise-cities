@@ -336,7 +336,7 @@ class HomePage extends React.Component {
               <Grid item md={6}>
                 <div className="metric">
                   <h3 className="font-size-h2 mt-2 mb-1">
-                    <span className="text-green-gradient">
+                    <span className="text-gradient">
                     <EditableText content={content["metrics1-title"]} onSave={this.onSave("metrics1-title")} />
                     </span>
                   </h3>
@@ -350,7 +350,7 @@ class HomePage extends React.Component {
               <Grid item md={6}>
                 <div className="metric">
                  <h3 className="font-size-h2 mt-2 mb-1">
-                    <span className="text-green-gradient">
+                    <span className="text-gradient">
                     <EditableText content={content["metrics2-title"]} onSave={this.onSave("metrics2-title")} />
                     </span>
                   </h3>
