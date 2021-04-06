@@ -14,6 +14,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -58,7 +60,8 @@ const emptyPage = {
     category: CATEGORY_OPTIONS[0].value,
     content: defaultContentJSON,
     template: PAGE_TYPES[0].value.template,
-    date: Date.now()
+    date: Date.now(),
+    featured: false,
   }
 
 class CreatePageModal extends React.Component {
@@ -204,28 +207,32 @@ class CreatePageModal extends React.Component {
             />
           </FormControl>
 
-          {
-            this.props.options.new &&
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="menu-group">Category</InputLabel>
-              <Select
-                value={this.state.page.category}
-                onChange={selected =>
-                  this.updatePage("category", selected.target.value)
-                }
-                inputProps={{
-                  name: "menu-group",
-                  id: "menu-group"
-                }}
-              >
-                {CATEGORY_OPTIONS.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          }
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="menu-group">Category</InputLabel>
+            <Select
+              value={this.state.page.category}
+              onChange={selected =>
+                this.updatePage("category", selected.target.value)
+              }
+              inputProps={{
+                name: "menu-group",
+                id: "menu-group"
+              }}
+            >
+              {CATEGORY_OPTIONS.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControlLabel
+            control={
+              <Checkbox checked={this.state.page.featured} onChange={e => this.updatePage("featured", e.currentTarget.checked)} value="featured" />
+            }
+            label={<p className="mb-0">Featured content</p>}
+          />
 
         </DialogContent>
 

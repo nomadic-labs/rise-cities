@@ -79,8 +79,7 @@ class ParticipantGallery extends React.Component {
     const settings = {
       infinite: true,
       speed: 250,
-      // autoplay: !this.props.isEditingPage,
-      autoplay: false,
+      autoplay: !this.props.isEditingPage,
       slidesToShow: slidesToShow,
       slidesToScroll: slidesToShow,
       dots: true,

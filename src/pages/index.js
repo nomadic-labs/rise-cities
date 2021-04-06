@@ -80,8 +80,7 @@ class HomePage extends React.Component {
     const sliderSettings = {
       infinite: true,
       speed: 350,
-      // autoplay: !this.props.isEditingPage,
-      autoplay: false,
+      autoplay: !this.props.isEditingPage,
       autoplaySpeed: 5000,
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -170,7 +169,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["resilient-title"]} onSave={this.onSave("resilient-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4 mr-4">
+                      <div className="font-size-h4 mb-8 mr-4">
                         <EditableText content={content["resilient-subtitle"]} onSave={this.onSave("resilient-subtitle")} />
                       </div>
                     </div>
@@ -200,7 +199,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["intelligent-title"]} onSave={this.onSave("intelligent-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4 mr-4">
+                      <div className="font-size-h4 mb-8 mr-4">
                         <EditableText content={content["intelligent-subtitle"]} onSave={this.onSave("intelligent-subtitle")} />
                       </div>
                     </div>
@@ -230,7 +229,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["sustainable-title"]} onSave={this.onSave("sustainable-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4 mr-4">
+                      <div className="font-size-h4 mb-8 mr-4">
                         <EditableText content={content["sustainable-subtitle"]} onSave={this.onSave("sustainable-subtitle")} />
                       </div>
                     </div>
@@ -260,7 +259,7 @@ class HomePage extends React.Component {
                       <h2 className="text-black">
                         <EditableText content={content["equitable-title"]} onSave={this.onSave("equitable-title")} />
                       </h2>
-                      <div className="font-size-h4 mb-4 mr-4">
+                      <div className="font-size-h4 mb-8 mr-4">
                         <EditableText content={content["equitable-subtitle"]} onSave={this.onSave("equitable-subtitle")} />
                       </div>
                     </div>

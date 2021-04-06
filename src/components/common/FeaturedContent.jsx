@@ -34,11 +34,12 @@ class FeaturedContent extends React.Component {
 
   render() {
     const articlePages = this.orderedPages(find(this.props.pages, page => page.head))
+    const featuredPages = articlePages.filter(p => p.featured)
 
     return(
       <Masonry className="featured-content-collection" options={{ gutter: 16 }}>
         {
-          articlePages.map(page => {
+          featuredPages.map(page => {
             const content = JSON.parse(page.content)
             return(
               <div className="featured-content-item mb-10" key={page.id}>
@@ -78,6 +79,7 @@ const Wrapper = () => {
                 date
                 next
                 head
+                featured
               }
             }
           }

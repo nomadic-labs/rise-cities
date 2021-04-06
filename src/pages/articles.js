@@ -14,17 +14,36 @@ import podcastIcon from "../assets/images/icons/podcast-icon-32px.svg"
 import videoIcon from "../assets/images/icons/video-icon-32px.svg"
 
 
-class ArticleGallery extends React.Component {
+const ArticleGallery = ({ pages }) => (
+  <Masonry className="featured-content-collection" options={{ gutter: 16 }}>
+    {
+      pages.map(page => {
+        const content = JSON.parse(page.content)
+        return(
+          <div className="featured-content-item mb-10" key={page.id}>
+            {content.headerImage &&
+              <img src={content.headerImage.imageSrc} alt="" />
+            }
+            <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
+            <Link to={page.slug} className="pretty-link">
+              <h3 className="mb-0 mt-0">{page.title}</h3>
+            </Link>
+            <p className="text-xs mt-2">{page.description}</p>
+          </div>
+        )
+      })
+    }
+  </Masonry>
+)
 
-  nextPage = page => {
-    return find(this.props.pages, p => p.id === page.next);
+const FeaturedContentPage = ({ data, location }) => {
+  const allPages = data.allPages.edges.map(edge => edge.node)
+
+  const getNextPage = (page) => {
+    return find(allPages, p => p.id === page.next);
   }
 
-  prevPage = page => {
-    return find(this.props.pages, p => p.next === page.id)
-  }
-
-  orderedPages = (page, arr=[]) => {
+  const orderPages = (page, arr=[]) => {
     if (!page) {
       return arr
     }
@@ -35,50 +54,24 @@ class ArticleGallery extends React.Component {
 
     arr.push(page)
 
-    const nextPage = this.nextPage(page)
+    const nextPage = getNextPage(page)
     if (page === nextPage) {
       return arr
     }
-    return this.orderedPages(this.nextPage(page), arr)
+    return orderPages(getNextPage(page), arr)
   }
 
-  render() {
-    return(
-      <Masonry className="featured-content-collection" options={{ gutter: 16 }}>
-        {
-          this.props.pages.map(page => {
-            const content = JSON.parse(page.content)
-            return(
-              <div className="featured-content-item mb-10" key={page.id}>
-                {content.headerImage &&
-                  <img src={content.headerImage.imageSrc} alt="" />
-                }
-                <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
-                <Link to={page.slug} className="pretty-link">
-                  <h3 className="mb-0 mt-0">{page.title}</h3>
-                </Link>
-                <p className="text-xs mt-2">{page.description}</p>
-              </div>
-            )
-          })
-        }
-      </Masonry>
-    )
-  }
-}
-
-const FeaturedContentPage = ({ data, location }) => {
-  const allPages = data.allPages.edges.map(edge => edge.node)
+  const orderedPages = orderPages(find(allPages, p => p.head))
   const [pages, setPages] = useState(allPages)
   const [filter, setFilter] = useState()
 
   useEffect(() => {
     if (!filter) {
-      return setPages(allPages)
+      return setPages(orderedPages)
     }
-    const filtered = allPages.filter(page => page.category === filter)
+    const filtered = orderedPages.filter(page => page.category === filter)
     setPages(filtered)
-  }, [filter, allPages])
+  }, [filter])
 
   return (
     <Layout theme="white" location={location}>
@@ -87,8 +80,8 @@ const FeaturedContentPage = ({ data, location }) => {
           <Grid container spacing={6}>
             <Grid item sm={12}>
               <div className="">
-                <h1 className="text-black mb-3">Featured Content</h1>
-                <p>Explore the articles, podcasts, and videos that we've posted.</p>
+                <h1 className="text-black mb-3">Explore Content</h1>
+                <p>Browse the articles, podcasts, and videos that we've posted.</p>
 
                 <div className="mb-10">
                   <ul className="filter">
@@ -147,6 +140,7 @@ export const query = graphql`
           date
           next
           head
+          featured
         }
       }
     }

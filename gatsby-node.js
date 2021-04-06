@@ -17,6 +17,7 @@ exports.createPages = ({ graphql, actions }) => {
                 template
                 content
                 category
+                featured
                 author
                 date
                 next

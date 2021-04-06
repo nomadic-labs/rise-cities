@@ -173,6 +173,8 @@ export const query = graphql`
       category
       next
       head
+      featured
+      template
     }
   }
 `;
