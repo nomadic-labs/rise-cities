@@ -20,7 +20,7 @@ const Footer = () => (
             <img src={bmwfLogo} alt="The BMW Foundation Herbert Quandt" className="mt-4 mb-4" style={{ width: '220px'}} />
             <p className="text-small">The BMW Foundation Herbert Quandt promotes responsible leadership and inspires leaders worldwide to work towards a more peaceful, just and sustainable future.</p>
           </Grid>
-          <Grid item md={3} className="text-right">
+          <Grid item md={3} className="footer-socials">
             <img src={riseLogo} style={{ maxWidth: '200px' }} alt="RISE Cities" />
             <ul>
               <li>

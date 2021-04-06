@@ -1,18 +1,48 @@
 /* RESPONSIVE FOR TABLETS */
 
-@media (min-width: 992px) {
+@media (min-width: 960px) {
   .navbar-item:not(.menu-item) {
     display: block !important;
   }
-}
 
-@media (max-width: 992px) {
-  .menu-item {
-    display: block !important;
+  #navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 3;
+    padding-top: 15px;
+    transition: all 400ms ease;
+
+    .navbar-items {
+      padding-top: 10px;
+      transition: all 400ms ease;
+    }
+
+    .logo {
+      transition: all 600ms ease;
+      width: 270px;
+    }
+
+    &.navbar-small {
+      background: $white;
+      max-height: 55px;
+      overflow: hidden;
+      padding-top: 10px;
+
+      .logo {
+        width: 150px;
+      }
+
+      .navbar-items {
+        padding-top: 5px;
+      }
+    }
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 960px) {
   body .nl-page {
     h1 {
       font-size: calc(20px + 1.75vw);
@@ -21,11 +51,10 @@
     h2 {
       font-size: calc(18px + 1vw);
     }
-  }
-}
 
-@media (max-width: 960px) {
-  body .nl-page {
+    .menu-item {
+      display: block !important;
+    }
 
     main {
       display: flex;
@@ -184,6 +213,18 @@
         margin-bottom: 5px !important;
         text-align: left !important;
       }
+
+      ul {
+        li {
+          margin-left: 0;
+          margin-right: 10px;
+        }
+      }
+
+      .footer-socials {
+        text-align: left;
+        margin-top: 10px;
+      }
     }
 
     .event-page-title {
@@ -272,7 +313,7 @@
       }
 
       .landing-body {
-        padding-top: 40px;
+        padding-top: 20px;
       }
 
       .landing-intro {
