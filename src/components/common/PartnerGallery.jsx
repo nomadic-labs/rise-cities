@@ -13,7 +13,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const ITEM_NUMBER = 12
-const DEFAULT_SLIDES = 5
+const DEFAULT_SLIDES = 6
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -119,7 +119,7 @@ class PartnerGallery extends React.Component {
           {partnersToShow.map((partner,index) => {
             return (
               <div
-                className='pr-2 pl-2'
+                className='pr-4'
                 key={partner.id}>
                 {
                   this.props.isEditingPage &&

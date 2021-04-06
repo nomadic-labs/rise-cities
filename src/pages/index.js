@@ -80,8 +80,6 @@ class HomePage extends React.Component {
     const sliderSettings = {
       infinite: true,
       speed: 350,
-      autoplay: !this.props.isEditingPage,
-      autoplaySpeed: 5000,
       slidesToShow: 1,
       slidesToScroll: 1,
       arrows: false,
@@ -107,15 +105,7 @@ class HomePage extends React.Component {
         >
           {i + 1}
         </div>
-      ),
-      responsive: [
-        {
-          breakpoint: 600,
-          settings: {
-            adaptiveHeight: true,
-          }
-        },
-      ]
+      )
     };
 
     return (
@@ -139,7 +129,7 @@ class HomePage extends React.Component {
                           <EditableText content={content["landing-subtitle"]} onSave={this.onSave("landing-subtitle")} />
                         </div>
                         <div className="">
-                          <button className="btn" onClick={this.play}>
+                          <button className="btn" onClick={this.play} aria-label="Next slide">
                             <span className="mr-1">What is RISE Cities?</span>
                             <ArrowForwardIcon />
                           </button>
@@ -182,7 +172,7 @@ class HomePage extends React.Component {
                         uploadImage={uploadImage}
                         classes="slide-img"
                       />
-                      <button className="rise-icon" onClick={this.play}>
+                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                         <img src={resilientIcon} alt="" />
                       </button>
                     </div>
@@ -212,7 +202,7 @@ class HomePage extends React.Component {
                         uploadImage={uploadImage}
                         classes="slide-img"
                       />
-                      <button className="rise-icon" onClick={this.play}>
+                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                         <img src={intelligentIcon} alt="" />
                       </button>
                     </div>
@@ -242,7 +232,7 @@ class HomePage extends React.Component {
                         uploadImage={uploadImage}
                         classes="slide-img"
                       />
-                      <button className="rise-icon" onClick={this.play}>
+                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                         <img src={sustainableIcon} alt="" />
                       </button>
                     </div>
@@ -272,7 +262,7 @@ class HomePage extends React.Component {
                         uploadImage={uploadImage}
                         classes="slide-img"
                       />
-                      <button className="rise-icon" onClick={this.play}>
+                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                         <img src={equitableIcon} alt="" />
                       </button>
                     </div>
@@ -283,7 +273,7 @@ class HomePage extends React.Component {
           </Slider>
         </section>
 
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
+        <Container><div className="fancy-border" data-aos="flip-right" /></Container>
 
         <section className="mt-10 mb-10" data-aos="fade-up" id="featured">
           <Container>

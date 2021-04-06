@@ -175,7 +175,7 @@
     background-color: $white;
   }
   &-gradient {
-    background: linear-gradient(160deg, $primary-color 0%, $secondary-color 100%);
+    background: linear-gradient(160deg, $primary-color 0%, $primary-color 20%, $secondary-color 100%);
   }
   &-black {
     background-color: $black;
@@ -189,9 +189,9 @@
 }
 
 .btn {
-  font-size: inherit;
+  font-size: 0.9em;
   text-transform: uppercase;
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.25rem;
   background: $primary-color;
   border-radius: 0;
   border: none;
@@ -496,6 +496,18 @@
   }
 }
 
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 @keyframes bump {
   0% {
     transform: translateY(0);
@@ -503,7 +515,7 @@
   }
   50% {
     transform: translateY(-2px);
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
   100% {
     transform: translateY(0);
@@ -549,7 +561,7 @@
   }
 
   &:focus {
-    animation-name: bump;
+    animation-name: jump;
     animation-duration: 0.5s;
     animation-timing-function: ease;
     animation-iteration-count: 1;

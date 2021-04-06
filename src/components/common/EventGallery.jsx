@@ -73,7 +73,6 @@ class EventGallery extends React.Component {
         {orderedEvents.map((event,index) => {
           return (
             <div
-              className='pr-2 pl-2'
               key={event.id}>
               {
                 this.props.isEditingPage &&

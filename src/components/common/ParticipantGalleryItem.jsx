@@ -31,14 +31,16 @@ const ParticipantGalleryItem = ({ id, content={} }) => {
             </Grid>
             <Grid item xs={12} sm={8}>
               <div className="p-4">
-                <h2 className="font-size-h2">{content.name}</h2>
-                <div className="participant-affiliate-organization">{content.role}</div>
-                <div>{content.bio}</div>
+                <h3 className="font-size-h2 mb-1 mt-0">{content.name}</h3>
+                <p className="participant-affiliate-organization">{content.role}</p>
+                <p>{content.bio}</p>
                 {
                   (content.email) &&
-                  <div className="links">
-                    <a href={`mailto:${content.email}`} target="_blank" rel="noopener noreferrer">
-                      <EmailIcon />
+                  <div className="links mt-5 mb-5">
+                    <a href={`mailto:${content.email}`} target="_blank" rel="noopener noreferrer" className="pretty-link">
+                      <div className="display-flex align-center text-normal text-small">
+                        <EmailIcon /><span className="ml-2">{content.email}</span>
+                      </div>
                     </a>
                   </div>
                 }
