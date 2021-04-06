@@ -184,14 +184,15 @@
     }
 
     .rise-lab {
-      overflow: hidden;
+      /*overflow: hidden;*/
       padding-top: 100px;
 
       .rise-lab-graphic {
         top: 0;
-        right: -75px;
+        right: -80px;
         width: 200px;
         height: 200px;
+        overflow: hidden;
 
         img {
           height: 250px;
@@ -205,13 +206,13 @@
       }
 
       .MuiGrid-item {
-        &:nth-of-type(2) {
+        &:nth-of-type(3) {
           .labs-item {
             margin-top: 0;
           }
         }
 
-        &:nth-of-type(3) {
+        &:nth-of-type(4) {
           .labs-item {
             margin-top: 0;
           }

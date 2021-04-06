@@ -357,17 +357,19 @@ class HomePage extends React.Component {
         <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
 
         <section className="mt-10 mb-10" data-aos="fade-up" id="rise-city-lab">
-          <Container>
+          <Container style={{ overflow: 'hidden' }}>
             <div className="rise-lab position-relative">
               <div className="rise-lab-graphic">
                 <img src='/rise-city-lab.gif' alt="Engage Engineer Activate" />
                 <div className="circle bg-gradient" />
               </div>
 
-              <h2 className="text-black">
-                <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
-              </h2>
               <Grid container spacing={6}>
+                <Grid item md={12}>
+                  <h2 className="text-black">
+                    <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
+                  </h2>
+                </Grid>
                 <Grid item md={4}>
                   <div className="labs-item" data-aos="fade-up">
                     <h3 className="text-uppercase mb-2 mt-0"><EditableText content={content["engage-title"]} onSave={this.onSave("engage-title")} /></h3>
