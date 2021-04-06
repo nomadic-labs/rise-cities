@@ -69,7 +69,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <nav id="navbar">
+      <nav id="navbar" style={{ paddingTop: '15px' }}>
         <Container>
           <Grid container justify="space-between">
             <Grid item>

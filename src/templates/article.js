@@ -93,7 +93,7 @@ class ArticlePage extends React.Component {
           <meta description={pageData.description} />
         </Helmet>
 
-        <section id="article-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 mt-10 mb-8">
+        <section id="article-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 mt-15 mb-8">
           <Container>
             <Grid container spacing={6}>
               <Grid item sm={6}>
