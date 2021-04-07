@@ -74,7 +74,9 @@ class Header extends React.Component {
           <Grid container justify="space-between">
             <Grid item>
               <div className="logo">
-                <Link to={'/'} className="display-flex"><img src={logo} alt="RISE Cities"/></Link>
+                <Link to={'/'} className="display-flex">
+                  <img src={logo} alt="RISE Cities"/>
+                </Link>
               </div>
             </Grid>
             <Grid item>

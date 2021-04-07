@@ -1008,4 +1008,15 @@ blockquote {
   }
 }
 
+#page-loader {
+  width: 100%;
+  opacity: 1;
+  transition: opacity 300ms ease, width 100ms linear 300ms;
+
+  &.hidden {
+    width: 0%;
+    opacity: 0;
+  }
+}
+
 @import "responsive";

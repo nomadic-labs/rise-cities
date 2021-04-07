@@ -524,6 +524,23 @@
   }
 }
 
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@mixin rotate {
+  animation: rotation 4s infinite linear;
+}
+
+.rotate {
+  @include rotate;
+}
+
 @mixin pretty-link {
   border: none;
   background: transparent;

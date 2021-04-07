@@ -10,3 +10,7 @@ import "babel-polyfill";
 import wrapWithProvider from "./src/redux/wrapWithProvider";
 
 export const wrapRootElement = wrapWithProvider
+
+export const onClientEntry = () => {
+  document.getElementById('page-loader').classList.add('hidden')
+}
