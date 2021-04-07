@@ -12,6 +12,35 @@ export default function HTML(props) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
         {props.headComponents}
+        <style type="text/css">{`
+            @keyframes rotation {
+              from {
+                transform: rotate(0deg);
+              }
+              to {
+                transform: rotate(359deg);
+              }
+            }
+
+            #page-loader {
+              width: 100%;
+              opacity: 1;
+              transition: opacity 300ms ease, width 100ms linear 300ms;
+            }
+
+            #page-loader .circle {
+              height: 30px;
+              width: 30px;
+              border-radius: 30px;
+              background: linear-gradient(160deg, #FFCD44 0%, #FFCD44 20%, #46B27E 100%);
+              animation: rotation 4s infinite linear;
+            }
+
+            #page-loader.hidden {
+              width: 0%;
+              opacity: 0;
+            }
+        `}</style>
       </head>
       <body {...props.bodyAttributes}>
         <div id="page-loader" style={{
@@ -26,7 +55,7 @@ export default function HTML(props) {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-          <img src="/favicon-32x32.png" alt="Loading..." className="rotate" />
+          <div aria-label="Loading..." className="circle" />
         </div>
         {props.preBodyComponents}
         <div
