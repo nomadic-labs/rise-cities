@@ -23,7 +23,16 @@ export default function HTML(props) {
             }
 
             #page-loader {
+              position: fixed;
+              top: 0;
+              left: 0;
+              background: #ffffff;
+              z-index: 99999;
               width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
               opacity: 1;
               transition: opacity 300ms ease, width 100ms linear 300ms;
             }
@@ -43,18 +52,7 @@ export default function HTML(props) {
         `}</style>
       </head>
       <body {...props.bodyAttributes}>
-        <div id="page-loader" style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          background: '#ffffff',
-          zIndex: 99999,
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+        <div id="page-loader">
           <div aria-label="Loading..." className="circle" />
         </div>
         {props.preBodyComponents}
