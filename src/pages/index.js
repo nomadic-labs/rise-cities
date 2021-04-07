@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Slider from "react-slick";
+import LazyLoad from 'react-lazyload';
 
 import {
   EditableText,
@@ -165,17 +166,19 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
-                    <div className="landing-image">
-                      <EditableImageUpload
-                        content={content["resilient-image"]}
-                        onSave={this.onSave("resilient-image")}
-                        uploadImage={uploadImage}
-                        classes="slide-img"
-                      />
-                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
-                        <img src={resilientIcon} alt="" />
-                      </button>
-                    </div>
+                    <LazyLoad>
+                      <div className="landing-image">
+                        <EditableImageUpload
+                          content={content["resilient-image"]}
+                          onSave={this.onSave("resilient-image")}
+                          uploadImage={uploadImage}
+                          classes="slide-img"
+                        />
+                        <button className="rise-icon" onClick={this.play} aria-label="Next slide">
+                          <img src={resilientIcon} alt="" />
+                        </button>
+                      </div>
+                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
@@ -195,6 +198,7 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
+                  <LazyLoad>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["intelligent-image"]}
@@ -206,6 +210,7 @@ class HomePage extends React.Component {
                         <img src={intelligentIcon} alt="" />
                       </button>
                     </div>
+                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
@@ -225,6 +230,7 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
+                    <LazyLoad>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["sustainable-image"]}
@@ -236,6 +242,7 @@ class HomePage extends React.Component {
                         <img src={sustainableIcon} alt="" />
                       </button>
                     </div>
+                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
@@ -255,6 +262,7 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
+                  <LazyLoad>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["equitable-image"]}
@@ -266,6 +274,7 @@ class HomePage extends React.Component {
                         <img src={equitableIcon} alt="" />
                       </button>
                     </div>
+                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
@@ -349,10 +358,12 @@ class HomePage extends React.Component {
         <section className="mt-10 mb-10" data-aos="fade-up" id="rise-city-lab">
           <Container style={{ overflow: 'hidden' }}>
             <div className="rise-lab position-relative">
+              <LazyLoad>
               <div className="rise-lab-graphic">
                 <img src='/rise-city-lab.gif' alt="Engage Engineer Activate" />
                 <div className="circle bg-gradient" />
               </div>
+              </LazyLoad>
 
               <Grid container spacing={6}>
                 <Grid item md={12}>

@@ -919,6 +919,7 @@ section.highlight {
     object-fit: cover;
     display: block;
     aspect-ratio: 1/1;
+    max-height: 300px;
   }
 }
 
@@ -926,13 +927,13 @@ section.highlight {
   .MuiGrid-item {
     &:nth-of-type(3) {
       .labs-item {
-        margin-top: 180px;
+        margin-top: 140px;
       }
     }
 
     &:nth-of-type(4) {
       .labs-item {
-        margin-top: 360px;
+        margin-top: 280px;
       }
     }
   }

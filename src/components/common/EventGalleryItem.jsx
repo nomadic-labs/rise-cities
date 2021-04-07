@@ -6,6 +6,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Hidden from "@material-ui/core/Hidden";
 import ensureAbsoluteUrl from '../../utils/ensureAbsoluteUrl';
+import LazyLoad from 'react-lazyload';
 
 const DEFAULT_IMAGE = '/default-profile-image.jpg'
 
@@ -22,7 +23,9 @@ const EventGalleryItem = ({ id, content={} }) => {
           </Grid>
 
           <Grid item xs={4} sm={3} md={4}>
-            <img src={eventImage} alt="" className="event-image" />
+            <LazyLoad offset={200}>
+              <img src={eventImage} alt="" className="event-image" />
+            </LazyLoad>
           </Grid>
 
           <Grid item xs={8} sm={6} md={5}>
@@ -41,7 +44,9 @@ const EventGalleryItem = ({ id, content={} }) => {
           <a href={ ensureAbsoluteUrl(content.url) } className="event-link">
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <img src={eventImage} alt="" className="event-image" style={{ maxHeight: '220px', objectFit: 'cover' }} />
+                <LazyLoad offset={200}>
+                  <img src={eventImage} alt="" className="event-image" style={{ maxHeight: '220px', objectFit: 'cover' }} />
+                </LazyLoad>
               </Grid>
 
               <Grid item xs={12}>
