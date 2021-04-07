@@ -139,12 +139,13 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
-                    <div data-aos="fade-up" data-aos-delay="750">
+                    <div data-aos="fade-up" data-aos-delay="750" className="landing-image">
                       <EditableImageUpload
                         content={content["landing-image"]}
                         onSave={this.onSave("landing-image")}
                         uploadImage={uploadImage}
                         classes="slide-img"
+                        styles={{ image: { objectFit: 'cover' }}}
                       />
                     </div>
                   </Grid>
@@ -173,6 +174,7 @@ class HomePage extends React.Component {
                           onSave={this.onSave("resilient-image")}
                           uploadImage={uploadImage}
                           classes="slide-img"
+                          styles={{ image: { objectFit: 'cover' }}}
                         />
                         <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                           <img src={resilientIcon} alt="" />
@@ -205,6 +207,7 @@ class HomePage extends React.Component {
                         onSave={this.onSave("intelligent-image")}
                         uploadImage={uploadImage}
                         classes="slide-img"
+                        styles={{ image: { objectFit: 'cover' }}}
                       />
                       <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                         <img src={intelligentIcon} alt="" />
@@ -237,6 +240,7 @@ class HomePage extends React.Component {
                         onSave={this.onSave("sustainable-image")}
                         uploadImage={uploadImage}
                         classes="slide-img"
+                        styles={{ image: { objectFit: 'cover' }}}
                       />
                       <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                         <img src={sustainableIcon} alt="" />
@@ -269,6 +273,7 @@ class HomePage extends React.Component {
                         onSave={this.onSave("equitable-image")}
                         uploadImage={uploadImage}
                         classes="slide-img"
+                        styles={{ image: { objectFit: 'cover' }}}
                       />
                       <button className="rise-icon" onClick={this.play} aria-label="Next slide">
                         <img src={equitableIcon} alt="" />
