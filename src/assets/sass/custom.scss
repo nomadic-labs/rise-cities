@@ -1000,11 +1000,19 @@ blockquote {
 }
 
 #contact-button {
-  &:focus {
-    animation-name: jump;
-    animation-duration: 0.5s;
-    animation-timing-function: ease;
-    animation-iteration-count: 1;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.25);
+  padding: 0.25rem 0.5rem;
+  transition: all 200ms ease-in;
+  z-index: 10;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 2px 5px 8px rgba(0,0,0,0.25);
+  }
+
+  &:focus, &:active {
+    transform: translateY(0);
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
   }
 }
 

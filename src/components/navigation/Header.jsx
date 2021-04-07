@@ -22,7 +22,6 @@ class Header extends React.Component {
 
     if (typeof(window) !== 'undefined') {
       window.onscroll = () => {
-        console.log("scrolling!", document.body.scrollTop)
         if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
           document.getElementById("navbar").classList.add("navbar-small");
         } else {

@@ -20,7 +20,7 @@ const ContactPopup = () => {
     <>
       <button
         id="contact-button"
-        className="btn btn-gradient"
+        className="bg-gradient"
         onClick={() => setIsOpen(true)}
         aria-label="Open contact page"
         style={buttonStyles}>
