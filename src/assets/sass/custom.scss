@@ -999,5 +999,13 @@ blockquote {
   }
 }
 
+#contact-button {
+  &:focus {
+    animation-name: jump;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-iteration-count: 1;
+  }
+}
 
 @import "responsive";

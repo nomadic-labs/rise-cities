@@ -13,7 +13,7 @@ const ParticipantGalleryItem = ({ id, content={} }) => {
 
   return (
     <LazyLoad offset={200}>
-      <button className="participant" onClick={() => setIsOpen(true)}>
+      <button className="participant" onClick={() => setIsOpen(true)} aria-label="Open profile">
         <div className="participant-image">
           <img src={profileImage} alt={content.name}/>
         </div>

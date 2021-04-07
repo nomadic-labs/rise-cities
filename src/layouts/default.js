@@ -10,6 +10,7 @@ import AccountButton from "../components/navigation/AccountButton"
 import Footer from "../components/navigation/Footer"
 import Header from "../components/navigation/Header"
 import CreatePageModal from "../components/editing/CreatePageModal";
+import ContactPopup from "../components/common/ContactPopup";
 
 import {
   EditablesContext,
@@ -114,6 +115,7 @@ class DefaultLayout extends React.Component {
           <Footer { ...props } />
           <CreatePageModal />
         </EditablesContext.Provider>
+        <ContactPopup />
       </div>
     )
   }
