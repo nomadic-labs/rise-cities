@@ -75,7 +75,7 @@ const FeaturedContentPage = ({ data, location }) => {
 
   return (
     <Layout theme="white" location={location}>
-      <section id="articles" data-aos="fade-up" data-aos-delay="500" className="pt-15 pb-15">
+      <section id="articles" data-aos="fade-up" data-aos-delay="500" className="mt-15 pt-15 pb-15">
         <Container>
           <Grid container spacing={6}>
             <Grid item sm={12}>

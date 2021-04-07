@@ -57,42 +57,39 @@ const uiConfig = {
     }
 };
 
-
 class ProtectedPage extends React.Component {
   state = { firebaseAuth: null }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        const ref = firebase
-          .app()
-          .firestore()
-          .collection('users')
-          .doc(user.uid);
+    this.setState({ firebaseAuth: firebase.auth() }, () => {
+      this.state.firebaseAuth.onAuthStateChanged(user => {
+        if (user) {
+          const ref = firebase
+            .app()
+            .firestore()
+            .collection('users')
+            .doc(user.uid);
 
-        ref.get().then(snapshot => {
-          const userData = snapshot.data();
-          if (userData) {
-            this.props.userLoggedIn(userData);
-          } else {
-            const newUser = {
-              uid: user.uid,
-              displayName: user.displayName,
-              email: user.email,
-              photoURL: user.photoURL
-            };
-            ref.set(newUser);
-            this.props.userLoggedIn(newUser);
-          }
-        });
-      } else {
-        this.props.userLoggedOut();
-      }
-
-      if (this.props.showRegistrationModal) {
-        this.props.onToggleRegistrationModal();
-      }
-    });
+          ref.get().then(snapshot => {
+            const userData = snapshot.data();
+            if (userData) {
+              this.props.userLoggedIn(userData);
+            } else {
+              const newUser = {
+                uid: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL
+              };
+              ref.set(newUser);
+              this.props.userLoggedIn(newUser);
+            }
+          });
+        } else {
+          this.props.userLoggedOut();
+        }
+      });
+    })
   }
 
   render () {
@@ -117,10 +114,10 @@ class ProtectedPage extends React.Component {
     }
 
     return (
-      <div style={styles.container}>
-          <h1>Sign up / Sign in</h1>
-          <p>By creating an account you agree to our <a href="https://bmw-foundation.org/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
-          {this.state.firebaseAuth && <FirebaseAuth uiConfig={uiConfig} firebaseAuth={this.state.firebaseAuth} />}
+      <div style={styles.container} className="mb-15">
+        <h1>Sign up / Sign in</h1>
+        <p>By creating an account you agree to our <a href="https://bmw-foundation.org/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
+        {this.state.firebaseAuth && <FirebaseAuth uiConfig={uiConfig} firebaseAuth={this.state.firebaseAuth} />}
       </div>
     )
   }

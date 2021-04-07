@@ -83,8 +83,6 @@ class ArticlePage extends React.Component {
     const sections = content.sections && content.sections.length > 0 ? content.sections : [{ content: [] }];
     const nextPage = this.props.pages[pageData.next];
     const dateString = new Date(parseInt(pageData.date)).toDateString()
-    console.log({ nextPage})
-    console.log({ content})
 
     return (
       <Layout location={this.props.location}>
@@ -97,7 +95,7 @@ class ArticlePage extends React.Component {
           <Container>
             <Grid container spacing={6}>
               <Grid item sm={6}>
-                <div className="display-flex align-center pb-4 mb-4 text-xs"><ArrowBackIcon /><Link to='/#featured' className="pretty-link ml-2">Back to featured content</Link></div>
+                <div className="display-flex align-center pb-4 mb-4 text-xs"><ArrowBackIcon /><Link to='/articles' className="pretty-link ml-2">Explore more content</Link></div>
                 <h1 className="mb-4">{pageData.title}</h1>
                 <p className="text-large mb-4">{pageData.description}</p>
                 {pageData.author && <p className="text-xs text-uppercase text-dark mb-1">{`By ${pageData.author}`}</p>}
