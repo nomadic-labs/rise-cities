@@ -16,7 +16,7 @@ const Footer = () => (
     <div className="bg-light text-black footer-main pt-10 pb-8">
       <Container>
         <Grid container justify="space-between">
-          <Grid item md={3} className="footer-left">
+          <Grid item sm={5} md={4} lg={3} className="footer-left">
             <p className="m-0 text-small">Presented by</p>
             <img src={bmwfLogo} alt="The BMW Foundation Herbert Quandt" className="mt-4 mb-4" style={{ width: '220px'}} />
             <p className="text-small">The BMW Foundation Herbert Quandt promotes responsible leadership and inspires leaders worldwide to work towards a more peaceful, just and sustainable future.</p>
@@ -43,7 +43,7 @@ const Footer = () => (
               </li>
             </ul>
           </Grid>
-          <Grid item md={3} className="footer-right">
+          <Grid item sm={5} md={4} lg={3} className="footer-right">
             <Wordmark style={{ maxWidth: '200px' }} alt="RISE Cities" />
             <a href="mailto:risecities@bmw-foundation.org" className="pretty-link mt-2 text-small">risecities@bmw-foundation.org</a>
           </Grid>

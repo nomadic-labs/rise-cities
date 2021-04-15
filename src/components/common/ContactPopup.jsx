@@ -17,7 +17,7 @@ const ContactPopup = () => {
   const [ isOpen, setIsOpen ] = useState(false)
 
   return (
-    <Container style={{ display: 'flex', 'justify-content': 'flex-end' }}>
+    <Container style={{ display: 'flex', 'justifyContent': 'flex-end' }}>
       <button
         id="contact-button"
         className="bg-gradient"
@@ -26,7 +26,14 @@ const ContactPopup = () => {
         style={buttonStyles}>
         <MailOutlineIcon />
       </button>
-      <Dialog maxWidth="xs" fullWidth open={isOpen} PaperProps={{ square: true }} onClose={() => setIsOpen(false)}>
+      <Dialog
+        maxWidth="xs"
+        fullWidth
+        bottom={50}
+        open={isOpen}
+        PaperProps={{ square: true }}
+        onClose={() => setIsOpen(false)}
+      >
         <img src={image} alt="" style={{ maxHeight: '300px', width: '100%', objectFit: 'cover' }}/>
         <DialogContent className="contact-modal" style={{ paddingBottom: '30px' }}>
           <p className="mt-4 mb-4 font-size-h3">Want to know more about RISE cities?</p>
