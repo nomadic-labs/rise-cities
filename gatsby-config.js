@@ -57,5 +57,13 @@ module.exports = {
         hostname: process.env.GATSBY_HOSTNAME,
       },
     },
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /svgs/
+        }
+      }
+    }
   ]
 };

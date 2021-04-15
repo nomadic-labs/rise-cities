@@ -33,7 +33,7 @@ export const CONTENT_MAP = {
   image: { type: "image" },
   imageCarousel: { type: "imageCarousel", content: {} },
   readings: { type: "readings", content: {} },
-  embeddedIframe: { type: "embeddedIframe" },
+  embeddedIframe: { type: "embeddedIframe", content: { src: "https://www.youtube.com/embed/Hu2iid0p73I", title: "Youtube video player" } },
   timeline: { type: "timeline", content: { alignment: "left" } },
   button: { type: "button", content: { anchor: "Button", link: "/" } },
   link: { type: "link", content: { anchor: "Link text", link: "/" } },

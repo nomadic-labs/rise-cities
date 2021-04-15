@@ -149,6 +149,16 @@ class SectionEditingActions extends React.Component {
 
               <MenuItem
                 onClick={() => {
+                  this.props.onAddContentItem("embeddedIframe")
+                  this.closeMenu()
+                }}
+                divider
+              >
+                Embedded iframe
+              </MenuItem>
+
+              <MenuItem
+                onClick={() => {
                   this.props.onAddContentItem("expandableText")
                   this.closeMenu()
                 }}

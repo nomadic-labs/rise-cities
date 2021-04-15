@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import { Link, navigate } from 'gatsby'
-import logo from "../../assets/images/RISE_logo.svg"
+import Logo from "../../assets/images/svgs/RISE_logo.svg"
 import Container from "@material-ui/core/Container"
 import Hidden from "@material-ui/core/Hidden"
 import Grid from "@material-ui/core/Grid"
@@ -11,7 +11,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuIsOpen: false
+      menuIsOpen: false,
     }
   }
 
@@ -68,13 +68,13 @@ class Header extends React.Component {
 
   render() {
     return (
-      <nav id="navbar" style={{ paddingTop: '15px' }}>
+      <nav id="navbar">
         <Container>
           <Grid container justify="space-between">
             <Grid item>
               <div className="logo">
                 <Link to={'/'} className="display-flex">
-                  <img src={logo} alt="RISE Cities"/>
+                  <Logo />
                 </Link>
               </div>
             </Grid>

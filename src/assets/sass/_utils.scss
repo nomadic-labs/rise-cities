@@ -385,6 +385,12 @@
     -moz-background-clip: text;
     -webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;
+
+    .edit-container {
+      text-fill-color: $secondary-color;
+      -webkit-text-fill-color: $secondary-color;
+      -moz-text-fill-color: $secondary-color;
+    }
   }
   &-green-gradient {
     color: $green;
@@ -537,8 +543,16 @@
   animation: rotation 4s infinite linear;
 }
 
+@mixin rotate-slow {
+  animation: rotation 14s infinite linear;
+}
+
 .rotate {
   @include rotate;
+}
+
+.rotate-slow {
+  @include rotate-slow;
 }
 
 @mixin pretty-link {

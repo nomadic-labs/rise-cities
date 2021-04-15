@@ -32,6 +32,7 @@ import sustainableIcon from "../assets/images/icons/sustainable-icon-32px.svg"
 import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
 import globalIcon from "../assets/images/icons/global-icon-32px.svg"
 import localIcon from "../assets/images/icons/neighbourhood-icon-32px.svg"
+import riseCityLab from "../assets/images/rise-city-lab.jpg"
 
 
 const mapDispatchToProps = dispatch => {
@@ -365,7 +366,7 @@ class HomePage extends React.Component {
             <div className="rise-lab position-relative">
               <LazyLoad>
               <div className="rise-lab-graphic">
-                <img src='/rise-city-lab.gif' alt="Engage Engineer Activate" />
+                <img src={riseCityLab} alt="Engage Engineer Activate" className="rotate-slow" />
                 <div className="circle bg-gradient" />
               </div>
               </LazyLoad>

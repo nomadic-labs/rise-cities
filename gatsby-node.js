@@ -14,6 +14,7 @@ exports.createPages = ({ graphql, actions }) => {
                 title
                 description
                 slug
+                externalLink
                 template
                 content
                 category

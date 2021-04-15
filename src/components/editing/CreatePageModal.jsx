@@ -57,6 +57,7 @@ const emptyPage = {
     title: "",
     description: "",
     author: "",
+    externalLink: "",
     category: CATEGORY_OPTIONS[0].value,
     content: defaultContentJSON,
     template: PAGE_TYPES[0].value.template,
@@ -204,6 +205,16 @@ class CreatePageModal extends React.Component {
               label={"Author (optional)"}
               value={this.state.page.author}
               onChange={e => this.updatePage("author", e.currentTarget.value)}
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <TextField
+              className="form-control"
+              type="text"
+              label={"External link (optional)"}
+              value={this.state.page.externalLink}
+              onChange={e => this.updatePage("externalLink", e.currentTarget.value)}
             />
           </FormControl>
 

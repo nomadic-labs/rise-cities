@@ -91,9 +91,17 @@ body .nl-page {
     display: flex;
     justify-content: space-between;
     z-index: 3;
-    padding-top: 15px;
-    transition: all 400ms ease;
+    padding-top: 10px;
+    padding-bottom: 5px;
+
+    .logo {
+      svg {
+        width: 260px;
+        height: 90px;
+      }
+    }
   }
+
 
   .navbar-items {
     display: flex;
@@ -123,7 +131,7 @@ body .nl-page {
     align-items: center;
     padding: 100px 50px;
     z-index: 2;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.3s linear;
 
     .menu-item {
       font-size: 16px;
@@ -153,10 +161,10 @@ body .nl-page {
       list-style: none;
       padding-left: 0;
       margin: 0;
-      justify-content: flex-end;
+      justify-content: flex-start;
 
       li {
-        margin-left: 10px;
+        margin-right: 10px;
 
         a {
           display: flex;
@@ -185,11 +193,18 @@ body .nl-page {
       }
     }
 
-    .footer-socials {
-      text-align: right;
-
+    .footer-left {
       ul {
         margin-top: 10px;
+      }
+    }
+
+    .footer-right {
+      text-align: right;
+
+      svg {
+        width: 220px;
+        height: 64px;
       }
     }
 
@@ -891,8 +906,8 @@ section.highlight {
 
   img {
     position: absolute;
-    height: 350px;
-    width: 350px;
+    height: 300px;
+    width: 300px;
   }
 
   .circle {

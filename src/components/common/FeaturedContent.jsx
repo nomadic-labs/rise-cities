@@ -4,6 +4,7 @@ import { find } from 'lodash'
 import Masonry from 'react-masonry-component'
 import { StaticQuery, graphql } from "gatsby"
 import LazyLoad from 'react-lazyload';
+import ensureAbsoluteUrl from '../../utils/ensureAbsoluteUrl';
 
 class FeaturedContent extends React.Component {
 
@@ -49,9 +50,15 @@ class FeaturedContent extends React.Component {
                     <img src={content.headerImage.imageSrc} alt="" />
                   }
                   <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
-                  <Link to={page.slug} className="pretty-link">
-                    <h3 className="mb-0 mt-0">{page.title}</h3>
-                  </Link>
+                  {page.externalLink ? (
+                    <a href={ensureAbsoluteUrl(page.externalLink)} className="pretty-link" target="_blank" rel="noopener noreferrer">
+                      <h3 className="mb-0 mt-0">{page.title}</h3>
+                    </a>
+                    ) : (
+                    <Link to={page.slug} className="pretty-link">
+                      <h3 className="mb-0 mt-0">{page.title}</h3>
+                    </Link>
+                  )}
                   <p className="text-xs mt-2">{page.description}</p>
                 </div>
               )
@@ -75,6 +82,7 @@ const Wrapper = () => {
                 title
                 description
                 slug
+                externalLink
                 template
                 content
                 category
