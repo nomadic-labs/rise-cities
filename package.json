@@ -7,6 +7,7 @@
     "node": "12.16.1"
   },
   "dependencies": {
+    "@accessible360/accessible-slick": "^1.0.1",
     "@date-io/date-fns": "^2.10.8",
     "@date-io/luxon": "^2.10.8",
     "@material-ui/core": "^4.11.0",
@@ -33,6 +34,7 @@
     "gatsby-plugin-sass": "^2.1.24",
     "gatsby-source-firebase-nl": "^1.0.2",
     "gatsby-source-firestore": "nomadic-labs/gatsby-source-firestore#master",
+    "jquery": "^3.6.0",
     "jss": "^9.8.7",
     "lodash": "^4.17.4",
     "luxon": "^1.26.0",
@@ -47,9 +49,10 @@
     "react-lazyload": "^3.2.0",
     "react-masonry-component": "^6.2.1",
     "react-redux": "latest",
+    "react-responsive-carousel": "^3.2.18",
     "react-select": "^4.3.0",
     "react-share": "^4.0.1",
-    "react-slick": "^0.25.2",
+    "react-slick": "^0.28.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "slick-carousel": "^1.8.1",

@@ -122,7 +122,9 @@ body .nl-page {
   .menu {
     width: 100vw;
     height: 100vh;
-    background-color: $gray-500;
+    width: 100%;
+    height: 100%;
+    background-color: $gray-600;
     flex-direction: column;
     display: none;
     position: fixed;
@@ -139,8 +141,9 @@ body .nl-page {
       padding-bottom: 0;
       transition: 100ms;
       text-decoration: none;
-      color: $white;
       margin-bottom: 24px;
+      @include pretty-link;
+      color: $white;
     }
 
     &.is-active {
@@ -255,11 +258,44 @@ body .nl-page {
 
       .rise-icon {
         position: absolute;
-        height: 100px;
-        width: 100px;
-        left: -50px;
+        height: 110px;
+        width: 110px;
+        left: -55px;
         border: none;
-        background: transparent;
+        background: $white;
+        border-radius: 100px;
+        padding: 10px;
+        /*box-shadow: inset 0 0 0 2px $primary-color;*/
+      }
+    }
+
+    .carousel {
+      &.carousel-slider {
+        overflow: unset;
+      }
+
+      .control-dots {
+        bottom: -60px;
+
+        .dot {
+          height: 30px;
+          width: 30px;
+          border-radius: 0;
+          display: inline-flex;
+          justify-content: center;
+          align-content: center;
+          line-height: 1.5;
+          box-shadow: none;
+          opacity: 1;
+
+          &:hover {
+            background: $primary-color;
+          }
+
+          &.selected {
+            border: 2px solid $primary-color;
+          }
+        }
       }
     }
 
@@ -316,6 +352,12 @@ body .nl-page {
           animation-timing-function: ease;
           animation-iteration-count: 1;
         }
+      }
+    }
+
+    .carousel {
+      .slide {
+        text-align: left;
       }
     }
   }

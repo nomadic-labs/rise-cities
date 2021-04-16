@@ -337,7 +337,7 @@
     color: $black;
   }
   &-white {
-    color: $white;
+    color: $white !important;
   }
   &-light {
     color: $light-gray;

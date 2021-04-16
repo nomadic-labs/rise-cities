@@ -91,7 +91,7 @@ class Header extends React.Component {
               </Hidden>
               <Hidden mdUp>
                 <div className='navbar-items'>
-                  <a className='navbar-item menu-item' href="#menu" onClick={this.toggleMenu}>{this.state.menuIsOpen ? 'Close' : 'Menu'}</a>
+                  <a className={`navbar-item menu-item ${this.state.menuIsOpen ? 'text-white' : ''}`} href="#menu" onClick={this.toggleMenu}>{this.state.menuIsOpen ? 'Close' : 'Menu'}</a>
                   {
                     this.container && ReactDOM.createPortal(this.menu(), this.container)
                   }

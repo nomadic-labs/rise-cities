@@ -4,8 +4,12 @@ import { connect } from "react-redux";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import $ from 'jquery'
 import Slider from "react-slick";
 import LazyLoad from 'react-lazyload';
+
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 
 import {
   EditableText,
@@ -32,7 +36,9 @@ import sustainableIcon from "../assets/images/icons/sustainable-icon-32px.svg"
 import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
 import globalIcon from "../assets/images/icons/global-icon-32px.svg"
 import localIcon from "../assets/images/icons/neighbourhood-icon-32px.svg"
-import riseCityLab from "../assets/images/rise-city-lab.jpg"
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 const mapDispatchToProps = dispatch => {
@@ -64,56 +70,49 @@ class HomePage extends React.Component {
       ...this.props.data.pages,
       content: JSON.parse(this.props.data.pages.content)
     };
-
     this.props.onLoadPageData(initialPageData);
-    this.slider = React.createRef()
+    this.state = {
+      selectedItem: 0
+    }
   }
 
   onSave = id => content => {
     this.props.onUpdatePageContent(id, content);
   };
 
-  play = () => {
-    this.slider.current.slickNext();
-  }
-
   render() {
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
     const sliderSettings = {
-      infinite: true,
-      speed: 350,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrows: false,
-      dots: true,
-      appendDots: dots => (
-        <div
-          style={{
-            padding: "10px",
-            bottom: "-50px"
+      emulateTouch: true,
+      swipeable: true,
+      useKeyboardArrows: true,
+      infiniteLoop: true,
+      showStatus: true,
+      showThumbs: false,
+      selectedItem: this.state.selectedItem,
+      onChange: (i) => this.setState({ selectedItem: i }),
+      renderIndicator: ( clickHandler, isSelected, index, label ) => (
+        <li
+          role="button"
+          aria-label={`Slide number ${index + 1}`}
+          className={`dot ${isSelected ? 'selected' : ''}`}
+          onClick={clickHandler}
+          onKeyDown={e => {
+            if (e.key === "Enter") {
+              clickHandler()
+            }
           }}
+          tabIndex={0}
         >
-          <ul style={{ margin: "0", padding: "0" }}> {dots} </ul>
-        </div>
-      ),
-      customPaging: i => (
-        <div
-          style={{
-            width: "30px",
-            color: "inherit",
-            padding: "4px 8px",
-            fontSize: '14px'
-          }}
-        >
-          {i + 1}
-        </div>
+          {`${index + 1}`}
+        </li>
       )
     };
 
     return (
       <Layout theme="white" location={this.props.location}>
         <section id="landing" data-aos="fade-up" data-aos-delay="500" className="pt-15 pb-15">
-          <Slider ref={this.slider} {...sliderSettings}>
+          <Carousel {...sliderSettings}>
             <div className="landing-slide">
               <Container>
                 <Grid container spacing={6}>
@@ -131,7 +130,7 @@ class HomePage extends React.Component {
                           <EditableText content={content["landing-subtitle"]} onSave={this.onSave("landing-subtitle")} />
                         </div>
                         <div className="">
-                          <button className="btn" onClick={this.play} aria-label="Next slide">
+                          <button className="btn" aria-label="Next slide" onClick={() => this.setState({ selectedItem: 1 })}>
                             <span className="mr-1">What is RISE Cities?</span>
                             <ArrowForwardIcon />
                           </button>
@@ -177,9 +176,9 @@ class HomePage extends React.Component {
                           classes="slide-img"
                           styles={{ image: { objectFit: 'cover' }}}
                         />
-                        <button className="rise-icon" onClick={this.play} aria-label="Next slide">
+                        <div className="rise-icon" aria-label="Next slide">
                           <img src={resilientIcon} alt="" />
-                        </button>
+                        </div>
                       </div>
                     </LazyLoad>
                   </Grid>
@@ -210,9 +209,9 @@ class HomePage extends React.Component {
                         classes="slide-img"
                         styles={{ image: { objectFit: 'cover' }}}
                       />
-                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
+                      <div className="rise-icon" aria-label="Next slide">
                         <img src={intelligentIcon} alt="" />
-                      </button>
+                      </div>
                     </div>
                     </LazyLoad>
                   </Grid>
@@ -243,9 +242,9 @@ class HomePage extends React.Component {
                         classes="slide-img"
                         styles={{ image: { objectFit: 'cover' }}}
                       />
-                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
+                      <div className="rise-icon" aria-label="Next slide">
                         <img src={sustainableIcon} alt="" />
-                      </button>
+                      </div>
                     </div>
                     </LazyLoad>
                   </Grid>
@@ -276,16 +275,16 @@ class HomePage extends React.Component {
                         classes="slide-img"
                         styles={{ image: { objectFit: 'cover' }}}
                       />
-                      <button className="rise-icon" onClick={this.play} aria-label="Next slide">
+                      <div className="rise-icon" aria-label="Next slide">
                         <img src={equitableIcon} alt="" />
-                      </button>
+                      </div>
                     </div>
                     </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
             </div>
-          </Slider>
+          </Carousel>
         </section>
 
         <Container><div className="fancy-border" data-aos="flip-right" /></Container>
@@ -366,7 +365,7 @@ class HomePage extends React.Component {
             <div className="rise-lab position-relative">
               <LazyLoad>
               <div className="rise-lab-graphic">
-                <img src={riseCityLab} alt="Engage Engineer Activate" className="rotate-slow" />
+                <img src='/rise-city-lab.gif' alt="Engage Engineer Activate" />
                 <div className="circle bg-gradient" />
               </div>
               </LazyLoad>

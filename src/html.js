@@ -11,6 +11,7 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" />
         {props.headComponents}
         <style type="text/css">{`
             @keyframes rotation {

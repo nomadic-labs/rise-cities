@@ -67,6 +67,9 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions, getConfig }) => {
           },
         ],
       },
+      externals: {
+        "jquery": "jQuery"
+      }
     })
   }
 }
