@@ -4,11 +4,8 @@ import { connect } from "react-redux";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import $ from 'jquery'
-import Slider from "react-slick";
 import LazyLoad from 'react-lazyload';
 
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 
 import {
@@ -36,10 +33,9 @@ import sustainableIcon from "../assets/images/icons/sustainable-icon-32px.svg"
 import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
 import globalIcon from "../assets/images/icons/global-icon-32px.svg"
 import localIcon from "../assets/images/icons/neighbourhood-icon-32px.svg"
+import riseCityLab from "../assets/images/rise-city-lab.png"
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -87,7 +83,7 @@ class HomePage extends React.Component {
       swipeable: true,
       useKeyboardArrows: true,
       infiniteLoop: true,
-      showStatus: true,
+      showStatus: false,
       showThumbs: false,
       selectedItem: this.state.selectedItem,
       onChange: (i) => this.setState({ selectedItem: i }),
@@ -363,18 +359,18 @@ class HomePage extends React.Component {
         <section className="mt-10 mb-10" data-aos="fade-up" id="rise-city-lab">
           <Container style={{ overflow: 'hidden' }}>
             <div className="rise-lab position-relative">
-              <LazyLoad>
-              <div className="rise-lab-graphic">
-                <img src='/rise-city-lab.gif' alt="Engage Engineer Activate" />
-                <div className="circle bg-gradient" />
-              </div>
-              </LazyLoad>
 
               <Grid container spacing={6}>
                 <Grid item md={12}>
                   <h2 className="text-black">
                     <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
                   </h2>
+                  <LazyLoad>
+                    <div className="rise-lab-graphic">
+                      <img src={riseCityLab} alt="Engage Engineer Activate" className="rotate-slow" />
+                      <div className="circle bg-gradient" />
+                    </div>
+                  </LazyLoad>
                 </Grid>
                 <Grid item md={4}>
                   <div className="labs-item" data-aos="fade-up">
@@ -424,7 +420,9 @@ class HomePage extends React.Component {
               <EditableText content={content["participants-title"]} onSave={this.onSave("participants-title")} />
             </h2>
 
-            <ParticipantGallery content={content["participants-collection"]} onSave={this.onSave("participants-collection")} />
+            <LazyLoad offset={200}>
+              <ParticipantGallery content={content["participants-collection"]} onSave={this.onSave("participants-collection")} />
+            </LazyLoad>
           </Container>
         </section>
 
@@ -436,7 +434,9 @@ class HomePage extends React.Component {
               <EditableText content={content["partners-title"]} onSave={this.onSave("partners-title")} />
             </h2>
 
-            <PartnerGallery content={content["partners-collection"]} onSave={this.onSave("partners-collection")} />
+            <LazyLoad offset={200}>
+              <PartnerGallery content={content["partners-collection"]} onSave={this.onSave("partners-collection")} />
+            </LazyLoad>
           </Container>
         </section>
 

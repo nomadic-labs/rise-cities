@@ -236,14 +236,15 @@
 
     .rise-lab {
       /*overflow: hidden;*/
-      padding-top: 100px;
+      /*padding-top: 100px;*/
 
       .rise-lab-graphic {
         top: 0;
-        right: -80px;
-        width: 200px;
-        height: 200px;
+        right: 0;
+        width: 150px;
+        height: 150px;
         overflow: hidden;
+        margin-top: 50px;
 
         img {
           height: inherit;
@@ -356,6 +357,12 @@
             object-fit: cover;
           }
         }
+      }
+    }
+
+    .rise-lab {
+      h2 {
+        padding-bottom: 50px;
       }
     }
 

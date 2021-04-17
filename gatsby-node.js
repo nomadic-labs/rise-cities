@@ -65,10 +65,11 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions, getConfig }) => {
             test: /react-rte/,
             use: loaders.null(),
           },
+          {
+            test: /react-rte/,
+            use: loaders.null(),
+          },
         ],
-      },
-      externals: {
-        "jquery": "jQuery"
       }
     })
   }

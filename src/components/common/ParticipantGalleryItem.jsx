@@ -3,7 +3,6 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Grid from "@material-ui/core/Grid";
 import EmailIcon from '@material-ui/icons/Email';
-import LazyLoad from 'react-lazyload';
 
 const DEFAULT_IMAGE = '/default-profile-image.jpg'
 
@@ -12,7 +11,7 @@ const ParticipantGalleryItem = ({ id, content={} }) => {
   const profileImage = content.image?.imageSrc || DEFAULT_IMAGE
 
   return (
-    <LazyLoad offset={200}>
+    <>
       <button className="participant" onClick={() => setIsOpen(true)} aria-label="Open profile">
         <div className="participant-image">
           <img src={profileImage} alt={content.name}/>
@@ -50,7 +49,7 @@ const ParticipantGalleryItem = ({ id, content={} }) => {
           </Grid>
         </DialogContent>
       </Dialog>
-    </LazyLoad>
+    </>
   );
 };
 
