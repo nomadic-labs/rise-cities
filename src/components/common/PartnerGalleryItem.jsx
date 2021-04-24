@@ -8,7 +8,7 @@ const PartnerGalleryItem = ({ id, content={} }) => {
 
   return (
     <div className="partner">
-      <a className="partner-link pretty-link" href={ensureAbsoluteUrl(content.url)}>
+      <a className="partner-link pretty-link" href={ensureAbsoluteUrl(content.url)} target="_blank" rel="noopener noreferrer">
         <div className="partner-image">
           <img src={partnerImage} alt={content.name}/>
         </div>

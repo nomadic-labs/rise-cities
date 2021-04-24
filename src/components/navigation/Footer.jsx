@@ -44,8 +44,12 @@ const Footer = () => (
             </ul>
           </Grid>
           <Grid item sm={5} md={4} lg={3} className="footer-right">
-            <Wordmark style={{ maxWidth: '200px' }} alt="RISE Cities" />
-            <a href="mailto:risecities@bmw-foundation.org" className="pretty-link mt-2 text-small">risecities@bmw-foundation.org</a>
+            <Wordmark style={{ maxWidth: '200px', width: '220px', height: "64px" }} alt="RISE Cities" />
+            <a href={`mailto:risecities@bmw-foundation.org`} target="_blank" rel="noopener noreferrer" className="pretty-link">
+              <div className="display-flex align-center text-normal mt-2">
+                <EmailIcon /><span className="ml-2">risecities@bmw-foundation.org</span>
+              </div>
+            </a>
           </Grid>
         </Grid>
       </Container>

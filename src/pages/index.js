@@ -3,6 +3,7 @@ import { graphql, Link } from "gatsby";
 import { connect } from "react-redux";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import LazyLoad from 'react-lazyload';
 
@@ -17,6 +18,7 @@ import {
 import {
   updatePageContent,
   loadPageData,
+  toggleNewPageModal
 } from "../redux/actions";
 
 import { uploadFile as uploadImage } from '../aws/operations';
@@ -44,6 +46,9 @@ const mapDispatchToProps = dispatch => {
     },
     onLoadPageData: data => {
       dispatch(loadPageData(data));
+    },
+    toggleNewPageModal: () => {
+      dispatch(toggleNewPageModal());
     },
   };
 };
@@ -104,6 +109,8 @@ class HomePage extends React.Component {
         </li>
       )
     };
+
+    console.log("content", content)
 
     return (
       <Layout theme="white" location={this.props.location}>
@@ -290,7 +297,19 @@ class HomePage extends React.Component {
             <h2 className="text-black">
               <EditableText content={content["featured-content-title"]} onSave={this.onSave("featured-content-title")} />
             </h2>
-
+            {
+              this.props.isEditingPage &&
+              <div className="row mt-6 mb-4">
+                <div className="col-12">
+                  <Button
+                    onClick={this.props.toggleNewPageModal}
+                    color="default"
+                    variant="contained">
+                    Add new page
+                  </Button>
+                </div>
+              </div>
+            }
             <FeaturedContent />
 
             <div className="">
@@ -361,17 +380,19 @@ class HomePage extends React.Component {
             <div className="rise-lab position-relative">
 
               <Grid container spacing={6}>
-                <Grid item md={12}>
+                <Grid item xs={12} md={7} lg={8}>
+                  <div className="rise-lab-graphic">
+                    <img src={riseCityLab} alt="Engage Engineer Activate" className="rotate-slow" />
+                    <div className="circle bg-gradient" />
+                  </div>
                   <h2 className="text-black">
                     <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
                   </h2>
-                  <LazyLoad>
-                    <div className="rise-lab-graphic">
-                      <img src={riseCityLab} alt="Engage Engineer Activate" className="rotate-slow" />
-                      <div className="circle bg-gradient" />
-                    </div>
-                  </LazyLoad>
+                  <EditableParagraph content={content["labs-intro"]} onSave={this.onSave("labs-intro")} />
                 </Grid>
+              </Grid>
+
+              <Grid container spacing={6} id="stagger">
                 <Grid item md={4}>
                   <div className="labs-item" data-aos="fade-up">
                     <h3 className="text-uppercase mb-2 mt-0"><EditableText content={content["engage-title"]} onSave={this.onSave("engage-title")} /></h3>

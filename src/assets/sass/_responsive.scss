@@ -239,12 +239,15 @@
       /*padding-top: 100px;*/
 
       .rise-lab-graphic {
-        top: 0;
-        right: 0;
+        position: relative;
+        float: right;
+        background-origin: 150px;
+        shape-outside: circle();
         width: 150px;
         height: 150px;
         overflow: hidden;
-        margin-top: 50px;
+        margin: 10px;
+        margin-top: 20px;
 
         img {
           height: inherit;
@@ -256,15 +259,17 @@
           width: 90px;
         }
       }
+    }
 
+    #stagger {
       .MuiGrid-item {
-        &:nth-of-type(3) {
+        &:nth-of-type(2) {
           .labs-item {
             margin-top: 0;
           }
         }
 
-        &:nth-of-type(4) {
+        &:nth-of-type(3) {
           .labs-item {
             margin-top: 0;
           }
@@ -357,12 +362,6 @@
             object-fit: cover;
           }
         }
-      }
-    }
-
-    .rise-lab {
-      h2 {
-        padding-bottom: 50px;
       }
     }
 

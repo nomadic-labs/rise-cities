@@ -27,16 +27,17 @@ const ParticipantGalleryItem = ({ id, content={} }) => {
         <DialogContent className="participant-modal">
           <Grid container>
             <Grid item xs={12} sm={4}>
-              <img src={profileImage} alt={content.name} className="participant-image-lg" />
+              <div className="p-4 pr-0">
+                <img src={profileImage} alt={content.name} className="participant-image-lg" />
+              </div>
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={8} style={{ display: 'flex', 'align-items': 'flex-end'}}>
               <div className="p-4">
                 <h3 className="font-size-h2 mb-1 mt-0">{content.name}</h3>
                 <p className="participant-affiliate-organization">{content.role}</p>
-                <p>{content.bio}</p>
                 {
                   (content.email) &&
-                  <div className="links mt-5 mb-5">
+                  <div className="links mt-5 mb-0">
                     <a href={`mailto:${content.email}`} target="_blank" rel="noopener noreferrer" className="pretty-link">
                       <div className="display-flex align-center text-normal text-small">
                         <EmailIcon /><span className="ml-2">{content.email}</span>
@@ -44,6 +45,13 @@ const ParticipantGalleryItem = ({ id, content={} }) => {
                     </a>
                   </div>
                 }
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12}>
+              <div className="p-4 pt-0">
+                <p>{content.bio}</p>
               </div>
             </Grid>
           </Grid>
