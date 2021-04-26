@@ -14185,15 +14185,15 @@ react-dom@^16.8.0:
     prop-types "^15.6.2"
     scheduler "^0.18.0"
 
-react-easy-editables@^0.8.14:
-  version "0.8.15"
-  resolved "https://registry.yarnpkg.com/react-easy-editables/-/react-easy-editables-0.8.15.tgz#7be4bcb1c02038c200fcf42a5cc6b34a997f5740"
-  integrity sha512-y0SyDzAfiPr3zZzLTpPgsWXHLMS7upHnN27gkAS196ayo5PzyNfa0n3rWUXZMtsLKU6LD2t3mlgTCDiB+EKGlA==
+react-easy-editables@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/react-easy-editables/-/react-easy-editables-0.9.2.tgz#68d75e6756638873c8d6c0999ff7a228c108a71d"
+  integrity sha512-fey5E1q5v4cf9X+5TkXabrqWTQ72ZvvtSlMs1mSO3GurNp/BMIgvNgqLmvKkTy/FajPwO3LbqDYJKI3OPoWXcA==
   dependencies:
     react-gsheets-timeline "^0.5.4"
     react-image-lightbox "^5.1.0"
     react-onclickoutside "^6.9.0"
-    react-rte "^0.16.1"
+    react-rte "^0.16.3"
 
 react-easy-swipe@^0.0.21:
   version "0.0.21"
@@ -14361,10 +14361,10 @@ react-responsive-carousel@^3.2.18:
     prop-types "^15.5.8"
     react-easy-swipe "^0.0.21"
 
-react-rte@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/react-rte/-/react-rte-0.16.1.tgz#e345664c87e992d15ec053b406f51ffac6e86622"
-  integrity sha512-CD5kf+6CHqOgJ1yB0i9tkMMch13wOXW5/FQx60gb7nzhXC1ZeFJjtW9dYfCVlfw1AvksHf+lMmKTjhIwyfZR7w==
+react-rte@^0.16.3:
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/react-rte/-/react-rte-0.16.3.tgz#27a069800a281b57c35b063c0e53eb04657af08f"
+  integrity sha512-IDZtdd+jjtd8zqrlEeO+DdujANdM9cy7o5AAKKzcSoW77r7U5PVicpkuWu5as3rzWRqlfQqPpjXq/PEFTRTmNA==
   dependencies:
     babel-runtime "^6.23.0"
     class-autobind "^0.1.4"
