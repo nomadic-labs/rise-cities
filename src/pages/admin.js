@@ -11,6 +11,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { push, Link } from 'gatsby'
+import { firestore } from "../firebase/init";
 
 import Layout from '../layouts/default';
 import ProtectedPage from "../layouts/protected-page"
@@ -21,7 +22,6 @@ import {
   fetchPages,
   fetchUsers,
   fetchBrowserNotifications,
-  updateFirebaseData,
   deploy,
   userLoggedOut,
   showNotification,
@@ -31,9 +31,6 @@ import {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateFirebaseData: (data, callback, msg) => {
-      dispatch(updateFirebaseData(data, callback, msg))
-    },
     fetchPages: () => {
       dispatch(fetchPages())
     },
@@ -49,8 +46,8 @@ const mapDispatchToProps = dispatch => {
     userLoggedOut: () => {
       dispatch(userLoggedOut());
     },
-    showNotification: () => {
-      dispatch(showNotification());
+    showNotification: (msg) => {
+      dispatch(showNotification(msg));
     },
     deleteAccount: () => {
       dispatch(deleteAccount());
@@ -102,53 +99,68 @@ class AdminPage extends React.Component {
     return this.orderedPages(this.nextPage(page), arr)
   }
 
-  movePageForward = currentPage => () => {
+  movePageForward = currentPage => async () => {
     if (!currentPage.next) return false;
 
     const nextPage = this.nextPage(currentPage)
     const prevPage = this.prevPage(currentPage)
 
-    let dataToUpdate = {
-      [`pages/${currentPage.id}/next`]: nextPage.next || null,
-      [`pages/${nextPage.id}/next`]: currentPage.id,
-    }
+    const db = firestore
+    const batch = db.batch();
 
-    if (currentPage.head) {
-      dataToUpdate[`pages/${nextPage.id}/head`] = true
-      dataToUpdate[`pages/${currentPage.id}/head`] = null
-    }
+    try {
+      batch.update(db.collection('pages').doc(currentPage.id), { next: nextPage.next || null })
+      batch.update(db.collection('pages').doc(nextPage.id), { next: currentPage.id })
 
-    if (prevPage) {
-      dataToUpdate[`pages/${prevPage.id}/next`] = nextPage.id
-    }
+      if (currentPage.head) {
+        batch.update(db.collection('pages').doc(nextPage.id), { head: true })
+        batch.update(db.collection('pages').doc(currentPage.id), { head: null })
+      }
 
-    this.props.updateFirebaseData(dataToUpdate, this.props.fetchPages)
+      if (prevPage) {
+        batch.update(db.collection('pages').doc(prevPage.id), { next: nextPage.id })
+      }
+
+      await batch.commit();
+      this.props.showNotification('Your changes have been saved.')
+      this.props.fetchPages();
+    } catch (err) {
+      console.log(err)
+      this.props.showNotification('There was an error saving your changes, please try again.')
+    }
   }
 
-  movePageBack = currentPage => () => {
+  movePageBack = currentPage => async () => {
     const prevPage = this.prevPage(currentPage)
     if (!prevPage) return false
 
     const prevPrevPage = this.prevPage(prevPage)
+    const db = firestore
+    const batch = db.batch();
 
-    let dataToUpdate = {
-      [`pages/${currentPage.id}/next`]: prevPage.id,
-      [`pages/${prevPage.id}/next`]: currentPage.next || null,
+    try {
+      batch.update(db.collection('pages').doc(currentPage.id), { next: prevPage.id })
+      batch.update(db.collection('pages').doc(prevPage.id), { next: currentPage.next || null })
+
+      if (prevPage.head) {
+        batch.update(db.collection('pages').doc(currentPage.id), { head: true })
+        batch.update(db.collection('pages').doc(prevPage.id), { head: null })
+      }
+
+      if (prevPrevPage) {
+        batch.update(db.collection('pages').doc(prevPrevPage.id), { next: currentPage.id })
+      }
+
+      await batch.commit();
+      this.props.showNotification('Your changes have been saved.')
+      this.props.fetchPages();
+    } catch (err) {
+      console.log(err)
+      this.props.showNotification('There was an error saving your changes, please try again.')
     }
-
-    if (prevPage.head) {
-      dataToUpdate[`pages/${currentPage.id}/head`] = true
-      dataToUpdate[`pages/${prevPage.id}/head`] = null
-    }
-
-    if (prevPrevPage) {
-      dataToUpdate[`pages/${prevPrevPage.id}/next`] = currentPage.id
-    }
-
-    this.props.updateFirebaseData(dataToUpdate, this.props.fetchPages)
   }
 
-  deletePage = page => () => {
+  deletePage = page => async () => {
     if (typeof window !== 'undefined')  {
       if (!window.confirm("Are you sure you want to delete this page?")) {
         return false
@@ -157,33 +169,28 @@ class AdminPage extends React.Component {
       const prevPage = this.prevPage(page)
       const nextPage = this.nextPage(page)
 
-      let dataToUpdate = {
-        [`pages/${page.id}`]: null,
-      }
+      const db = firestore
+      const batch = db.batch();
 
-      if (prevPage) {
-        dataToUpdate[`pages/${prevPage.id}/next`] = page.next || null
-      }
+      try {
+        batch.delete(db.collection('pages').doc(page.id))
 
-      if (page.head && nextPage) {
-        dataToUpdate[`pages/${nextPage.id}/head`] = true
-      }
+        if (prevPage) {
+          batch.update(db.collection('pages').doc(prevPage.id), { next: page.next || null })
+        }
 
-      if (page.translations) {
-        Object.keys(page.translations).forEach(lang => {
-          if (page.translations[lang]) {
-            const translatedPageId = page.translations[lang].id
-            dataToUpdate[`pages/${translatedPageId}/translations/${page.lang}`] = null
-          }
-        })
+        if (page.head && nextPage) {
+          batch.update(db.collection('pages').doc(nextPage.id), { head: true })
+        }
+
+        await batch.commit();
+        this.props.showNotification('Your changes have been saved.')
+        this.props.fetchPages();
+      } catch (err) {
+        console.log(err)
+        this.props.showNotification('There was an error saving your changes, please try again.')
       }
-      this.props.updateFirebaseData(dataToUpdate, this.props.fetchPages)
     }
-  }
-
-  onSaveTranslationChanges = (translation, translationId, lang) => newContent => {
-    const newTranslation = { ...translation, [lang]: newContent.text, id: translationId }
-    this.props.updateTranslation(newTranslation)
   }
 
   logout = e => {
@@ -191,12 +198,16 @@ class AdminPage extends React.Component {
     push("/");
   };
 
-  assignEditor = (user) => {
-    this.props.updateFirebaseData({ [`users/${user.uid}/isEditor`]: true }, this.props.fetchUsers, `${user.displayName} is now an Editor on this website.`)
+  assignEditor = async (user) => {
+    await firestore.collection('users').doc(user.uid).update({ isEditor: true })
+    this.props.fetchUsers()
+    this.props.showNotification(`${user.displayName} is now an Editor on this website.`)
   }
 
-  removeEditor = (user) => {
-    this.props.updateFirebaseData({ [`users/${user.uid}/isEditor`]: false }, this.props.fetchUsers, `${user.displayName} is no longer an Editor on this website.`)
+  removeEditor = async (user) => {
+    await firestore.collection('users').doc(user.uid).update({ isEditor: false })
+    this.props.fetchUsers()
+    this.props.showNotification(`${user.displayName} is no longer an Editor on this website.`)
   }
 
   render() {
@@ -204,7 +215,7 @@ class AdminPage extends React.Component {
     const articlePages = this.orderedPages(find(this.props.pages, page => page.head))
 
     return(
-      <Layout theme="white" className="admin-page mt-15 pt-15">
+      <Layout theme="white" className="admin-page">
         <ProtectedPage>
           <Container>
             <h1 className="">

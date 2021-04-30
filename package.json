@@ -74,7 +74,8 @@
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy:aws": "GATSBY_ACTIVE_ENV=production gatsby build && gatsby-plugin-s3 deploy -y",
-    "deploy": "gatsby-plugin-s3 deploy -y"
+    "deploy": "gatsby-plugin-s3 deploy -y",
+    "clean": "gatsby clean"
   },
   "devDependencies": {
     "autoprefixer": "^9.7.5",
