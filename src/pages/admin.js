@@ -226,7 +226,7 @@ class AdminPage extends React.Component {
     const articlePages = this.orderedPages(find(this.props.pages, page => page.head))
 
     return(
-      <Layout theme="white" className="admin-page">
+      <Layout theme="white" className="admin-page lg:mt-10 lg:pt-10">
         <ProtectedPage>
           <Container>
             <h1 className="">
