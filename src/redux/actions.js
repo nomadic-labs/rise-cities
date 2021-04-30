@@ -833,3 +833,28 @@ export function removePartner(partnerId) {
       })
   };
 }
+
+
+// ADMIN ----------------
+
+export function setUsers(users) {
+  return { type: "SET_USERS", users }
+}
+
+export function fetchUsers() {
+  return (dispatch, getState) => {
+    const db = firestore
+
+    db.collection(`users`)
+      .get()
+      .then(snap => {
+        const users = snap.docs.map(d => ({ ...d.data(), id: d.id }))
+        if (users) {
+          dispatch(setUsers(users));
+        }
+      })
+      .catch(error => {
+        console.log("Error fetching users", error)
+      })
+  };
+}

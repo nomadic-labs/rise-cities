@@ -71,6 +71,17 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     this.props.fetchPages()
+    if (this.props.user?.isAdmin) {
+      this.props.fetchUsers()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.user !== this.props.user) {
+      if (this.props.user?.isAdmin) {
+        this.props.fetchUsers()
+      }
+    }
   }
 
   nextPage = page => {

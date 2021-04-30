@@ -4,7 +4,7 @@ import { appReducers } from './reducers'
 import thunk from 'redux-thunk';
 
 const initialState = {
-  adminTools: { isLoggedIn: false, isEditingPage: false },
+  adminTools: { isLoggedIn: false, isEditingPage: false, users: [] },
   navigation: { currentLang: "en" },
   pages: { pages: {}, orderedPages: [] },
   profiles: { profiles: [] },
