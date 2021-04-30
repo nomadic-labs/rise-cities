@@ -35,7 +35,7 @@ import sustainableIcon from "../assets/images/icons/sustainable-icon-32px.svg"
 import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
 import globalIcon from "../assets/images/icons/global-icon-32px.svg"
 import localIcon from "../assets/images/icons/neighbourhood-icon-32px.svg"
-import riseCityLab from "../assets/images/rise-city-lab.png"
+import RiseCityLab from "../assets/images/svgs/rise-city-lab.svg"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -382,7 +382,7 @@ class HomePage extends React.Component {
               <Grid container spacing={6}>
                 <Grid item xs={12} md={7} lg={8}>
                   <div className="rise-lab-graphic">
-                    <img src={riseCityLab} alt="Engage Engineer Activate" className="rotate-slow" />
+                    <RiseCityLab alt="Engage Engineer Activate" className="rotate-slow" />
                     <div className="circle bg-gradient" />
                   </div>
                   <h2 className="text-black">

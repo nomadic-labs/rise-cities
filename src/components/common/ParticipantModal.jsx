@@ -69,6 +69,7 @@ class ParticipantModal extends React.Component {
 
     const data = {
       ...newParticipant,
+      date: Date.now(),
       id
     }
 

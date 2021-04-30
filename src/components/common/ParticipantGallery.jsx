@@ -71,7 +71,22 @@ class ParticipantGallery extends React.Component {
   render() {
     const { showModal, editingParticipant, itemsToShow } = this.state;
     const profiles = Object.keys(this.props.content).map(key => this.props.content[key])
-    const orderedProfiles = profiles.sort((a,b) => a.name.localeCompare(b.name))
+    const orderedProfiles = profiles.sort((a,b) => {
+      if (a.date && b.date) {
+        return b.date - a.date
+      }
+
+      if (a.date && !b.date) {
+        return -1
+      }
+
+      if (b.date && !a.date) {
+        return 1
+      }
+
+      return a.name.localeCompare(b.name)
+    })
+
     const profilesToShow = orderedProfiles.slice(0, itemsToShow)
     const totalItems = profiles.length
     const slidesToShow = totalItems >= DEFAULT_SLIDES ? DEFAULT_SLIDES : totalItems
