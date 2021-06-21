@@ -14,7 +14,7 @@ const EventGalleryItem = ({ id, content={} }) => {
   const eventImage = content.image?.imageSrc || DEFAULT_IMAGE
 
   return (
-    <div className="event">
+    <div className="event pb-5">
       <Hidden xsDown>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={3} md={3}>
@@ -32,10 +32,10 @@ const EventGalleryItem = ({ id, content={} }) => {
             <h3 className="text-uppercase mt-0">
               { content.title }
             </h3>
-            <p>{ content.description }</p>
+            <p className="pre-wrap">{ content.description }</p>
             {
               content.url &&
-              <a className="pretty-link" href={ ensureAbsoluteUrl(content.url) }>More info <span><ArrowForwardIcon style={{ fontSize: 20 }} /></span></a>
+              <a className="pretty-link" href={ ensureAbsoluteUrl(content.url) } target="_blank" rel="noopener noreferrer">More info <span><ArrowForwardIcon style={{ fontSize: 20 }} /></span></a>
             }
           </Grid>
         </Grid>

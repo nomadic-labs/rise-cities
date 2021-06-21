@@ -52,8 +52,8 @@ class EventGallery extends React.Component {
 
   render() {
     const { showModal, editingEvent } = this.state;
-    const events = Object.keys(this.props.content).map(key => this.props.content[key])
-    const orderedEvents = events.sort((a,b) => a.name.localeCompare(b.name))
+    const events = Object.keys(this.props.content).reverse().map(key => this.props.content[key])
+    console.log({events})
 
     return (
       <div id="event-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>
@@ -70,7 +70,7 @@ class EventGallery extends React.Component {
             </div>
           </div>
         }
-        {orderedEvents.map((event,index) => {
+        {events.map((event,index) => {
           return (
             <div
               key={event.id}>

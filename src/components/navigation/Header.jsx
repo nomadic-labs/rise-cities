@@ -23,9 +23,13 @@ class Header extends React.Component {
     if (typeof(window) !== 'undefined') {
       window.onscroll = () => {
         if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-          document.getElementById("navbar").classList.add("navbar-small");
+          if (document.getElementById("navbar")) {
+            document.getElementById("navbar").classList.add("navbar-small");
+          }
         } else {
-          document.getElementById("navbar").classList.remove("navbar-small");
+          if (document.getElementById("navbar")) {
+            document.getElementById("navbar").classList.remove("navbar-small");
+          }
         }
       }
     }
