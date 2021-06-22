@@ -69,7 +69,7 @@ class CreatePageModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: this.props.page,
+      page: this.props.options.new ? emptyPage : this.props.page,
       errors: {},
     };
     this.updatePage = (field, value) => {
