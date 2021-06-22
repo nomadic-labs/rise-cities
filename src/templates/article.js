@@ -82,7 +82,7 @@ class ArticlePage extends React.Component {
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
     const sections = content.sections && content.sections.length > 0 ? content.sections : [{ content: [] }];
     const nextPage = this.props.pages[pageData.next];
-    const dateString = new Date(parseInt(pageData.date)).toDateString()
+    const dateString = pageData.date ? new Date(parseInt(pageData.date)).toDateString() : ""
 
     return (
       <Layout location={this.props.location}>
