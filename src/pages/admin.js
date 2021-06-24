@@ -223,7 +223,8 @@ class AdminPage extends React.Component {
 
   render() {
     const unorderedPages = filter(this.props.pages, page => !page.category || page.category === "uncategorized")
-    const articlePages = this.orderedPages(find(this.props.pages, page => page.head))
+    const articlePages = filter(this.props.pages, page => page.template === "article.js")
+    const orderedArticles = this.orderedPages(find(articlePages, page => page.head))
 
     return(
       <Layout theme="white" className="admin-page mt-10 pt-10">
@@ -238,7 +239,7 @@ class AdminPage extends React.Component {
             <h2>Page Order</h2>
             <div className="my-40">
               {
-                articlePages.map(page => {
+                orderedArticles.map(page => {
                   return(
                     <div className="ranked-item" key={page.id}>
                       <IconButton size="small" color="primary" onClick={this.movePageBack(page)} disabled={page.head}><ArrowUp /></IconButton>
