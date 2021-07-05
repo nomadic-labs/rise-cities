@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { graphql, Link } from "gatsby";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { find } from 'lodash'
 import Masonry from 'react-masonry-component'
 
 import Layout from "../layouts/default.js";
@@ -43,32 +42,11 @@ const ArticleGallery = ({ pages }) => (
 )
 
 const FeaturedContentPage = ({ data, location }) => {
-  const allPages = data.allPages.edges.map(edge => edge.node)
+  const allPages = data.allPages.nodes
+  const pageOrder = data.allConfig.nodes[0].page_order
+  const orderedPages = pageOrder.map(pageId => allPages.find(p => p.id === pageId)).filter(i => i)
 
-  const getNextPage = (page) => {
-    return find(allPages, p => p.id === page.next);
-  }
-
-  const orderPages = (page, arr=[]) => {
-    if (!page) {
-      return arr
-    }
-
-    if (arr.includes(page)) {
-      return arr
-    }
-
-    arr.push(page)
-
-    const nextPage = getNextPage(page)
-    if (page === nextPage) {
-      return arr
-    }
-    return orderPages(getNextPage(page), arr)
-  }
-
-  const orderedPages = orderPages(find(allPages, p => p.head))
-  const [pages, setPages] = useState(allPages)
+  const [pages, setPages] = useState(orderedPages)
   const [filter, setFilter] = useState()
 
   useEffect(() => {
@@ -132,23 +110,26 @@ export default FeaturedContentPage;
 
 export const query = graphql`
   query {
-    allPages(filter: {template: { in: ["article.js"]}}) {
-      edges {
-        node {
-          id
-          title
-          description
-          slug
-          externalLink
-          template
-          content
-          category
-          author
-          date
-          next
-          head
-          featured
-        }
+    allPages(filter: {template: {in: ["article.js"]}, deleted: { ne: true } }) {
+      nodes {
+        id
+        title
+        description
+        slug
+        externalLink
+        template
+        content
+        category
+        author
+        date
+        next
+        head
+        featured
+      }
+    }
+    allConfig {
+      nodes {
+        page_order
       }
     }
   }

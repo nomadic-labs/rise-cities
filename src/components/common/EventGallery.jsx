@@ -53,7 +53,6 @@ class EventGallery extends React.Component {
   render() {
     const { showModal, editingEvent } = this.state;
     const events = Object.keys(this.props.content).reverse().map(key => this.props.content[key])
-    console.log({events})
 
     return (
       <div id="event-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>

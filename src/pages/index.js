@@ -61,7 +61,7 @@ const mapStateToProps = state => {
   };
 };
 
-const isClient = typeof window !== 'undefined';
+// const isClient = typeof window !== 'undefined';
 
 class HomePage extends React.Component {
 
@@ -109,8 +109,6 @@ class HomePage extends React.Component {
         </li>
       )
     };
-
-    console.log("content", content)
 
     return (
       <Layout theme="white" location={this.props.location}>

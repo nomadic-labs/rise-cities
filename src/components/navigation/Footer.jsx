@@ -2,7 +2,6 @@ import React from "react";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import bmwfLogo from '../../assets/images/logo_bmwf.svg'
-import riseLogo from '../../assets/images/RISE_wordmark.svg'
 import Wordmark from "../../assets/images/svgs/RISE_wordmark.svg"
 import InstagramIcon from '@material-ui/icons/Instagram';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';

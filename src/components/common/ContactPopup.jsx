@@ -2,9 +2,7 @@ import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import Grid from "@material-ui/core/Grid";
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import LazyLoad from 'react-lazyload';
 import image from '../../assets/images/contact.jpg'
 
 const buttonStyles = {

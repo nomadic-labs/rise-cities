@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux";
-import { filter, find } from 'lodash'
+import { filter } from 'lodash'
 import Container from "@material-ui/core/Container"
 import IconButton from "@material-ui/core/IconButton"
 import DeleteForever from "@material-ui/icons/DeleteForever"
@@ -21,7 +21,6 @@ import { PERMANENT_PAGES } from "../utils/constants"
 import {
   fetchPages,
   fetchUsers,
-  fetchBrowserNotifications,
   deploy,
   userLoggedOut,
   showNotification,
@@ -36,9 +35,6 @@ const mapDispatchToProps = dispatch => {
     },
     fetchUsers: () => {
       dispatch(fetchUsers())
-    },
-    fetchBrowserNotifications: () => {
-      dispatch(fetchBrowserNotifications())
     },
     deploy: () => {
       dispatch(deploy())
@@ -63,12 +59,11 @@ const mapStateToProps = state => {
     users: state.adminTools.users,
     accessCode: state.adminTools.accessCode,
     browserNotifications: state.adminTools.browserNotifications,
+    config: state.adminTools.config
   };
 };
 
 class AdminPage extends React.Component {
-  state = { accessCode: '' }
-
   componentDidMount() {
     this.props.fetchPages()
     if (this.props.user?.isAdmin) {
@@ -84,55 +79,22 @@ class AdminPage extends React.Component {
     }
   }
 
-  nextPage = page => {
-    return this.props.pages[page.next];
-  }
-
-  prevPage = page => {
-    return find(this.props.pages, p => p.next === page.id)
-  }
-
-  orderedPages = (page, arr=[]) => {
-    if (!page) {
-      return arr
-    }
-
-    if (arr.includes(page)) {
-      return arr
-    }
-
-    arr.push(page)
-
-    const nextPage = this.nextPage(page)
-    if (page === nextPage) {
-      return arr
-    }
-    return this.orderedPages(this.nextPage(page), arr)
-  }
-
   movePageForward = currentPage => async () => {
-    if (!currentPage.next) return false;
+    const index = this.props.config["page-order"].indexOf(currentPage.id)
 
-    const nextPage = this.nextPage(currentPage)
-    const prevPage = this.prevPage(currentPage)
+    // abort if page is not in page order array
+    // or if it is already the last item in page order array
+    if (index < 0 || index === this.props.config["page-order"].length - 1) return false;
+
+    const newPageOrder = [...this.props.config["page-order"]]
+    newPageOrder.splice(index, 1)
+    newPageOrder.splice(index+1, 0, currentPage.id)
 
     const db = firestore
-    const batch = db.batch();
 
     try {
-      batch.update(db.collection('pages').doc(currentPage.id), { next: nextPage.next || null })
-      batch.update(db.collection('pages').doc(nextPage.id), { next: currentPage.id })
+      await db.collection('config').doc('pages').update({ "page-order": newPageOrder })
 
-      if (currentPage.head) {
-        batch.update(db.collection('pages').doc(nextPage.id), { head: true })
-        batch.update(db.collection('pages').doc(currentPage.id), { head: null })
-      }
-
-      if (prevPage) {
-        batch.update(db.collection('pages').doc(prevPage.id), { next: nextPage.id })
-      }
-
-      await batch.commit();
       this.props.showNotification('Your changes have been saved.')
       this.props.fetchPages();
     } catch (err) {
@@ -142,27 +104,21 @@ class AdminPage extends React.Component {
   }
 
   movePageBack = currentPage => async () => {
-    const prevPage = this.prevPage(currentPage)
-    if (!prevPage) return false
+    const index = this.props.config["page-order"].indexOf(currentPage.id)
 
-    const prevPrevPage = this.prevPage(prevPage)
+    // abort if page is not in page order array
+    // or if it is already the first item in page order array
+    if (index < 0 || index === 0) return false;
+
+    const newPageOrder = [...this.props.config["page-order"]]
+    newPageOrder.splice(index, 1)
+    newPageOrder.splice(index-1, 0, currentPage.id)
+
     const db = firestore
-    const batch = db.batch();
 
     try {
-      batch.update(db.collection('pages').doc(currentPage.id), { next: prevPage.id })
-      batch.update(db.collection('pages').doc(prevPage.id), { next: currentPage.next || null })
+      await db.collection('config').doc('pages').update({ "page-order": newPageOrder })
 
-      if (prevPage.head) {
-        batch.update(db.collection('pages').doc(currentPage.id), { head: true })
-        batch.update(db.collection('pages').doc(prevPage.id), { head: null })
-      }
-
-      if (prevPrevPage) {
-        batch.update(db.collection('pages').doc(prevPrevPage.id), { next: currentPage.id })
-      }
-
-      await batch.commit();
       this.props.showNotification('Your changes have been saved.')
       this.props.fetchPages();
     } catch (err) {
@@ -177,22 +133,15 @@ class AdminPage extends React.Component {
         return false
       }
 
-      const prevPage = this.prevPage(page)
-      const nextPage = this.nextPage(page)
-
       const db = firestore
       const batch = db.batch();
+      const index = this.props.config["page-order"].indexOf(page.id)
+      const newPageOrder = [...this.props.config["page-order"]]
+      newPageOrder.splice(index, 1)
 
       try {
-        batch.delete(db.collection('pages').doc(page.id))
-
-        if (prevPage) {
-          batch.update(db.collection('pages').doc(prevPage.id), { next: page.next || null })
-        }
-
-        if (page.head && nextPage) {
-          batch.update(db.collection('pages').doc(nextPage.id), { head: true })
-        }
+        batch.update(db.collection('pages').doc(page.id), { deleted: true })
+        batch.update(db.collection('config').doc('pages'), { "page-order": newPageOrder })
 
         await batch.commit();
         this.props.showNotification('Your changes have been saved.')
@@ -222,9 +171,9 @@ class AdminPage extends React.Component {
   }
 
   render() {
-    const unorderedPages = filter(this.props.pages, page => !page.category || page.category === "uncategorized")
-    const articlePages = filter(this.props.pages, page => page.template === "article.js")
-    const orderedArticles = this.orderedPages(find(articlePages, page => page.head))
+    const uncategorizedPages = filter(this.props.pages, page => !page.category || page.category === "uncategorized")
+    const categorizedPages = filter(this.props.pages, page => page.category && page.category !== "uncategorized")
+    const lastPageId = this.props.config["page-order"].slice(-1)[0]
 
     return(
       <Layout theme="white" className="admin-page mt-10 pt-10">
@@ -239,11 +188,13 @@ class AdminPage extends React.Component {
             <h2>Page Order</h2>
             <div className="my-40">
               {
-                orderedArticles.map(page => {
+                this.props.config["page-order"].map((pageId, index) => {
+                  const page = categorizedPages.find(p => p.id === pageId)
+                  if (!page) { return null }
                   return(
                     <div className="ranked-item" key={page.id}>
-                      <IconButton size="small" color="primary" onClick={this.movePageBack(page)} disabled={page.head}><ArrowUp /></IconButton>
-                      <IconButton size="small" color="primary" onClick={this.movePageForward(page)} disabled={!page.next}><ArrowDown /></IconButton>
+                      <IconButton size="small" color="primary" onClick={this.movePageBack(page)} disabled={index === 0}><ArrowUp /></IconButton>
+                      <IconButton size="small" color="primary" onClick={this.movePageForward(page)} disabled={pageId === lastPageId}><ArrowDown /></IconButton>
                       <IconButton size="small" color="primary" onClick={this.deletePage(page)} disabled={PERMANENT_PAGES.includes(page.id)}><DeleteForever /></IconButton>
                       <span className="ml-3"><Link to={page.slug}>{page.title}</Link></span>
                     </div>
@@ -257,7 +208,7 @@ class AdminPage extends React.Component {
             <h2>Uncategorized Pages</h2>
             <div className="my-40">
               {
-                unorderedPages.map(page => {
+                uncategorizedPages.map(page => {
                   return(
                     <div className="ranked-item" key={page.id}>
                       <IconButton size="small" color="primary" onClick={this.deletePage(page)} disabled={PERMANENT_PAGES.includes(page.id)}><DeleteForever /></IconButton>

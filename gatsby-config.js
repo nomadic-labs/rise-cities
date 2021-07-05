@@ -40,6 +40,10 @@ module.exports = {
             type: "Pages",
             collection: "pages",
           },
+          {
+            type: "Config",
+            collection: "config",
+          },
         ]
       }
     },

@@ -34,8 +34,7 @@ class ParticipantModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newParticipant: props.participant || emptyParticipant,
-      errors: {}
+      newParticipant: props.participant || emptyParticipant
     }
   }
 
@@ -50,7 +49,6 @@ class ParticipantModal extends React.Component {
   }
 
   handleChange = key => event => {
-    this.setState({ errors: {} })
     const value = event.currentTarget.value
     this.setState({ newParticipant: {...this.state.newParticipant, [key]: value} })
   }
@@ -101,8 +99,6 @@ class ParticipantModal extends React.Component {
       bio,
       email
     } = this.state.newParticipant;
-
-    const { errors } = this.state;
 
     return (
       <Dialog open={showModal} onClose={closeModal} aria-labelledby="form-dialog-title" scroll="body">

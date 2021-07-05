@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import AOS from 'aos';
 
 import {
-  updatePage,
   savePageContent,
   addSection,
   duplicateSection,
@@ -52,9 +51,6 @@ const componentMap = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdatePageData: (page, id, data) => {
-      dispatch(updatePage(page, id, data));
-    },
     addSection: (sectionIndex, sectionType) => {
       dispatch(addSection(sectionIndex, sectionType));
     },
@@ -87,7 +83,7 @@ const mapStateToProps = state => {
 };
 
 
-const DynamicSection = ({ content, type, sectionIndex, pageData, isEditingPage, onUpdatePageData, savePageContent, addSection, deleteSection, duplicateSection, addContentItem, updateContentItem, deleteContentItem }) => {
+const DynamicSection = ({ content, type, sectionIndex, pageData, isEditingPage, savePageContent, addSection, deleteSection, duplicateSection, addContentItem, updateContentItem, deleteContentItem }) => {
   useEffect(() => {
     AOS.init({ delay: 50, duration: 400 })
   });

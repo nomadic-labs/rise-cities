@@ -15,11 +15,10 @@ if (!defaultFirebase) {
 }
 
 const firestore = firebase.firestore()
-firestore.settings({ timestampsInSnapshots: true })
 
-const initAnalytics = async () => {
-  const analytics = await import("firebase/analytics")
-}
+// const initAnalytics = async () => {
+//   const analytics = await import("firebase/analytics")
+// }
 
 export default firebase;
 export { firestore };

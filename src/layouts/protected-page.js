@@ -13,7 +13,6 @@ import {
 
 
 const mapStateToProps = state => {
-  console.log('ok: ', state);
   const allowEditing = state.adminTools.user && state.adminTools.user.isEditor;
 
   return {

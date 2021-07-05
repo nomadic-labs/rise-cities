@@ -35,8 +35,7 @@ class EventModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newEvent: props.event || emptyEvent,
-      errors: {}
+      newEvent: props.event || emptyEvent
     }
   }
 
@@ -51,7 +50,6 @@ class EventModal extends React.Component {
   }
 
   handleChange = key => event => {
-    this.setState({ errors: {} })
     const value = event.currentTarget.value
     this.setState({ newEvent: {...this.state.newEvent, [key]: value} })
   }
@@ -101,8 +99,6 @@ class EventModal extends React.Component {
       date,
       url,
     } = this.state.newEvent;
-
-    const { errors } = this.state;
 
     return (
       <Dialog open={showModal} onClose={closeModal} aria-labelledby="form-dialog-title" scroll="body">

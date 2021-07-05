@@ -1,12 +1,12 @@
 import React from "react";
 import slugify from "slugify";
-import { find } from 'lodash';
 
 import { connect } from "react-redux";
 import {
   toggleNewPageModal,
   savePage,
-  updateFirestoreDoc,
+  createPage,
+  updatePageOrder,
   fetchPages,
 } from "../../redux/actions";
 
@@ -33,6 +33,7 @@ const mapStateToProps = state => {
     options: state.adminTools.options || {},
     page: state.page.data,
     pages: state.pages.pages,
+    config: state.adminTools.config,
   };
 };
 
@@ -41,11 +42,14 @@ const mapDispatchToProps = dispatch => {
     onToggleNewPageModal: () => {
       dispatch(toggleNewPageModal());
     },
-    updateFirestoreDoc: (pageId, data) => {
-      dispatch(updateFirestoreDoc(pageId, data))
-    },
     savePage: (pageData, pageId) => {
       dispatch(savePage(pageData, pageId));
+    },
+    createPage: (pageData, pageId) => {
+      dispatch(createPage(pageData, pageId));
+    },
+    updatePageOrder: (pageOrder) => {
+      dispatch(updatePageOrder(pageOrder));
     },
     fetchPages: () => {
       dispatch(fetchPages())
@@ -89,14 +93,6 @@ class CreatePageModal extends React.Component {
 
     if (!prevProps.showNewPageModal && this.props.showNewPageModal) {
       this.props.fetchPages()
-      if (this.props.options.duplicate) {
-        const newPage = {
-          ...this.props.page,
-          title: `${this.props.page.title} (copy)`,
-          next: null,
-        }
-        this.setState({ page: newPage, errors: {} })
-      }
     }
   }
 
@@ -140,13 +136,9 @@ class CreatePageModal extends React.Component {
       content: JSON.stringify(this.state.page.content),
     };
 
-    this.props.savePage(pageData, pageId);
+    this.props.createPage(pageData, pageId);
 
-    const prevPage = find(this.props.pages, (page => !page.next));
-
-    if (prevPage && this.state.page.category !== 'uncategorized') { // don't add next page for uncategorized pages
-      this.props.updateFirestoreDoc(prevPage.id, { next: pageId })
-    }
+    console.log("Creating page", pageData)
   }
 
   editPage = () => {
@@ -155,6 +147,8 @@ class CreatePageModal extends React.Component {
       content: JSON.stringify(this.state.page.content)
     }
     this.props.savePage(pageData, this.props.page.id);
+
+    console.log("Updating page", pageData)
   }
 
   _onSubmit() {

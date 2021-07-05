@@ -26,8 +26,6 @@ import "../assets/sass/custom.scss";
 import "aos/dist/aos.css"
 import "animate.css/animate.css"
 
-import favicon from '../assets/images/icon.png'
-
 
 export const editorTheme = {
   ...theme,
@@ -73,8 +71,6 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-
-const isClient = typeof window !== 'undefined';
 
 class DefaultLayout extends React.Component {
   componentDidMount() {

@@ -14,6 +14,35 @@ export function userLoggedOut() {
   return { type: "USER_LOGGED_OUT" };
 }
 
+export function deleteAccount(user) {
+  return (dispatch, getState) => {
+    if (typeof window !== 'undefined')  {
+      if (!window.confirm("Are you sure you want to permanently delete your account?")) {
+        return false
+      }
+
+      const db = firestore;
+      const user = firebase.auth().currentUser;
+      console.log("user", user)
+
+      db
+        .collection('users')
+        .doc(user.uid)
+        .delete()
+        .then(res => {
+          user.delete().then(() => {
+            dispatch(showNotification('Your account has been deleted.'))
+          }).catch(function(error) {
+            dispatch(showNotification('There was an error deleting your account. Please contact the website administrator.'))
+          });
+        })
+        .catch(function(error) {
+          dispatch(showNotification('There was an error deleting your account. Please contact the website administrator.'))
+        });
+    }
+  }
+}
+
 // NOTIFICATIONS ------------------------
 
 export function showNotification(message, color="success") {
@@ -91,22 +120,70 @@ export function setPageContentState(location, content) {
   return { type: "SET_PAGE_CONTENT", location, content };
 }
 
+export function createPage(pageData, pageId) {
+  return dispatch => {
+    const db = firestore;
+    const batch = db.batch();
+    const FieldValue = firebase.firestore.FieldValue;
+
+    batch.set(db.collection('pages').doc(pageId), pageData)
+    batch.update(db.collection('config').doc('pages'), { "page-order": FieldValue.arrayUnion(pageId) })
+
+    batch
+      .commit()
+      .then(res => {
+        console.log({res})
+        dispatch(toggleNewPageModal());
+        dispatch(fetchPages());
+        dispatch(
+          showNotification(
+            "Your page has been created. Publish your changes to view and edit the page.",
+            "success"
+          )
+        );
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(
+          showNotification('There was an error saving your changes, please try again.')
+        );
+      })
+  };
+}
+
 export function savePage(pageData, pageId) {
   return dispatch => {
     const db = firestore;
     db
       .collection('pages')
       .doc(pageId)
-      .set(pageData)
+      .update(pageData)
       .then(snap => {
         dispatch(toggleNewPageModal());
         dispatch(
           showNotification(
-            "Your page has been saved. Publish your changes to view and edit the page.",
+            "Your page has been updated. Don't forget to publish your changes!",
             "success"
           )
         );
       });
+  };
+}
+
+export function updatePageOrder(pageOrder) {
+  return dispatch => {
+    const db = firestore;
+
+    db
+      .collection('config')
+      .doc('pages')
+      .update({ 'page-order': pageOrder })
+      .then(snap => {
+        console.log("Page order updated.")
+      })
+      .catch(err => {
+        console.log("Error updating page order", err)
+      })
   };
 }
 
@@ -417,6 +494,10 @@ export function setPages(pages) {
   return { type: "SET_PAGES", pages }
 }
 
+export function setConfig(config) {
+  return { type: "SET_CONFIG", config }
+}
+
 export function setOrderedPages(orderedPages) {
   return { type: "SET_ORDERED_PAGES", orderedPages }
 }
@@ -428,139 +509,28 @@ export function fetchPages() {
     db.collection('pages')
       .get()
       .then(snap => {
-        const pagesArr = snap.docs.map(d => ({ ...d.data(), id: d.id }))
-        const pages = pagesArr.reduce((obj, page) => {
-          obj[page.id] = page
-          return obj
-        }, {})
-
-        dispatch(setPages(pages));
+        const pages = snap.docs.map(d => ({ ...d.data(), id: d.id }))
+        const publishedPages = pages.filter(p => !p.deleted)
+        dispatch(setPages(publishedPages));
+      })
+      .then(() => {
+        db.collection('config')
+          .doc('pages')
+          .get()
+          .then(doc => {
+            const config = doc.data()
+            dispatch(setConfig(config));
+          })
+          .catch(error => {
+            console.log("Error fetching page order", error)
+          })
       })
       .catch(error => {
         console.log("Error fetching pages", error)
       })
+
   };
 }
-
-export function incrementPageOrder(currentPage, nextPage, prevPage) {
-  return (dispatch, getState) => {
-    const db = firestore;
-    const batch = db.batch();
-    const FieldValue = firebase.firestore.FieldValue;
-
-    const currentPageRef = db.collection('pages').doc(currentPage.id)
-    const nextPageRef = db.collection('pages').doc(nextPage.id)
-    const prevPageRef = prevPage ? db.collection('pages').doc(prevPage.id) : null
-
-    batch.update(currentPageRef, { next: nextPage.next || FieldValue.delete() })
-    batch.update(nextPageRef, { next: currentPage.id })
-
-    if (currentPage.head) {
-      batch.update(nextPageRef, { head: true })
-      batch.update(currentPageRef, { head: FieldValue.delete() })
-    }
-
-    if (prevPageRef) {
-      batch.update(prevPageRef, { next: nextPage.id })
-    }
-
-    batch
-      .commit()
-      .then(() => {
-        dispatch(fetchPages());
-        dispatch(showNotification("Your changes have been saved."));
-      })
-      .catch(error => {
-        dispatch(
-          showNotification(
-            `There was an error saving your changes: ${error}`,
-            "error"
-          )
-        );
-      })
-  };
-}
-
-export function decrementPageOrder(currentPage, prevPage, prevPrevPage) {
-  return (dispatch, getState) => {
-    const db = firestore;
-    const batch = db.batch();
-    const FieldValue = firebase.firestore.FieldValue;
-
-    const currentPageRef = db.collection('pages').doc(currentPage.id)
-    const prevPageRef = db.collection('pages').doc(prevPage.id)
-    const prevPrevPageRef = prevPrevPage ? db.collection('pages').doc(prevPrevPage.id) : null
-
-    batch.update(currentPageRef, { next: prevPage.id })
-    batch.update(prevPageRef, { next: currentPage.next || FieldValue.delete() })
-
-    if (prevPage.head) {
-      batch.update(currentPageRef, { head: true })
-      batch.update(prevPageRef, { head: FieldValue.delete() })
-    }
-
-    if (prevPrevPageRef) {
-      batch.update(prevPrevPageRef, { next: currentPage.id })
-    }
-
-    batch
-      .commit()
-      .then(() => {
-        dispatch(fetchPages());
-        dispatch(showNotification("Your changes have been saved."));
-      })
-      .catch(error => {
-        dispatch(
-          showNotification(
-            `There was an error saving your changes: ${error}`,
-            "error"
-          )
-        );
-      })
-  };
-}
-
-export function deletePage(page, nextPage, prevPage, allPages) {
-  return (dispatch, getState) => {
-    const db = firestore;
-    const batch = db.batch();
-    const FieldValue = firebase.firestore.FieldValue;
-
-    batch.delete(db.collection('pages').doc(page.id))
-
-    if (prevPage) {
-      const prevPageRef = db.collection('pages').doc(prevPage.id)
-      batch.update(prevPageRef, { next: page.next || FieldValue.delete() })
-    }
-
-    if (page.head && nextPage) {
-      const nextPageRef = db.collection('pages').doc(nextPage.id)
-      batch.update(nextPageRef, { head: true })
-    }
-
-    const transPageIds = Object.keys(allPages).filter(key => allPages[key].translation === page.slug)
-    console.log({transPageIds})
-    transPageIds.forEach(id => {
-      batch.update(db.collection('pages').doc(id), { translation: FieldValue.delete() })
-    })
-
-    batch
-      .commit()
-      .then(() => {
-        dispatch(fetchPages());
-        dispatch(showNotification("Your changes have been saved."));
-      })
-      .catch(error => {
-        dispatch(
-          showNotification(
-            `There was an error saving your changes: ${error}`,
-            "error"
-          )
-        );
-      })
-  };
-}
-
 
 
 // NAVIGATION ------------------------
