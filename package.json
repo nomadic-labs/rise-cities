@@ -34,6 +34,7 @@
     "gatsby-plugin-sass": "^2.1.24",
     "gatsby-source-firebase-nl": "^1.0.2",
     "gatsby-source-firestore": "nomadic-labs/gatsby-source-firestore#master",
+    "imagesloaded": "^4.1.4",
     "jquery": "^3.6.0",
     "jss": "^9.8.7",
     "lodash": "^4.17.4",

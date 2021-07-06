@@ -5,6 +5,7 @@ import Logo from "../../assets/images/svgs/RISE_logo.svg"
 import Container from "@material-ui/core/Container"
 import Hidden from "@material-ui/core/Hidden"
 import Grid from "@material-ui/core/Grid"
+import imagesloaded from "imagesloaded"
 
 class Header extends React.Component {
 
@@ -12,6 +13,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       menuIsOpen: false,
+      imagesLoaded: false
     }
   }
 
@@ -19,6 +21,10 @@ class Header extends React.Component {
     this.appRoot = document.querySelector('.nl-page');
     this.container = document.createElement('div');
     this.appRoot.appendChild(this.container);
+
+    imagesloaded('.nl-page', () => {
+      this.setState({ imagesLoaded: true })
+    });
 
     if (typeof(window) !== 'undefined') {
       window.onscroll = () => {
@@ -71,8 +77,12 @@ class Header extends React.Component {
   }
 
   render() {
+    if (!this.state.imagesLoaded) {
+      return <div />
+    }
+
     return (
-      <nav id="navbar">
+      <nav id="navbar" data-aos="fade-in">
         <Container>
           <Grid container justify="space-between">
             <Grid item>

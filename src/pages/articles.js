@@ -3,6 +3,7 @@ import { graphql, Link } from "gatsby";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Masonry from 'react-masonry-component'
+import LazyLoad from 'react-lazyload';
 
 import Layout from "../layouts/default.js";
 import ensureAbsoluteUrl from '../utils/ensureAbsoluteUrl';
@@ -14,31 +15,33 @@ import videoIcon from "../assets/images/icons/video-icon-32px.svg"
 
 
 const ArticleGallery = ({ pages }) => (
-  <Masonry className="featured-content-collection" options={{ gutter: 16 }}>
-    {
-      pages.map(page => {
-        const content = JSON.parse(page.content)
-        return(
-          <div className="featured-content-item mb-10" key={page.id}>
-            {content.headerImage &&
-              <img src={content.headerImage.imageSrc} alt="" />
-            }
-            <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
-            {page.externalLink ? (
-              <a href={ensureAbsoluteUrl(page.externalLink)} className="pretty-link" target="_blank" rel="noopener noreferrer">
-                <h3 className="mb-0 mt-0">{page.title}</h3>
-              </a>
-              ) : (
-              <Link to={page.slug} className="pretty-link">
-                <h3 className="mb-0 mt-0">{page.title}</h3>
-              </Link>
-            )}
-            <p className="text-xs mt-2">{page.description}</p>
-          </div>
-        )
-      })
-    }
-  </Masonry>
+  <LazyLoad>
+    <Masonry className="featured-content-collection" options={{ gutter: 16 }}>
+      {
+        pages.map(page => {
+          const content = JSON.parse(page.content)
+          return(
+            <div className="featured-content-item mb-10" key={page.id}>
+              {content.headerImage &&
+                <img src={content.headerImage.imageSrc} alt="" />
+              }
+              <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
+              {page.externalLink ? (
+                <a href={ensureAbsoluteUrl(page.externalLink)} className="pretty-link" target="_blank" rel="noopener noreferrer">
+                  <h3 className="mb-0 mt-0">{page.title}</h3>
+                </a>
+                ) : (
+                <Link to={page.slug} className="pretty-link">
+                  <h3 className="mb-0 mt-0">{page.title}</h3>
+                </Link>
+              )}
+              <p className="text-xs mt-2">{page.description}</p>
+            </div>
+          )
+        })
+      }
+    </Masonry>
+  </LazyLoad>
 )
 
 const FeaturedContentPage = ({ data, location }) => {
