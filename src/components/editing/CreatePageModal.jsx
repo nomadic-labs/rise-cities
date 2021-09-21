@@ -23,7 +23,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import { PAGE_TYPES, CATEGORY_OPTIONS } from "../../utils/constants";
+import { PAGE_TEMPLATES, CATEGORY_OPTIONS } from "../../utils/constants";
 
 import defaultContentJSON from "../../fixtures/pageContent.json";
 
@@ -64,7 +64,7 @@ const emptyPage = {
     externalLink: "",
     category: CATEGORY_OPTIONS[0].value,
     content: defaultContentJSON,
-    template: PAGE_TYPES[0].value.template,
+    template: PAGE_TEMPLATES[0].value,
     date: Date.now(),
     featured: false,
   }
@@ -186,45 +186,25 @@ class CreatePageModal extends React.Component {
             <TextField
               className="form-control"
               type="text"
-              label={"Description or summary of article"}
+              label={"Description or summary"}
               value={this.state.page.description}
               onChange={e => this.updatePage("description", e.currentTarget.value)}
             />
           </FormControl>
 
           <FormControl fullWidth margin="normal">
-            <TextField
-              className="form-control"
-              type="text"
-              label={"Author (optional)"}
-              value={this.state.page.author}
-              onChange={e => this.updatePage("author", e.currentTarget.value)}
-            />
-          </FormControl>
-
-          <FormControl fullWidth margin="normal">
-            <TextField
-              className="form-control"
-              type="text"
-              label={"External link (optional)"}
-              value={this.state.page.externalLink}
-              onChange={e => this.updatePage("externalLink", e.currentTarget.value)}
-            />
-          </FormControl>
-
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="menu-group">Category</InputLabel>
+            <InputLabel htmlFor="menu-group">Page template</InputLabel>
             <Select
-              value={this.state.page.category}
+              value={this.state.page.template}
               onChange={selected =>
-                this.updatePage("category", selected.target.value)
+                this.updatePage("template", selected.target.value)
               }
               inputProps={{
                 name: "menu-group",
                 id: "menu-group"
               }}
             >
-              {CATEGORY_OPTIONS.map(option => (
+              {PAGE_TEMPLATES.map(option => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -232,12 +212,56 @@ class CreatePageModal extends React.Component {
             </Select>
           </FormControl>
 
-          <FormControlLabel
-            control={
-              <Checkbox checked={this.state.page.featured} onChange={e => this.updatePage("featured", e.currentTarget.checked)} value="featured" />
-            }
-            label={<p className="mb-0">Featured content</p>}
-          />
+          { this.state.page.template === PAGE_TEMPLATES[0].value &&
+            <>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="menu-group">Category</InputLabel>
+                <Select
+                  value={this.state.page.category}
+                  onChange={selected =>
+                    this.updatePage("category", selected.target.value)
+                  }
+                  inputProps={{
+                    name: "menu-group",
+                    id: "menu-group"
+                  }}
+                >
+                  {CATEGORY_OPTIONS.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  className="form-control"
+                  type="text"
+                  label={"Author (optional)"}
+                  value={this.state.page.author}
+                  onChange={e => this.updatePage("author", e.currentTarget.value)}
+                />
+              </FormControl>
+
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  className="form-control"
+                  type="text"
+                  label={"External link (optional)"}
+                  value={this.state.page.externalLink}
+                  onChange={e => this.updatePage("externalLink", e.currentTarget.value)}
+                />
+              </FormControl>
+
+              <FormControlLabel
+                control={
+                  <Checkbox checked={this.state.page.featured} onChange={e => this.updatePage("featured", e.currentTarget.checked)} value="featured" />
+                }
+                label={<p className="mb-0">Featured content</p>}
+              />
+            </>
+          }
 
         </DialogContent>
 

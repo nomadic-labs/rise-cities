@@ -702,6 +702,7 @@ body .nl-page {
       max-width: 250px;
       object-fit: cover;
       transition: all 0.3s ease;
+      filter: grayscale(1);
     }
   }
 

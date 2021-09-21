@@ -7,7 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
       graphql(
         `
           {
-          allPages(filter: {template: { in: ["article.js"]}, deleted: { ne: true } }) {
+          allPages(filter: {template: { in: ["article.js", "event.js"]}, deleted: { ne: true } }) {
             edges {
               node {
                 id
