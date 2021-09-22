@@ -100,7 +100,7 @@ class EventPage extends React.Component {
               <Grid item sm={6}>
                 <h1 className="mb-5 text-black">{pageData.title}</h1>
                 <div className="mb-5">
-                  <p className="text-sm text-uppercase text-bold mb-1">
+                  <p className="text-small text-uppercase text-bold mb-1">
                     <EditableText content={content["event-date"]} onSave={this.onSave("event-date")} />
                   </p>
                   <p className="text-xs text-uppercase text-muted mb-1">

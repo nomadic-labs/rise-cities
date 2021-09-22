@@ -117,7 +117,7 @@ class HomePage extends React.Component {
             <div className="landing-slide">
               <Container>
                 <Grid container spacing={6}>
-                  <Grid item sm={6}>
+                  <Grid item md={6}>
                     <div className="landing-body">
                       <div className="landing-intro">
                           <h1 className="text-black pb-8">
@@ -139,7 +139,7 @@ class HomePage extends React.Component {
                       </div>
                     </div>
                   </Grid>
-                  <Grid item sm={6}>
+                  <Grid item md={6}>
                     <div data-aos="fade-up" data-aos-delay="750" className="landing-image">
                       <EditableImageUpload
                         content={content["landing-image"]}
