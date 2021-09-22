@@ -1,12 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const AgendaItem = ({ id, content={} }) => {
-  console.log({content})
 
   return (
     <div className="mb-2">
@@ -24,7 +22,7 @@ const AgendaItem = ({ id, content={} }) => {
         <AccordionDetails>
           <div className="display-block">
             <p>{content.description}</p>
-            <p className="text-small mb-1 text-bold">{`Speakers: ${content.speakers}`}</p>
+            {content.speakers && <p className="text-small mb-1 text-bold">{`Speakers: ${content.speakers}`}</p>}
           </div>
         </AccordionDetails>
       </Accordion>

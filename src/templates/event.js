@@ -1,21 +1,20 @@
 import React from "react";
-import { graphql, Link } from "gatsby";
+import { graphql } from "gatsby";
 import Helmet from "react-helmet";
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import AOS from 'aos';
 import LazyLoad from 'react-lazyload';
 import ParticipantGallery from "../components/common/ParticipantGallery"
-import Collection from "../components/common/Collection"
 import AgendaList from "../components/common/AgendaList"
 
 import { connect } from "react-redux";
 import {
-  EditableImageUpload,
   EditableParagraph,
   EditableText,
   EditableEmbeddedIframe,
   EditableLink,
+  EditableBackgroundImage,
 } from "react-easy-editables";
 import { uploadFile } from "../aws/operations";
 
@@ -26,6 +25,7 @@ import {
 } from "../redux/actions";
 
 import Layout from "../layouts/default.js";
+import "../assets/sass/events.scss";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -85,7 +85,6 @@ class EventPage extends React.Component {
   render() {
     const pageData = this.props.pageData ? this.props.pageData : this.props.data.pages;
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
-    const dateString = pageData.date ? new Date(parseInt(pageData.date)).toDateString() : ""
 
     return (
       <Layout location={this.props.location}>
@@ -94,12 +93,22 @@ class EventPage extends React.Component {
           <meta description={pageData.description} />
         </Helmet>
 
-        <section id="article-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 mt-15 mb-8">
+        <EditableBackgroundImage
+          styles={{ backgroundColor: "rgba(0,0,0,0.9)" }}
+          onSave={ this.onUpdateHeaderImage }
+          onDelete={ this.onDeleteHeaderImage }
+          uploadImage={ uploadFile }
+          content={ content.headerImage || { imageSrc: null } }
+          maxSize={1024 * 1024 * 12}
+        >
+        <section id="event-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 pb-15 mt-15 mb-8">
           <Container>
             <Grid container spacing={6}>
-              <Grid item sm={6}>
-                <h1 className="mb-5 text-black">{pageData.title}</h1>
-                <div className="mb-5">
+              <Grid item xs={9} sm={8} md={7} lg={6}>
+                <div className="header pt-5 pb-5 pr-5 pl-5 bg-white text-black">
+                  <h1 className="mt-0 mb-5">
+                    {pageData.title}
+                  </h1>
                   <p className="text-small text-uppercase text-bold mb-1">
                     <EditableText content={content["event-date"]} onSave={this.onSave("event-date")} />
                   </p>
@@ -107,46 +116,49 @@ class EventPage extends React.Component {
                     <EditableText content={content["event-location"]} onSave={this.onSave("event-location")} />
                   </p>
                 </div>
-                <p className="text-large mb-4">{pageData.description}</p>
               </Grid>
-
-              <Grid item sm={6}>
-              {
-                (content.headerImage || this.props.isEditingPage) &&
-                <EditableImageUpload
-                  styles={{ container: {display: 'flex', alignItems: 'flex-start'}, image: { maxHeight: '60vh', objectFit: 'cover' } }}
-                  onSave={ this.onUpdateHeaderImage }
-                  onDelete={ this.onDeleteHeaderImage }
-                  uploadImage={ uploadFile }
-                  content={ content.headerImage || { imageSrc: null } }
-                  maxSize={1024 * 1024 * 12}
-                />
-              }
+            </Grid>
+            <Grid container justify="flex-end">
+              <Grid item xs={9} sm={9} md={8} lg={7}>
+                <div className="event-info position-relative mt-15">
+                  <div className="mb-5 bg-white p-8">
+                    <EditableParagraph
+                      classes="event-description"
+                      content={content["event-description"]}
+                      onSave={this.onSave("event-description")}
+                    />
+                  </div>
+                  <div className="rise-circle bg-gradient rotate-slow" />
+                </div>
               </Grid>
             </Grid>
           </Container>
         </section>
+        </EditableBackgroundImage>
 
-
-        <section className="pt-10 pb-15 highlight-section bg-black text-white" data-aos="fade-up" id="registration">
-          <Container>
-            <center>
-              <h2 className="text-black mb-4 text-white">
-                <EditableText content={content["register-title"]} onSave={this.onSave("register-title")} />
-              </h2>
-              <EditableParagraph
-                classes="mb-5 text-bold text-large"
-                content={content["register-description"]}
-                onSave={this.onSave("register-description")}
-              />
-              <EditableLink
-                classes="btn mt-4 text-bold"
-                content={content["registration-link"]}
-                onSave={this.onSave("registration-link")}
-              />
-            </center>
-          </Container>
-        </section>
+        {
+          pageData.registration && (
+          <section className="pt-10 pb-15 bg-black text-white" data-aos="fade-up" id="registration">
+            <Container>
+              <center>
+                <h2 className="text-black mb-4 text-white">
+                  <EditableText content={content["register-title"]} onSave={this.onSave("register-title")} />
+                </h2>
+                <EditableParagraph
+                  classes="mb-5 text-bold text-large"
+                  content={content["register-description"]}
+                  onSave={this.onSave("register-description")}
+                />
+                <EditableLink
+                  classes="btn mt-4 text-bold"
+                  content={content["registration-link"]}
+                  onSave={this.onSave("registration-link")}
+                />
+              </center>
+            </Container>
+          </section>
+          )
+        }
 
         <section className="mt-10 mb-15" data-aos="fade-up" id="people">
           <Container>
@@ -182,6 +194,7 @@ class EventPage extends React.Component {
           </Container>
         </section>
 
+        {pageData.livestream &&
         <section className="pt-10 pb-15 bg-black text-white" data-aos="fade-up" id="livestream">
           <Container>
             <h2 className="text-white">
@@ -193,6 +206,7 @@ class EventPage extends React.Component {
             </LazyLoad>
           </Container>
         </section>
+        }
 
       </Layout>
     );

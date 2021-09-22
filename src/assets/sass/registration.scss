@@ -1,65 +1,69 @@
-#registration-form {
-  background-image: url('../images/registration-bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  margin-top: 120px;
-  @media (max-width: 959px) {
-    margin-top: 10px;
+.registration-page {
+  #registration-form {
+    flex-grow: 1;
+    background-image: url('../images/registration-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: 120px;
+    @media (max-width: 959px) {
+      margin-top: 10px;
+    }
   }
-}
-.header {
-  @media (max-width: 959px) {
-    padding-bottom: 1em;
-    padding-top: 1em;
+  .header {
+    @media (max-width: 959px) {
+      padding-bottom: 1em;
+      padding-top: 1em;
 
-    h1 {
-      line-height: 1.5;
+      h1 {
+        line-height: 1.5;
+        display: block;
+      }
+    }
+  }
+
+  .form-bg {
+    .rise-circle {
+      position: absolute;
+      height: 300px;
+      width: 300px;
+      border-radius: 300px;
+      z-index: -1;
+      top: -150px;
+      left: -150px;
+
+      @media (max-width: 959px) {
+        top: -100px;
+        left: -100px
+      }
+    }
+  }
+
+  .form-container {
+    background: white;
+  }
+
+
+
+  .form-control {
+    width: 100%;
+
+    label, input:not([type='submit']), select {
+      width: 100%;
+    }
+
+    label {
+      text-transform: uppercase;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
       display: block;
     }
-  }
-}
 
-.form-bg {
-  .rise-circle {
-    position: absolute;
-    height: 300px;
-    width: 300px;
-    border-radius: 300px;
-    z-index: -1;
-    top: -150px;
-    left: -150px;
-
-    @media (max-width: 959px) {
-      top: -100px;
-      left: -100px
+    input:not([type='submit']), select {
+      padding: 0.5rem;
+      border-radius: 0;
+      border: 1px solid black;
+      margin-bottom: 1.5rem;
     }
   }
-}
 
-.form-container {
-  background: white;
-}
-
-
-
-.form-control {
-  width: 100%;
-
-  label, input:not([type='submit']), select {
-    width: 100%;
-  }
-
-  label {
-    text-transform: uppercase;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-
-  input:not([type='submit']), select {
-    padding: 0.5rem;
-    border-radius: 0;
-    border: 1px solid black;
-    margin-bottom: 1.5rem;
-  }
 }

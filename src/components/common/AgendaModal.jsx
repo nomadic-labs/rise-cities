@@ -6,21 +6,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ImageUpload from '../editing/ImageUpload';
-import {uploadFile as uploadImage} from "../../aws/operations";
-import { saveProfile, removeProfile } from "../../redux/actions"
-import { connect } from "react-redux";
-
-const mapDispatchToProps = dispatch => {
-  return {
-    saveProfile: (id, profile) => {
-      dispatch(saveProfile(id, profile));
-    },
-    removeProfile: (id) => {
-      dispatch(removeProfile(id));
-    },
-  };
-};
 
 const emptyItem = {
   title: '',
@@ -86,13 +71,12 @@ class AgendaModal extends React.Component {
   }
 
   render() {
-    const { handleDeleteParticipant, handleSaveProfile, handleChange, handleImageChange, handleCancel } = this;
+    const { handleDeleteParticipant, handleSaveProfile, handleChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       title,
       startTime,
       endTime,
-      image,
       id,
       description,
       speakers
@@ -203,5 +187,5 @@ AgendaModal.defaultProps = {
   showModal: false
 }
 
-export default connect(null, mapDispatchToProps)(AgendaModal)
+export default AgendaModal;
 

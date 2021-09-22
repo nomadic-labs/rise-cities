@@ -6,8 +6,6 @@ import AgendaItem from "./AgendaItem"
 import AgendaModal from "./AgendaModal";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
-import Grid from "@material-ui/core/Grid";
-
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -55,7 +53,6 @@ class AgendaList extends React.Component {
   render() {
     const { showModal, editingAgendaItem } = this.state;
     const agendaItems = Object.keys(this.props.content).map(key => this.props.content[key])
-    console.log(this.props.content)
 
     return (
       <div id="agenda-list" className={`collection width-100 mt-2 ${this.props.classes}`}>

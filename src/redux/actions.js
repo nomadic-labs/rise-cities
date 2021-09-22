@@ -1,7 +1,7 @@
 import axios from "axios";
 import firebase, { firestore } from "../firebase/init";
 // import { copyContentFromStaging } from "../firebase/operations"
-import { NOTIFICATION_MESSAGES } from "../utils/constants";
+import { NOTIFICATION_MESSAGES, PAGE_TEMPLATES } from "../utils/constants";
 
 
 // AUTHENTICATION ------------------------
@@ -127,7 +127,11 @@ export function createPage(pageData, pageId) {
     const FieldValue = firebase.firestore.FieldValue;
 
     batch.set(db.collection('pages').doc(pageId), pageData)
-    batch.update(db.collection('config').doc('pages'), { "page-order": FieldValue.arrayUnion(pageId) })
+
+    // add article pages to page order
+    if (pageData.template === PAGE_TEMPLATES[0].value) {
+      batch.update(db.collection('config').doc('pages'), { "page-order": FieldValue.arrayUnion(pageId) })
+    }
 
     batch
       .commit()

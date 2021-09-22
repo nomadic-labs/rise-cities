@@ -6,7 +6,6 @@ import {
   toggleNewPageModal,
   savePage,
   createPage,
-  updatePageOrder,
   fetchPages,
 } from "../../redux/actions";
 
@@ -48,9 +47,6 @@ const mapDispatchToProps = dispatch => {
     createPage: (pageData, pageId) => {
       dispatch(createPage(pageData, pageId));
     },
-    updatePageOrder: (pageOrder) => {
-      dispatch(updatePageOrder(pageOrder));
-    },
     fetchPages: () => {
       dispatch(fetchPages())
     },
@@ -67,6 +63,8 @@ const emptyPage = {
     template: PAGE_TEMPLATES[0].value,
     date: Date.now(),
     featured: false,
+    registration: false,
+    livestream: false,
   }
 
 class CreatePageModal extends React.Component {
@@ -84,7 +82,7 @@ class CreatePageModal extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.options !== this.props.options) {
       this.setState({ page: this.props.options.new ? emptyPage : {
         ...this.props.page
@@ -93,6 +91,26 @@ class CreatePageModal extends React.Component {
 
     if (!prevProps.showNewPageModal && this.props.showNewPageModal) {
       this.props.fetchPages()
+    }
+
+    if (prevState.page.template !== this.state.page.template) {
+      if (this.state.page.template === PAGE_TEMPLATES[0].value) { // article template
+        this.setState({
+          page: {
+            ...this.state.page,
+            category: CATEGORY_OPTIONS[0].value,
+            content: defaultContentJSON
+          }
+        });
+      } else if (this.state.page.template === PAGE_TEMPLATES[1].value) { // event template
+        this.setState({
+          page: {
+            ...this.state.page,
+            category: "uncategorized",
+            content: {}
+          }
+        });
+      }
     }
   }
 
@@ -161,6 +179,7 @@ class CreatePageModal extends React.Component {
 
   render() {
     const open = Boolean(this.props.showNewPageModal);
+    console.log(this.state.page)
 
     return (
       <Dialog open={open} aria-labelledby="create-page-dialogue">
@@ -186,22 +205,22 @@ class CreatePageModal extends React.Component {
             <TextField
               className="form-control"
               type="text"
-              label={"Description or summary"}
+              label={"Short summary"}
               value={this.state.page.description}
               onChange={e => this.updatePage("description", e.currentTarget.value)}
             />
           </FormControl>
 
           <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="menu-group">Page template</InputLabel>
+            <InputLabel htmlFor="menu-group-template">Page template</InputLabel>
             <Select
               value={this.state.page.template}
               onChange={selected =>
                 this.updatePage("template", selected.target.value)
               }
               inputProps={{
-                name: "menu-group",
-                id: "menu-group"
+                name: "menu-group-template",
+                id: "menu-group-template"
               }}
             >
               {PAGE_TEMPLATES.map(option => (
@@ -212,18 +231,19 @@ class CreatePageModal extends React.Component {
             </Select>
           </FormControl>
 
-          { this.state.page.template === PAGE_TEMPLATES[0].value &&
+          { // article template
+            this.state.page.template === PAGE_TEMPLATES[0].value &&
             <>
               <FormControl fullWidth margin="normal">
-                <InputLabel htmlFor="menu-group">Category</InputLabel>
+                <InputLabel htmlFor="menu-group-category">Category</InputLabel>
                 <Select
                   value={this.state.page.category}
                   onChange={selected =>
                     this.updatePage("category", selected.target.value)
                   }
                   inputProps={{
-                    name: "menu-group",
-                    id: "menu-group"
+                    name: "menu-group-category",
+                    id: "menu-group-category"
                   }}
                 >
                   {CATEGORY_OPTIONS.map(option => (
@@ -260,6 +280,31 @@ class CreatePageModal extends React.Component {
                 }
                 label={<p className="mb-0">Featured content</p>}
               />
+            </>
+          }
+
+
+          { // event template
+            this.state.page.template === PAGE_TEMPLATES[1].value &&
+            <>
+              <FormControl fullWidth margin="dense" style={{ marginTop: 0, marginBottom: 0 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={this.state.page.registration} onChange={e => this.updatePage("registration", e.currentTarget.checked)} value="registration" />
+                  }
+                  label={<p className="mb-0">Include registration section</p>}
+                />
+              </FormControl>
+
+              <FormControl fullWidth margin="dense" style={{ marginTop: 0, marginBottom: 0 }}>
+                <FormControlLabel
+                  fullWidth
+                  control={
+                    <Checkbox checked={this.state.page.livestream} onChange={e => this.updatePage("livestream", e.currentTarget.checked)} value="livestream" />
+                  }
+                  label={<p className="mb-0">Include livestream section</p>}
+                />
+              </FormControl>
             </>
           }
 

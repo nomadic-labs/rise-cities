@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { graphql, Link } from "gatsby";
+import React from "react";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
@@ -35,7 +34,7 @@ const RegistrationPage = ({ location }) => {
 
 
                     <div className="form-control">
-                      <label for="salutation">Salutation</label>
+                      <label htmlFor="salutation">Salutation</label>
                       <select id="salutation" name="salutation" required="">
                         <option value="">--None--</option>
                         <option value="Ms.">Ms.</option>
@@ -45,27 +44,27 @@ const RegistrationPage = ({ location }) => {
                     </div>
 
                     <div className="form-control">
-                      <label for="first_name">First Name</label>
+                      <label htmlFor="first_name">First Name</label>
                       <input  id="first_name" maxlength="40" name="first_name" size="20" type="text" required />
                     </div>
 
                     <div className="form-control">
-                      <label for="last_name">Last Name</label>
+                      <label htmlFor="last_name">Last Name</label>
                       <input  id="last_name" maxlength="80" name="last_name" size="20" type="text" required />
                     </div>
 
                     <div className="form-control">
-                      <label for="email">Email</label>
+                      <label htmlFor="email">Email</label>
                       <input  id="email" maxlength="80" name="email" size="20" type="email" required />
                     </div>
 
                     <div className="form-control">
-                      <label for="company">Company</label>
+                      <label htmlFor="company">Company</label>
                       <input  id="company" maxlength="40" name="company" size="20" type="text" />
                     </div>
 
                     <div className="form-control">
-                      <label for="tbd">Tbd</label>
+                      <label htmlFor="tbd">Tbd</label>
                       <input  id="tbd" maxlength="40" name="city" size="20" type="text" />
                     </div>
 
