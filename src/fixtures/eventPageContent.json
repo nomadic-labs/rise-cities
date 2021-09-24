@@ -1,12 +1,10 @@
 {
-  "sections": [
-    {
-      "content": [
-        {
-          "type": "paragraph",
-          "content": { "text": "" }
-        }
-      ]
-    }
-  ]
+  "event-date": "Date and time",
+  "event-location": "Location",
+  "event-description": "Event description",
+  "register-title": "Register now!",
+  "registration-link": { "anchor": "Registration link", "link": "/" },
+  "agenda-title": "Agenda",
+  "participants-title": "Speakers",
+  "livestream-title": "Video"
 }

@@ -3,6 +3,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Grid from "@material-ui/core/Grid";
 import EmailIcon from '@material-ui/icons/Email';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import LanguageIcon from '@material-ui/icons/Language';
 
 const DEFAULT_IMAGE = '/default-profile-image.jpg'
 
@@ -41,6 +44,36 @@ const ParticipantGalleryItem = ({ id, content={} }) => {
                     <a href={`mailto:${content.email}`} target="_blank" rel="noopener noreferrer" className="pretty-link">
                       <div className="display-flex align-center text-normal text-small">
                         <EmailIcon /><span className="ml-2">{content.email}</span>
+                      </div>
+                    </a>
+                  </div>
+                }
+                {
+                  (content.website) &&
+                  <div className="links mt-5 mb-0">
+                    <a href={`mailto:${content.website}`} target="_blank" rel="noopener noreferrer" className="pretty-link">
+                      <div className="display-flex align-center text-normal text-small">
+                        <LanguageIcon /><span className="ml-2">{content.website}</span>
+                      </div>
+                    </a>
+                  </div>
+                }
+                {
+                  (content.twitter) &&
+                  <div className="links mt-5 mb-0">
+                    <a href={`mailto:${content.twitter}`} target="_blank" rel="noopener noreferrer" className="pretty-link">
+                      <div className="display-flex align-center text-normal text-small">
+                        <TwitterIcon /><span className="ml-2">{content.twitter}</span>
+                      </div>
+                    </a>
+                  </div>
+                }
+                {
+                  (content.linkedIn) &&
+                  <div className="links mt-5 mb-0">
+                    <a href={`mailto:${content.linkedIn}`} target="_blank" rel="noopener noreferrer" className="pretty-link">
+                      <div className="display-flex align-center text-normal text-small">
+                        <LinkedInIcon /><span className="ml-2">{content.linkedIn}</span>
                       </div>
                     </a>
                   </div>

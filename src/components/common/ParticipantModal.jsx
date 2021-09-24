@@ -27,7 +27,10 @@ const emptyParticipant = {
   role: '',
   image: {},
   bio: '',
-  email: ''
+  email: '',
+  website: '',
+  twitter: '',
+  linkedIn: '',
 }
 
 class ParticipantModal extends React.Component {
@@ -97,7 +100,10 @@ class ParticipantModal extends React.Component {
       image,
       id,
       bio,
-      email
+      email,
+      website,
+      linkedIn,
+      twitter
     } = this.state.newParticipant;
 
     return (
@@ -154,6 +160,39 @@ class ParticipantModal extends React.Component {
             fullWidth
             onChange={handleChange('email')}
             variant="outlined"
+          />
+          <TextField
+            value={website || ''}
+            margin="dense"
+            id="website"
+            label="Website"
+            type="url"
+            fullWidth
+            onChange={handleChange('website')}
+            variant="outlined"
+            placeholder="https://www.risecities.org"
+          />
+          <TextField
+            value={linkedIn || ''}
+            margin="dense"
+            id="linkedIn"
+            label="LinkedIn"
+            type="url"
+            fullWidth
+            onChange={handleChange('linkedIn')}
+            variant="outlined"
+            placeholder="https://www.linkedin.com/company/bmw-foundation"
+          />
+          <TextField
+            value={twitter || ''}
+            margin="dense"
+            id="twitter"
+            label="Twitter"
+            type="url"
+            fullWidth
+            onChange={handleChange('twitter')}
+            variant="outlined"
+            placeholder="https://twitter.com/bmwfoundation"
           />
         </DialogContent>
         <DialogActions>

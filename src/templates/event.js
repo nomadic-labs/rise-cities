@@ -101,7 +101,7 @@ class EventPage extends React.Component {
           content={ content.headerImage || { imageSrc: null } }
           maxSize={1024 * 1024 * 12}
         >
-        <section id="event-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 pb-15 mt-15 mb-8">
+        <section id="event-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 pb-15 mt-15">
           <Container>
             <Grid container spacing={6}>
               <Grid item xs={9} sm={8} md={7} lg={6}>
@@ -229,6 +229,8 @@ export const query = graphql`
       next
       head
       template
+      registration
+      livestream
     }
   }
 `;

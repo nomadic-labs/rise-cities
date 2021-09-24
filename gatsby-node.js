@@ -24,6 +24,8 @@ exports.createPages = ({ graphql, actions }) => {
                 next
                 head
                 deleted
+                registration
+                livestream
               }
             }
           }

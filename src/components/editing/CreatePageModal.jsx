@@ -25,6 +25,7 @@ import Select from "@material-ui/core/Select";
 import { PAGE_TEMPLATES, CATEGORY_OPTIONS } from "../../utils/constants";
 
 import defaultContentJSON from "../../fixtures/pageContent.json";
+import eventContentJSON from "../../fixtures/eventPageContent.json";
 
 const mapStateToProps = state => {
   return {
@@ -107,7 +108,7 @@ class CreatePageModal extends React.Component {
           page: {
             ...this.state.page,
             category: "uncategorized",
-            content: {}
+            content: eventContentJSON
           }
         });
       }
