@@ -13,7 +13,8 @@ const emptyItem = {
   endTime: '',
   image: {},
   description: '',
-  speakers: ''
+  speakers: '',
+  moderator: ''
 }
 
 class AgendaModal extends React.Component {
@@ -79,7 +80,8 @@ class AgendaModal extends React.Component {
       endTime,
       id,
       description,
-      speakers
+      speakers,
+      moderator
     } = this.state.agendaItem;
 
     return (
@@ -129,7 +131,6 @@ class AgendaModal extends React.Component {
             fullWidth
             onChange={handleChange('endTime')}
             variant="outlined"
-            required
           />
           <TextField
             value={speakers || ''}
@@ -139,6 +140,16 @@ class AgendaModal extends React.Component {
             type="speakers"
             fullWidth
             onChange={handleChange('speakers')}
+            variant="outlined"
+          />
+          <TextField
+            value={moderator || ''}
+            margin="dense"
+            id="moderator"
+            label="Moderator"
+            type="moderator"
+            fullWidth
+            onChange={handleChange('moderator')}
             variant="outlined"
           />
         </DialogContent>
@@ -167,7 +178,7 @@ class AgendaModal extends React.Component {
                   color="primary"
                   variant="contained"
                   style={{borderRadius:0}}
-                  disabled={!title || !startTime || !endTime}
+                  disabled={!title || !startTime}
                   disableElevation>
                   Save
                 </Button>

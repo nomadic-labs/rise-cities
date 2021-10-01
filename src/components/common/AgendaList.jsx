@@ -88,7 +88,12 @@ class AgendaList extends React.Component {
               }
               {
                 !this.props.isEditingPage &&
-                <AgendaItem content={agendaItem} id={agendaItem.id} />
+                <AgendaItem
+                  content={agendaItem}
+                  id={agendaItem.id}
+                  selectSpeaker={this.props.selectSpeaker}
+                  speakersArr={this.props.speakersArr}
+                />
               }
             </div>
           )

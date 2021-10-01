@@ -3,9 +3,43 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+const DEFAULT_IMAGE = '/default-profile-image.jpg'
 
-const AgendaItem = ({ id, content={} }) => {
+const SpeakerThumbnail = ({ speaker, speakerName, selectSpeaker }) => {
+  const handleClick = () => {
+    selectSpeaker(speakerName)
+  }
 
+  const profileImage = speaker.image?.imageSrc || DEFAULT_IMAGE
+
+  if (speaker) {
+    return (
+      <button className="participant-thumbnail" onClick={handleClick} aria-label="Open profile">
+        <div className="participant-image">
+          <img src={profileImage} alt={speaker.name}/>
+        </div>
+        <div className="participant-name pretty-link">
+          {speaker.name}
+        </div>
+      </button>
+    )
+  } else {
+    return (
+      <div className="participant-thumbnail">
+        <div className="participant-image">
+          <img src={profileImage} alt={speakerName}/>
+        </div>
+        <div className="participant-name">
+          {speakerName}
+        </div>
+      </div>
+    )
+  }
+}
+
+const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr }) => {
+  const timeString = content.startTime && content.endTime ? `${content.startTime} - ${content.endTime}` : `${content.startTime}`;
+  const speakerList = content.speakers ? content.speakers.split(',').map(str => str.trim()) : []
   return (
     <div className="mb-2">
       <Accordion square variant="outlined">
@@ -16,13 +50,28 @@ const AgendaItem = ({ id, content={} }) => {
         >
           <div className="display-block">
             <h4 className="mt-1 mb-1">{content.title}</h4>
-            <p className="text-small mb-1">{`${content.startTime} - ${content.endTime}`}</p>
+            <p className="text-small mb-1">{timeString}</p>
           </div>
         </AccordionSummary>
         <AccordionDetails>
           <div className="display-block">
             <p>{content.description}</p>
-            {content.speakers && <p className="text-small mb-1 text-bold">{`Speakers: ${content.speakers}`}</p>}
+            {Boolean(speakerList.length) &&
+              <div className="mb-1">
+                <p className="text-small text-bold">{`Speakers:`}</p>
+                {speakerList.map(speakerName => {
+                  const speaker = speakersArr.find(s => s.name === speakerName)
+                  return (
+                    <SpeakerThumbnail
+                      speaker={speaker}
+                      speakerName={speakerName}
+                      selectSpeaker={selectSpeaker}
+                    />
+                  )
+                })}
+              </div>
+            }
+            {content.moderator && <p className="text-small mb-1 text-bold">{`Moderator: ${content.moderator}`}</p>}
           </div>
         </AccordionDetails>
       </Accordion>

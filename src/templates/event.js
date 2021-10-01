@@ -59,6 +59,9 @@ class EventPage extends React.Component {
     };
 
     this.props.onLoadPageData(initialPageData);
+    this.state = {
+      selectedProfile: null
+    }
   }
 
   componentDidMount() {
@@ -82,9 +85,27 @@ class EventPage extends React.Component {
     this.props.onUpdatePageContent('headerImage', null);
   }
 
+  selectSpeaker = speakerName => {
+    if (!speakerName) {
+      this.setState({ selectedProfile: null })
+    }
+    const speakerObj = this.props.pageData.content["participants-collection"]
+    const speakerKeys = Object.keys(speakerObj)
+    const speakersArr = speakerKeys.map(key => speakerObj[key])
+    const speaker = speakersArr.find(s => s.name === speakerName)
+
+    if (speaker) {
+      this.setState({ selectedProfile: speaker })
+    }
+  }
+
   render() {
     const pageData = this.props.pageData ? this.props.pageData : this.props.data.pages;
     const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
+    const speakerObj = content["participants-collection"] || {}
+    const speakerKeys = Object.keys(speakerObj)
+    const itemsToShow = speakerKeys.length
+    const speakersArr = speakerKeys.map(key => speakerObj[key])
 
     return (
       <Layout location={this.props.location}>
@@ -98,7 +119,7 @@ class EventPage extends React.Component {
           onSave={ this.onUpdateHeaderImage }
           onDelete={ this.onDeleteHeaderImage }
           uploadImage={ uploadFile }
-          content={ content.headerImage || { imageSrc: null } }
+          content={ content.headerImage }
           maxSize={1024 * 1024 * 12}
         >
         <section id="event-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 pb-15 mt-15">
@@ -166,16 +187,28 @@ class EventPage extends React.Component {
               <EditableText content={content["agenda-title"]} onSave={this.onSave("agenda-title")} />
             </h2>
 
-            <h3 className="text-black">
+            <h3 className="text-black display-flex align-center">
+              <div className="circle-icon bg-gradient rotate-slow mr-2" />
               <EditableText content={content["day1-title"]} onSave={this.onSave("day1-title")} />
             </h3>
-            <AgendaList content={content["day1-agenda"]} onSave={this.onSave("day1-agenda")} />
+            <AgendaList
+              content={content["day1-agenda"]}
+              onSave={this.onSave("day1-agenda")}
+              selectSpeaker={this.selectSpeaker}
+              speakersArr={speakersArr}
+            />
 
 
-             <h3 className="text-black">
+             <h3 className="text-black display-flex align-center">
+              <div className="circle-icon bg-gradient rotate-slow mr-2" />
               <EditableText content={content["day2-title"]} onSave={this.onSave("day2-title")} />
             </h3>
-            <AgendaList content={content["day2-agenda"]} onSave={this.onSave("day2-agenda")} />
+            <AgendaList
+              content={content["day2-agenda"]}
+              onSave={this.onSave("day2-agenda")}
+              selectSpeaker={this.selectSpeaker}
+              speakersArr={speakersArr}
+            />
 
           </Container>
         </section>
@@ -188,9 +221,13 @@ class EventPage extends React.Component {
               <EditableText content={content["participants-title"]} onSave={this.onSave("participants-title")} />
             </h2>
 
-            <LazyLoad offset={200}>
-              <ParticipantGallery content={content["participants-collection"]} onSave={this.onSave("participants-collection")} />
-            </LazyLoad>
+            <ParticipantGallery
+              content={content["participants-collection"]}
+              onSave={this.onSave("participants-collection")}
+              itemsToShow={itemsToShow}
+              selectedProfile={this.state.selectedProfile}
+              selectSpeaker={this.selectSpeaker}
+            />
           </Container>
         </section>
 

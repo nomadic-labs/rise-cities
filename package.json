@@ -24,6 +24,7 @@
     "firebase": "^7.5.2",
     "firebase-admin": "^8.8.0",
     "firebase-tools": "^7.9.0",
+    "firestore-export-import": "^0.17.0",
     "gatsby": "^2.18.8",
     "gatsby-cli": "^2.8.16",
     "gatsby-plugin-google-analytics": "^3.3.0",
@@ -75,6 +76,7 @@
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy:aws": "GATSBY_ACTIVE_ENV=production gatsby build && gatsby-plugin-s3 deploy -y",
+    "deploy:staging": "GATSBY_ACTIVE_ENV=staging gatsby build && gatsby-plugin-s3 deploy -y",
     "deploy": "gatsby-plugin-s3 deploy -y",
     "clean": "gatsby clean"
   },

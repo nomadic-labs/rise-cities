@@ -1,10 +1,10 @@
 {
-  "event-date": "Date and time",
-  "event-location": "Location",
-  "event-description": "Event description",
-  "register-title": "Register now!",
+  "event-date": { "text": "Date and time" },
+  "event-location": { "text": "Location" },
+  "event-description": { "text": "Event description" },
+  "register-title": { "text": "Register now!" },
   "registration-link": { "anchor": "Registration link", "link": "/" },
-  "agenda-title": "Agenda",
-  "participants-title": "Speakers",
-  "livestream-title": "Video"
+  "agenda-title": { "text": "Agenda" },
+  "participants-title": { "text": "Speakers" },
+  "livestream-title": { "text": "Video" }
 }
