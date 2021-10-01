@@ -37,7 +37,7 @@ const SpeakerThumbnail = ({ speaker, speakerName, selectSpeaker }) => {
   }
 }
 
-const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr }) => {
+const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr=[] }) => {
   const timeString = content.startTime && content.endTime ? `${content.startTime} - ${content.endTime}` : `${content.startTime}`;
   const speakerList = content.speakers ? content.speakers.split(',').map(str => str.trim()) : []
   const moderatorList = content.moderator ? content.moderator.split(',').map(str => str.trim()) : []
