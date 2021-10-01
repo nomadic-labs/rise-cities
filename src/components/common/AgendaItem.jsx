@@ -10,7 +10,7 @@ const SpeakerThumbnail = ({ speaker, speakerName, selectSpeaker }) => {
     selectSpeaker(speakerName)
   }
 
-  const profileImage = speaker.image?.imageSrc || DEFAULT_IMAGE
+  const profileImage = speaker?.image?.imageSrc || DEFAULT_IMAGE
 
   if (speaker) {
     return (
@@ -40,6 +40,7 @@ const SpeakerThumbnail = ({ speaker, speakerName, selectSpeaker }) => {
 const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr }) => {
   const timeString = content.startTime && content.endTime ? `${content.startTime} - ${content.endTime}` : `${content.startTime}`;
   const speakerList = content.speakers ? content.speakers.split(',').map(str => str.trim()) : []
+  const moderatorList = content.moderator ? content.moderator.split(',').map(str => str.trim()) : []
   return (
     <div className="mb-2">
       <Accordion square variant="outlined">
@@ -71,7 +72,22 @@ const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr }) => {
                 })}
               </div>
             }
-            {content.moderator && <p className="text-small mb-1 text-bold">{`Moderator: ${content.moderator}`}</p>}
+
+            {Boolean(moderatorList.length) &&
+              <div className="mb-1">
+                <p className="text-small text-bold">{`Moderator:`}</p>
+                {moderatorList.map(speakerName => {
+                  const speaker = speakersArr.find(s => s.name === speakerName)
+                  return (
+                    <SpeakerThumbnail
+                      speaker={speaker}
+                      speakerName={speakerName}
+                      selectSpeaker={selectSpeaker}
+                    />
+                  )
+                })}
+              </div>
+            }
           </div>
         </AccordionDetails>
       </Accordion>
