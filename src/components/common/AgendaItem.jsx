@@ -59,7 +59,7 @@ const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr=[] }) => {
             <p>{content.description}</p>
             {Boolean(speakerList.length) &&
               <div className="mb-1">
-                <p className="text-small text-bold">{`Speakers:`}</p>
+                <p className="text-small text-bold mb-1">{`Speakers:`}</p>
                 {speakerList.map(speakerName => {
                   const speaker = speakersArr.find(s => s.name === speakerName)
                   return (
@@ -75,7 +75,7 @@ const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr=[] }) => {
 
             {Boolean(moderatorList.length) &&
               <div className="mb-1">
-                <p className="text-small text-bold">{`Moderator:`}</p>
+                <p className="text-small text-bold mb-1">{`Moderator:`}</p>
                 {moderatorList.map(speakerName => {
                   const speaker = speakersArr.find(s => s.name === speakerName)
                   return (

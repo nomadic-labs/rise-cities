@@ -125,7 +125,7 @@ class EventPage extends React.Component {
         <section id="event-landing" data-aos="fade-up" data-aos-offset="100" className="pt-15 pb-15 mt-15">
           <Container>
             <Grid container spacing={6}>
-              <Grid item xs={9} sm={8} md={7} lg={6}>
+              <Grid item xs={12} sm={8} md={7} lg={6}>
                 <div className="header pt-5 pb-5 pr-5 pl-5 bg-white text-black">
                   <h1 className="mt-0 mb-5">
                     {pageData.title}
@@ -140,7 +140,7 @@ class EventPage extends React.Component {
               </Grid>
             </Grid>
             <Grid container justify="flex-end">
-              <Grid item xs={9} sm={9} md={8} lg={7}>
+              <Grid item xs={12} sm={9} md={8} lg={7}>
                 <div className="event-info position-relative mt-15">
                   <div className="mb-5 bg-white p-8">
                     <EditableParagraph

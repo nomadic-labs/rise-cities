@@ -22,7 +22,7 @@ const ParticipantDetailModal = ({ profile, closeModal }) => {
         <DialogContent className="participant-modal">
           <Grid container>
             <Grid item xs={12} sm={4}>
-              <div className="p-4 pr-0">
+              <div className="p-4">
                 <img src={profileImage} alt={profile.name} className="participant-image-lg" />
               </div>
             </Grid>
