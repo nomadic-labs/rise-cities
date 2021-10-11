@@ -7,6 +7,7 @@ import AOS from 'aos';
 import LazyLoad from 'react-lazyload';
 import ParticipantGallery from "../components/common/ParticipantGallery"
 import AgendaList from "../components/common/AgendaList"
+import ExpandableText from "../components/common/ExpandableText"
 
 import { connect } from "react-redux";
 import {
@@ -244,6 +245,36 @@ class EventPage extends React.Component {
           </Container>
         </section>
         }
+
+        <Container><div className="fancy-border" data-aos="flip-right" /></Container>
+
+        <section className="mt-10 mb-15" data-aos="fade-up" id="people">
+          <Container>
+            <h2 className="text-black">
+              <EditableText content={content["faq-title"]} onSave={this.onSave("faq-title")} />
+            </h2>
+
+            <div className="mb-2">
+              <ExpandableText content={content["faq1"]} onSave={this.onSave("faq1")} />
+            </div>
+
+            <div className="mb-2">
+              <ExpandableText content={content["faq2"]} onSave={this.onSave("faq2")} />
+            </div>
+
+            <div className="mb-2">
+              <ExpandableText content={content["faq3"]} onSave={this.onSave("faq3")} />
+            </div>
+
+            <div className="mb-2">
+              <ExpandableText content={content["faq4"]} onSave={this.onSave("faq4")} />
+            </div>
+
+            <div className="mb-2">
+              <ExpandableText content={content["faq5"]} onSave={this.onSave("faq5")} />
+            </div>
+          </Container>
+        </section>
 
       </Layout>
     );
