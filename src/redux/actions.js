@@ -164,6 +164,7 @@ export function savePage(pageData, pageId) {
       .update(pageData)
       .then(snap => {
         dispatch(toggleNewPageModal());
+        dispatch(updatePageTitle(pageData.title))
         dispatch(
           showNotification(
             "Your page has been updated. Don't forget to publish your changes!",
