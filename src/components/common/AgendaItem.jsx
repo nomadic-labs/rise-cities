@@ -65,6 +65,7 @@ const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr=[] }) => {
                   return (
                     <SpeakerThumbnail
                       speaker={speaker}
+                      key={speakerName}
                       speakerName={speakerName}
                       selectSpeaker={selectSpeaker}
                     />
@@ -80,6 +81,7 @@ const AgendaItem = ({ id, content={}, selectSpeaker, speakersArr=[] }) => {
                   const speaker = speakersArr.find(s => s.name === speakerName)
                   return (
                     <SpeakerThumbnail
+                      key={speakerName}
                       speaker={speaker}
                       speakerName={speakerName}
                       selectSpeaker={selectSpeaker}

@@ -47,6 +47,8 @@ class AgendaList extends React.Component {
     let newContent = { ...this.props.content }
     delete newContent[itemId]
 
+    console.log({newContent})
+
     this.props.onSave(newContent)
   }
 

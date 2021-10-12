@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
@@ -37,8 +37,8 @@ const ExpandableText = props => {
   const { content } = props;
 
   return (
-    <ExpansionPanel className="expandable" variant="outlined" square={true}>
-      <ExpansionPanelSummary
+    <Accordion className="expandable" variant="outlined" square={true}>
+      <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="expandable-content"
         id="expandable-header"
@@ -57,8 +57,8 @@ const ExpandableText = props => {
             {content.header}
           </Editable>
         </h4>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails id="expandable-content">
+      </AccordionSummary>
+      <AccordionDetails id="expandable-content">
         <Editable
           Editor={RichTextEditor}
           content={{ text: content.description }}
@@ -71,8 +71,8 @@ const ExpandableText = props => {
         >
           <div className="description" dangerouslySetInnerHTML={ {__html: content.description} } />
         </Editable>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 
