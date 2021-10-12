@@ -73,9 +73,9 @@ class ParticipantGallery extends React.Component {
     this.props.onSave(newContent)
   }
 
-  onDeleteItem = itemId => () => {
+  onDeleteItem = itemId => {
     let newContent = { ...this.props.content }
-    newContent[itemId] = null
+    delete newContent[itemId]
 
     this.props.onSave(newContent)
   }
@@ -226,9 +226,9 @@ class ParticipantGallery extends React.Component {
         <ParticipantModal
           participant={editingParticipant}
           onSaveItem={this.onSaveItem}
+          onDeleteItem={this.onDeleteItem}
           showModal={showModal}
           closeModal={() => this.setState({ ...this.state, showModal: false, editingParticipant: null })}
-          onDeleteItem={this.onDeleteItem}
         />
       </div>
     );

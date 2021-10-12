@@ -43,9 +43,9 @@ class AgendaList extends React.Component {
     this.props.onSave(newContent)
   }
 
-  onDeleteItem = itemId => () => {
+  onDeleteItem = itemId => {
     let newContent = { ...this.props.content }
-    newContent[itemId] = null
+    delete newContent[itemId]
 
     this.props.onSave(newContent)
   }
@@ -54,7 +54,7 @@ class AgendaList extends React.Component {
     const { showModal, editingAgendaItem } = this.state;
     let agendaItems = Object.keys(this.props.content).map(key => this.props.content[key])
     agendaItems.sort((item1, item2) => parseInt(item1.startTime) - parseInt(item2.startTime))
-    console.log({agendaItems})
+
     return (
       <div id="agenda-list" className={`collection width-100 mt-2 ${this.props.classes}`}>
         {
