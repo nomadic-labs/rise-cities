@@ -56,7 +56,6 @@ class ParticipantGallery extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.selectedProfile !== this.props.selectedProfile) {
-      console.log("this.props.selectedProfile", this.props.selectedProfile)
       this.setState({
         ...this.state,
         selectedProfile: this.props.selectedProfile

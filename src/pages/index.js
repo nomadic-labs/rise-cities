@@ -168,7 +168,6 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
-                    <LazyLoad>
                       <div className="landing-image">
                         <EditableImageUpload
                           content={content["resilient-image"]}
@@ -181,7 +180,6 @@ class HomePage extends React.Component {
                           <img src={resilientIcon} alt="" />
                         </div>
                       </div>
-                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
@@ -201,7 +199,6 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
-                  <LazyLoad>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["intelligent-image"]}
@@ -214,7 +211,6 @@ class HomePage extends React.Component {
                         <img src={intelligentIcon} alt="" />
                       </div>
                     </div>
-                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
@@ -234,7 +230,6 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
-                    <LazyLoad>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["sustainable-image"]}
@@ -247,7 +242,6 @@ class HomePage extends React.Component {
                         <img src={sustainableIcon} alt="" />
                       </div>
                     </div>
-                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
@@ -267,7 +261,6 @@ class HomePage extends React.Component {
                     </div>
                   </Grid>
                   <Grid item sm={6}>
-                  <LazyLoad>
                     <div className="landing-image">
                       <EditableImageUpload
                         content={content["equitable-image"]}
@@ -280,7 +273,6 @@ class HomePage extends React.Component {
                         <img src={equitableIcon} alt="" />
                       </div>
                     </div>
-                    </LazyLoad>
                   </Grid>
                 </Grid>
               </Container>
