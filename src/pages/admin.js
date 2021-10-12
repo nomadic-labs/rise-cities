@@ -278,7 +278,6 @@ class AdminPage extends React.Component {
       </Layout>
     )
   }
-
 }
 
 

@@ -56,7 +56,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-s3`,
       options: {
-        bucketName: "rise-cities",
+        bucketName: process.env.GATSBY_AWS_HOSTING_BUCKET,
         protocol: "https",
         hostname: process.env.GATSBY_HOSTNAME,
       },

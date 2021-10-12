@@ -6,7 +6,6 @@ import {
   toggleNewPageModal,
   savePage,
   createPage,
-  updatePageOrder,
   fetchPages,
 } from "../../redux/actions";
 
@@ -23,9 +22,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import { PAGE_TYPES, CATEGORY_OPTIONS } from "../../utils/constants";
+import { PAGE_TEMPLATES, CATEGORY_OPTIONS } from "../../utils/constants";
 
 import defaultContentJSON from "../../fixtures/pageContent.json";
+import eventContentJSON from "../../fixtures/eventPageContent.json";
 
 const mapStateToProps = state => {
   return {
@@ -48,9 +48,6 @@ const mapDispatchToProps = dispatch => {
     createPage: (pageData, pageId) => {
       dispatch(createPage(pageData, pageId));
     },
-    updatePageOrder: (pageOrder) => {
-      dispatch(updatePageOrder(pageOrder));
-    },
     fetchPages: () => {
       dispatch(fetchPages())
     },
@@ -64,9 +61,11 @@ const emptyPage = {
     externalLink: "",
     category: CATEGORY_OPTIONS[0].value,
     content: defaultContentJSON,
-    template: PAGE_TYPES[0].value.template,
+    template: PAGE_TEMPLATES[0].value,
     date: Date.now(),
     featured: false,
+    registration: false,
+    livestream: false,
   }
 
 class CreatePageModal extends React.Component {
@@ -84,7 +83,7 @@ class CreatePageModal extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.options !== this.props.options) {
       this.setState({ page: this.props.options.new ? emptyPage : {
         ...this.props.page
@@ -93,6 +92,26 @@ class CreatePageModal extends React.Component {
 
     if (!prevProps.showNewPageModal && this.props.showNewPageModal) {
       this.props.fetchPages()
+    }
+
+    if (prevState.page.template !== this.state.page.template) {
+      if (this.state.page.template === PAGE_TEMPLATES[0].value) { // article template
+        this.setState({
+          page: {
+            ...this.state.page,
+            category: CATEGORY_OPTIONS[0].value,
+            content: defaultContentJSON
+          }
+        });
+      } else if (this.state.page.template === PAGE_TEMPLATES[1].value) { // event template
+        this.setState({
+          page: {
+            ...this.state.page,
+            category: "uncategorized",
+            content: eventContentJSON
+          }
+        });
+      }
     }
   }
 
@@ -186,45 +205,25 @@ class CreatePageModal extends React.Component {
             <TextField
               className="form-control"
               type="text"
-              label={"Description or summary of article"}
+              label={"Short summary"}
               value={this.state.page.description}
               onChange={e => this.updatePage("description", e.currentTarget.value)}
             />
           </FormControl>
 
           <FormControl fullWidth margin="normal">
-            <TextField
-              className="form-control"
-              type="text"
-              label={"Author (optional)"}
-              value={this.state.page.author}
-              onChange={e => this.updatePage("author", e.currentTarget.value)}
-            />
-          </FormControl>
-
-          <FormControl fullWidth margin="normal">
-            <TextField
-              className="form-control"
-              type="text"
-              label={"External link (optional)"}
-              value={this.state.page.externalLink}
-              onChange={e => this.updatePage("externalLink", e.currentTarget.value)}
-            />
-          </FormControl>
-
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="menu-group">Category</InputLabel>
+            <InputLabel htmlFor="menu-group-template">Page template</InputLabel>
             <Select
-              value={this.state.page.category}
+              value={this.state.page.template}
               onChange={selected =>
-                this.updatePage("category", selected.target.value)
+                this.updatePage("template", selected.target.value)
               }
               inputProps={{
-                name: "menu-group",
-                id: "menu-group"
+                name: "menu-group-template",
+                id: "menu-group-template"
               }}
             >
-              {CATEGORY_OPTIONS.map(option => (
+              {PAGE_TEMPLATES.map(option => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -232,12 +231,82 @@ class CreatePageModal extends React.Component {
             </Select>
           </FormControl>
 
-          <FormControlLabel
-            control={
-              <Checkbox checked={this.state.page.featured} onChange={e => this.updatePage("featured", e.currentTarget.checked)} value="featured" />
-            }
-            label={<p className="mb-0">Featured content</p>}
-          />
+          { // article template
+            this.state.page.template === PAGE_TEMPLATES[0].value &&
+            <>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="menu-group-category">Category</InputLabel>
+                <Select
+                  value={this.state.page.category}
+                  onChange={selected =>
+                    this.updatePage("category", selected.target.value)
+                  }
+                  inputProps={{
+                    name: "menu-group-category",
+                    id: "menu-group-category"
+                  }}
+                >
+                  {CATEGORY_OPTIONS.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  className="form-control"
+                  type="text"
+                  label={"Author (optional)"}
+                  value={this.state.page.author}
+                  onChange={e => this.updatePage("author", e.currentTarget.value)}
+                />
+              </FormControl>
+
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  className="form-control"
+                  type="text"
+                  label={"External link (optional)"}
+                  value={this.state.page.externalLink}
+                  onChange={e => this.updatePage("externalLink", e.currentTarget.value)}
+                />
+              </FormControl>
+
+              <FormControlLabel
+                control={
+                  <Checkbox checked={this.state.page.featured} onChange={e => this.updatePage("featured", e.currentTarget.checked)} value="featured" />
+                }
+                label={<p className="mb-0">Featured content</p>}
+              />
+            </>
+          }
+
+
+          { // event template
+            this.state.page.template === PAGE_TEMPLATES[1].value &&
+            <>
+              <FormControl fullWidth margin="dense" style={{ marginTop: 0, marginBottom: 0 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={this.state.page.registration} onChange={e => this.updatePage("registration", e.currentTarget.checked)} value="registration" />
+                  }
+                  label={<p className="mb-0">Include registration section</p>}
+                />
+              </FormControl>
+
+              <FormControl fullWidth margin="dense" style={{ marginTop: 0, marginBottom: 0 }}>
+                <FormControlLabel
+                  fullWidth
+                  control={
+                    <Checkbox checked={this.state.page.livestream} onChange={e => this.updatePage("livestream", e.currentTarget.checked)} value="livestream" />
+                  }
+                  label={<p className="mb-0">Include livestream section</p>}
+                />
+              </FormControl>
+            </>
+          }
 
         </DialogContent>
 

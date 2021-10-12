@@ -18,8 +18,9 @@ export const CATEGORY_OPTIONS = [
 
 export const DEFAULT_LANGUAGE = "en"
 
-export const PAGE_TYPES = [
-  { label: "Article", value: { type: "article", template: "article.js" } },
+export const PAGE_TEMPLATES = [
+  { label: "Article", value: "article.js" },
+  { label: "Event", value: "event.js" },
 ];
 
 export const PERMANENT_PAGES = [

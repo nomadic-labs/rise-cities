@@ -5,6 +5,7 @@ import Slider from "react-slick";
 
 import ParticipantGalleryItem from "./ParticipantGalleryItem"
 import ParticipantModal from "./ParticipantModal";
+import ParticipantDetailModal from './ParticipantDetailModal'
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
 import Grid from "@material-ui/core/Grid";
@@ -13,7 +14,7 @@ import { fetchProfiles } from "../../redux/actions"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const ITEM_NUMBER = 12
+const ITEM_NUMBER = 36
 const DEFAULT_SLIDES = 6
 
 const muiTheme = createMuiTheme({
@@ -48,7 +49,18 @@ class ParticipantGallery extends React.Component {
     this.state = {
       showModal: false,
       editingParticipant: null,
-      itemsToShow: ITEM_NUMBER,
+      showProfileModal: false,
+      selectedProfile: this.props.selectedProfile,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedProfile !== this.props.selectedProfile) {
+      console.log("this.props.selectedProfile", this.props.selectedProfile)
+      this.setState({
+        ...this.state,
+        selectedProfile: this.props.selectedProfile
+      })
     }
   }
 
@@ -61,15 +73,16 @@ class ParticipantGallery extends React.Component {
     this.props.onSave(newContent)
   }
 
-  onDeleteItem = itemId => () => {
+  onDeleteItem = itemId => {
     let newContent = { ...this.props.content }
-    newContent[itemId] = null
+    delete newContent[itemId]
 
     this.props.onSave(newContent)
   }
 
   render() {
-    const { showModal, editingParticipant, itemsToShow } = this.state;
+    const { showModal, editingParticipant, showProfileModal, selectedProfile } = this.state;
+    const itemsToShow = this.props.itemsToShow || ITEM_NUMBER;
     const profiles = Object.keys(this.props.content).map(key => this.props.content[key])
     const orderedProfiles = profiles.sort((a,b) => {
       if (a.date && b.date) {
@@ -152,7 +165,7 @@ class ParticipantGallery extends React.Component {
           <div className="row mt-6 mb-4">
             <div className="col-12">
               <Button
-                onClick={() => this.setState({ showModal: true })}
+                onClick={() => this.setState({ ...this.state, showModal: true })}
                 color="default"
                 variant="contained">
                 Add profile
@@ -171,7 +184,7 @@ class ParticipantGallery extends React.Component {
                   <ThemeProvider theme={muiTheme}>
                     <EditorWrapper
                       theme={this.context.theme}
-                      startEditing={() => this.setState({ showModal: true, editingParticipant: profile })}
+                      startEditing={() => this.setState({ ...this.state, showModal: true, editingParticipant: profile })}
                       isContentClickTarget={false}
                     >
                       <ParticipantGalleryItem content={profile} id={profile.id} />
@@ -180,7 +193,11 @@ class ParticipantGallery extends React.Component {
                 }
                 {
                   !this.props.isEditingPage &&
-                  <ParticipantGalleryItem content={profile} id={profile.id} />
+                  <ParticipantGalleryItem
+                    content={profile}
+                    id={profile.id}
+                    selectProfile={() => this.setState({ ...this.state, selectedProfile: profile })}
+                  />
                 }
               </div>
             )
@@ -194,19 +211,24 @@ class ParticipantGallery extends React.Component {
                 variant="outlined"
                 color="primary"
                 className="btn"
-                onClick={() => this.setState({ itemsToShow: this.state.itemsToShow + ITEM_NUMBER })}>
+                onClick={() => this.setState({ ...this.state, itemsToShow: this.state.itemsToShow + ITEM_NUMBER })}>
                 Load more
               </Button>
             </Grid>
           </Grid>
         }
 
+        <ParticipantDetailModal
+          profile={selectedProfile}
+          closeModal={() => this.setState({ ...this.state, selectedProfile: null })}
+        />
+
         <ParticipantModal
           participant={editingParticipant}
           onSaveItem={this.onSaveItem}
-          showModal={showModal}
-          closeModal={() => this.setState({ showModal: false, editingParticipant: null })}
           onDeleteItem={this.onDeleteItem}
+          showModal={showModal}
+          closeModal={() => this.setState({ ...this.state, showModal: false, editingParticipant: null })}
         />
       </div>
     );

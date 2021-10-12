@@ -702,6 +702,7 @@ body .nl-page {
       max-width: 250px;
       object-fit: cover;
       transition: all 0.3s ease;
+      filter: grayscale(1);
     }
   }
 
@@ -747,6 +748,7 @@ body .nl-page {
     width: 100%;
     object-fit: cover;
     display: block;
+    aspect-ratio: 1/1;
   }
 
   .participant-affiliate-organization {
@@ -756,6 +758,67 @@ body .nl-page {
 
   .summary {
 
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+.participant-thumbnail {
+  text-align: center;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px;
+  max-width: 120px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .pretty-link {
+    @include pretty-link;
+  }
+
+  .participant-image {
+    position: relative;
+    margin-bottom: 8px;
+
+    img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50px;
+      object-fit: cover;
+      transition: all 0.3s ease;
+      filter: grayscale(1);
+    }
+  }
+
+  &:hover {
+    .pretty-link:after {
+      width: 100%;
+    }
+  }
+
+  &:focus {
+    .pretty-link {
+      animation-name: bump;
+      animation-duration: 0.5s;
+      animation-timing-function: ease;
+      animation-iteration-count: 1;
+
+      &:after {
+        width: 100%;
+        border-color: $primary-color;
+      }
+    }
+  }
+
+  .participant-name {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
   }
 }
 
@@ -790,6 +853,7 @@ body .nl-page {
       object-fit: cover;
       transition: all 0.3s ease;
       filter: grayscale(100%);
+      aspect-ratio: 1/1;
     }
   }
 
@@ -1084,5 +1148,6 @@ blockquote {
 .pre-wrap {
   white-space: pre-wrap;
 }
+
 
 @import "responsive";

@@ -23,7 +23,7 @@ class EditableCollection extends React.Component {
 
 
   render() {
-    const { items, Component, isEditingPage, classes, ...rest } = this.props;
+    const { items, Component, isEditingPage, classes } = this.props;
 
     const itemsKeys = Object.keys(items);
 

@@ -1,0 +1,10 @@
+{
+  "event-date": { "text": "Date and time" },
+  "event-location": { "text": "Location" },
+  "event-description": { "text": "Event description" },
+  "register-title": { "text": "Register now!" },
+  "registration-link": { "anchor": "Registration link", "link": "/" },
+  "agenda-title": { "text": "Agenda" },
+  "participants-title": { "text": "Speakers" },
+  "livestream-title": { "text": "Video" }
+}
