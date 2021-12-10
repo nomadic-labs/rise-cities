@@ -9,6 +9,7 @@ import ArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Chip from '@material-ui/core/Chip';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { push, Link } from 'gatsby'
 import { firestore } from "../firebase/init";
@@ -197,6 +198,7 @@ class AdminPage extends React.Component {
                       <IconButton size="small" color="primary" onClick={this.movePageForward(page)} disabled={pageId === lastPageId}><ArrowDown /></IconButton>
                       <IconButton size="small" color="primary" onClick={this.deletePage(page)} disabled={PERMANENT_PAGES.includes(page.id)}><DeleteForever /></IconButton>
                       <span className="ml-3"><Link to={page.slug}>{page.title}</Link></span>
+                      { page.featured && <Chip label="Featured" size="small" color="secondary" className="ml-2" style={{ fontSize: "13px" }} /> }
                     </div>
                   )
                 })
