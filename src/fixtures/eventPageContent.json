@@ -5,6 +5,13 @@
   "register-title": { "text": "Register now!" },
   "registration-link": { "anchor": "Registration link", "link": "/" },
   "agenda-title": { "text": "Agenda" },
+  "agenda-collection": [
+    { "agenda-day-title": { "text": "Date" },
+      "agenda-items": []
+    }
+  ],
   "participants-title": { "text": "Speakers" },
-  "livestream-title": { "text": "Video" }
+  "faq-title": { "text": "Frequently Asked Questions" },
+  "livestream-title": { "text": "Video" },
+  "faqs-collection": []
 }

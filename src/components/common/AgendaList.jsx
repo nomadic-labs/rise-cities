@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import AgendaItem from "./AgendaItem"
 import AgendaModal from "./AgendaModal";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
-import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
+import {EditablesContext, EditorWrapper, theme, EditableText} from "react-easy-editables";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -31,23 +31,22 @@ class AgendaList extends React.Component {
     this.state = {
       showModal: false,
       editingAgendaItem: null,
+      agendaItemIndex: null
     }
   }
 
   onSaveItem = (itemId, itemContent) => {
-    const newContent = {
-      ...this.props.content,
-      [itemId]: itemContent
-    }
+    const newContent = [...this.props.content]
+    const itemIndex = this.state.agendaItemIndex ? this.state.agendaItemIndex : this.props.content.length
+    const updatedAgendaItem = { ...newContent[itemIndex], ...itemContent }
+    newContent[itemIndex] = updatedAgendaItem
 
     this.props.onSave(newContent)
   }
 
   onDeleteItem = itemId => {
-    let newContent = { ...this.props.content }
-    delete newContent[itemId]
-
-    console.log({newContent})
+    const newContent = [...this.props.content]
+    newContent.splice(this.state.agendaItemIndex, 1)
 
     this.props.onSave(newContent)
   }
@@ -59,19 +58,6 @@ class AgendaList extends React.Component {
 
     return (
       <div id="agenda-list" className={`collection width-100 mt-2 ${this.props.classes}`}>
-        {
-          this.props.isEditingPage &&
-          <div className="row mt-6 mb-4">
-            <div className="col-12">
-              <Button
-                onClick={() => this.setState({ showModal: true })}
-                color="default"
-                variant="contained">
-                Add agenda item
-              </Button>
-            </div>
-          </div>
-        }
         {agendaItems.map((agendaItem,index) => {
           return (
             <div
@@ -82,7 +68,7 @@ class AgendaList extends React.Component {
                 <ThemeProvider theme={muiTheme}>
                   <EditorWrapper
                     theme={this.context.theme}
-                    startEditing={() => this.setState({ showModal: true, editingAgendaItem: agendaItem })}
+                    startEditing={() => this.setState({ showModal: true, editingAgendaItem: agendaItem, agendaItemIndex: index })}
                     isContentClickTarget={false}
                   >
                     <AgendaItem content={agendaItem} id={agendaItem.id} />
@@ -102,12 +88,26 @@ class AgendaList extends React.Component {
           )
         })}
 
+        {
+          this.props.isEditingPage &&
+          <div className="row mt-6 mb-4">
+            <div className="col-12">
+              <Button
+                onClick={() => this.setState({ showModal: true })}
+                color="default"
+                variant="contained">
+                Add agenda item
+              </Button>
+            </div>
+          </div>
+        }
+
 
         <AgendaModal
           agendaItem={editingAgendaItem}
           onSaveItem={this.onSaveItem}
           showModal={showModal}
-          closeModal={() => this.setState({ showModal: false, editingAgendaItem: null })}
+          closeModal={() => this.setState({ showModal: false, editingAgendaItem: null, agendaItemIndex: null })}
           onDeleteItem={this.onDeleteItem}
         />
       </div>

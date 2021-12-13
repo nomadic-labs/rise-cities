@@ -6,8 +6,8 @@ import Grid from "@material-ui/core/Grid"
 import AOS from 'aos';
 import LazyLoad from 'react-lazyload';
 import ParticipantGallery from "../components/common/ParticipantGallery"
-import AgendaList from "../components/common/AgendaList"
-import ExpandableText from "../components/common/ExpandableText"
+import MultidayAgenda from "../components/common/MultidayAgenda"
+import Faqs from "../components/common/Faqs"
 
 import { connect } from "react-redux";
 import {
@@ -188,27 +188,11 @@ class EventPage extends React.Component {
               <EditableText content={content["agenda-title"]} onSave={this.onSave("agenda-title")} />
             </h2>
 
-            <h3 className="text-black display-flex align-center">
-              <div className="circle-icon bg-gradient rotate-slow mr-2" />
-              <EditableText content={content["day1-title"]} onSave={this.onSave("day1-title")} />
-            </h3>
-            <AgendaList
-              content={content["day1-agenda"]}
-              onSave={this.onSave("day1-agenda")}
-              selectSpeaker={this.selectSpeaker}
+            <MultidayAgenda
+              content={content["agenda-collection"]}
+              onSave={this.onSave("agenda-collection")}
               speakersArr={speakersArr}
-            />
-
-
-             <h3 className="text-black display-flex align-center">
-              <div className="circle-icon bg-gradient rotate-slow mr-2" />
-              <EditableText content={content["day2-title"]} onSave={this.onSave("day2-title")} />
-            </h3>
-            <AgendaList
-              content={content["day2-agenda"]}
-              onSave={this.onSave("day2-agenda")}
               selectSpeaker={this.selectSpeaker}
-              speakersArr={speakersArr}
             />
 
           </Container>
@@ -254,25 +238,10 @@ class EventPage extends React.Component {
               <EditableText content={content["faq-title"]} onSave={this.onSave("faq-title")} />
             </h2>
 
-            <div className="mb-2">
-              <ExpandableText content={content["faq1"]} onSave={this.onSave("faq1")} />
-            </div>
-
-            <div className="mb-2">
-              <ExpandableText content={content["faq2"]} onSave={this.onSave("faq2")} />
-            </div>
-
-            <div className="mb-2">
-              <ExpandableText content={content["faq3"]} onSave={this.onSave("faq3")} />
-            </div>
-
-            <div className="mb-2">
-              <ExpandableText content={content["faq4"]} onSave={this.onSave("faq4")} />
-            </div>
-
-            <div className="mb-2">
-              <ExpandableText content={content["faq5"]} onSave={this.onSave("faq5")} />
-            </div>
+            <Faqs
+              content={content["faqs-collection"]}
+              onSave={this.onSave("faqs-collection")}
+            />
           </Container>
         </section>
 
