@@ -29,6 +29,18 @@ class MultidayAgenda extends React.Component {
     this.props.onSave(newContent)
   }
 
+  deleteAgendaDay = index => () => {
+    if (typeof window !== 'undefined')  {
+      if (!window.confirm("Are you sure you want to delete this entire day from the agenda?")) {
+        return false
+      }
+
+      const newContent = [...this.props.content]
+      newContent.splice(index, 1)
+      this.props.onSave(newContent)
+    }
+  }
+
   saveDayTitle = itemIndex => itemContent => {
     const newContent = [ ...this.props.content]
     newContent[itemIndex]["agenda-day-title"] = itemContent
@@ -55,6 +67,16 @@ class MultidayAgenda extends React.Component {
                 <div className="circle-icon bg-gradient rotate-slow mr-2" />
                 <EditableText content={agendaDay["agenda-day-title"]} onSave={this.saveDayTitle(index)} />
               </h3>
+              <div className="row mt-6 mb-4">
+                <div className="col-12">
+                  <Button
+                    onClick={this.deleteAgendaDay(index)}
+                    color="default"
+                    variant="contained">
+                    Remove day from agenda
+                  </Button>
+                </div>
+              </div>
               <AgendaList
                 content={agendaDay["agenda-items"]}
                 selectSpeaker={this.props.selectSpeaker}
