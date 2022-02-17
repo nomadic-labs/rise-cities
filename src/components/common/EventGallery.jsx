@@ -43,9 +43,9 @@ class EventGallery extends React.Component {
     this.props.onSave(newContent)
   }
 
-  onDeleteItem = itemId => () => {
+  onDeleteItem = itemId => {
     let newContent = { ...this.props.content }
-    newContent[itemId] = null
+    delete newContent[itemId]
 
     this.props.onSave(newContent)
   }
