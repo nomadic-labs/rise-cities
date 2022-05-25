@@ -282,34 +282,6 @@ class HomePage extends React.Component {
 
         <Container><div className="fancy-border" data-aos="flip-right" /></Container>
 
-        <section className="mt-10 mb-10" data-aos="fade-up" id="featured">
-          <Container>
-            <h2 className="text-black">
-              <EditableText content={content["featured-content-title"]} onSave={this.onSave("featured-content-title")} />
-            </h2>
-            {
-              this.props.isEditingPage &&
-              <div className="row mt-6 mb-4">
-                <div className="col-12">
-                  <Button
-                    onClick={this.props.toggleNewPageModal}
-                    color="default"
-                    variant="contained">
-                    Add new page
-                  </Button>
-                </div>
-              </div>
-            }
-            <FeaturedContent />
-
-            <div className="">
-              <Link className="btn" to='/articles'>Explore more content</Link>
-            </div>
-          </Container>
-        </section>
-
-        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
-
         <section className="mt-10 mb-10" data-aos="fade-up" id="program">
           <Container>
             <h2 className="text-black">
@@ -372,8 +344,13 @@ class HomePage extends React.Component {
               <Grid container spacing={6}>
                 <Grid item xs={12} md={7} lg={8}>
                   <div className="rise-lab-graphic">
-                    <RiseCityLab alt="Engage Engineer Activate" className="rotate-slow" />
-                    <div className="circle bg-gradient" />
+                    <EditableImageUpload 
+                      content={content["rise-city-lab-image"]}
+                      onSave={this.onSave("rise-city-lab-image")}
+                      uploadImage={uploadImage}
+                      classes="slide-img"
+                      styles={{ image: {objectFit: 'cover' }}}
+                    />
                   </div>
                   <h2 className="text-black">
                     <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
@@ -407,6 +384,34 @@ class HomePage extends React.Component {
                   </div>
                 </Grid>
               </Grid>
+            </div>
+          </Container>
+        </section>
+
+        <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
+
+        <section className="mt-10 mb-10" data-aos="fade-up" id="featured">
+          <Container>
+            <h2 className="text-black">
+              <EditableText content={content["featured-content-title"]} onSave={this.onSave("featured-content-title")} />
+            </h2>
+            {
+              this.props.isEditingPage &&
+              <div className="row mt-6 mb-4">
+                <div className="col-12">
+                  <Button
+                    onClick={this.props.toggleNewPageModal}
+                    color="default"
+                    variant="contained">
+                    Add new page
+                  </Button>
+                </div>
+              </div>
+            }
+            <FeaturedContent />
+
+            <div className="">
+              <Link className="btn" to='/articles'>Explore more content</Link>
             </div>
           </Container>
         </section>

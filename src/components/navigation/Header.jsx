@@ -66,9 +66,9 @@ class Header extends React.Component {
   menu = () => {
     return (
       <div className={`menu animate__animated animate__slideInDown ${this.state.menuIsOpen ? 'is-active' : ''}`}>
-        <a className='menu-item' href="#featured" onClick={this.handleClick}>Our Library</a>
         <a className='menu-item' href="#program" onClick={this.handleClick}>Program</a>
-        <a className='menu-item' href="#rise-city-lab" onClick={this.handleClick}>RISE City Lab</a>
+        <a className='menu-item' href="#rise-city-lab" onClick={this.handleClick}>RISE Fellowship</a>
+        <a className='menu-item' href="#featured" onClick={this.handleClick}>Newsroom</a>
         <a className='menu-item' href="#events" onClick={this.handleClick}>Events</a>
         <a className='menu-item' href="#people" onClick={this.handleClick}>People</a>
         <a className='menu-item' href="#partners" onClick={this.handleClick}>Partners</a>
@@ -95,9 +95,9 @@ class Header extends React.Component {
             <Grid item>
               <Hidden smDown>
                 <div className='navbar-items'>
-                  <a className='navbar-item' href="#featured" onClick={this.handleClick}>Our Library</a>
                   <a className='navbar-item' href="#program" onClick={this.handleClick}>Program</a>
-                  <a className='navbar-item' href="#rise-city-lab" onClick={this.handleClick}>RISE City Lab</a>
+                  <a className='navbar-item' href="#rise-city-lab" onClick={this.handleClick}>RISE Fellowship</a>
+                  <a className='navbar-item' href="#featured" onClick={this.handleClick}>Newsroom</a>
                   <a className='navbar-item' href="#events" onClick={this.handleClick}>Events</a>
                   <a className='navbar-item' href="#people" onClick={this.handleClick}>People</a>
                   <a className='navbar-item' href="#partners" onClick={this.handleClick}>Partners</a>
