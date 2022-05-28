@@ -62,7 +62,14 @@ class PartnerGallery extends React.Component {
   render() {
     const { showModal, editingPartner, itemsToShow } = this.state;
     const partners = Object.keys(this.props.content).map(key => this.props.content[key])
-    const orderedPartners = partners.sort((a,b) => a.name.localeCompare(b.name))
+    const orderedPartners = [...partners].sort((a, b) => {
+      const orderA = a.order || 9999;
+      const orderB = b.order || 9999;
+      if (orderA !== orderB) return orderA - orderB;
+
+      return a.name.localeCompare(b.name);
+    });
+
     const partnersToShow = orderedPartners.slice(0, itemsToShow)
     const totalItems = partners.length
     const slidesToShow = totalItems >= DEFAULT_SLIDES ? DEFAULT_SLIDES : totalItems
@@ -71,10 +78,11 @@ class PartnerGallery extends React.Component {
       infinite: true,
       speed: 250,
       autoplay: !this.props.isEditingPage,
-      autoPlaySpeed: 1500,
+      autoplaySpeed: 10000,
       slidesToShow: slidesToShow,
-      slidesToScroll: 1,
-      arrows: false,
+      slidesToScroll: slidesToShow,
+      dots: true,
+      arrows: true,
       responsive: [
         {
           breakpoint: 960,
@@ -98,10 +106,31 @@ class PartnerGallery extends React.Component {
           }
         },
       ],
+      appendDots: dots => (
+        <div
+          style={{
+            padding: "10px"
+          }}
+        >
+          <ul style={{ margin: "0", padding: "0" }}> {dots} </ul>
+        </div>
+      ),
+      customPaging: i => (
+        <div
+          style={{
+            width: "30px",
+            color: "inherit",
+            padding: "4px 8px",
+            fontSize: '14px'
+          }}
+        >
+          {i + 1}
+        </div>
+      )
     };
 
     return (
-      <div className={`collection width-100 mt-2 ${this.props.classes}`}>
+      <div id="partner-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>
         {
           this.props.isEditingPage &&
           <div className="row mt-6 mb-4">

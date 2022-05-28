@@ -13,7 +13,8 @@ import {uploadFile as uploadImage} from "../../aws/operations";
 const emptyPartner = {
   name: '',
   image: {},
-  url: ''
+  url: '',
+  order: 0,
 }
 
 class PartnerModal extends React.Component {
@@ -81,7 +82,8 @@ class PartnerModal extends React.Component {
       name,
       image,
       id,
-      url
+      url,
+      order,
     } = this.state.newPartner;
 
     // const { errors } = this.state;
@@ -116,6 +118,16 @@ class PartnerModal extends React.Component {
             type="url"
             fullWidth
             onChange={handleChange('url')}
+            variant="outlined"
+          />
+          <TextField
+            value={order || 0}
+            type="number"
+            id="order"
+            margin="dense"
+            label="Order"
+            fullWidth
+            onChange={handleChange('order')}
             variant="outlined"
           />
         </DialogContent>
