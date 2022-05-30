@@ -12,6 +12,7 @@ const FeaturedContent = ({ pages }) => {
         {
           pages.map(page => {
             const content = JSON.parse(page.content)
+            const dateString = page.date ? new Date(parseInt(page.date)).toDateString() : ""
             return(
               <div className="featured-content-item mb-10" key={page.id}>
                 {content.headerImage &&
@@ -27,6 +28,7 @@ const FeaturedContent = ({ pages }) => {
                     <h3 className="mb-0 mt-0">{page.title}</h3>
                   </Link>
                 )}
+                <p className="text-xs text-uppercase text-muted mb-1">{dateString}</p>
                 <p className="text-xs mt-2">{page.description}</p>
               </div>
             )
