@@ -10,6 +10,9 @@ import ImageUpload from '../editing/ImageUpload';
 import {uploadFile as uploadImage} from "../../aws/operations";
 import { saveEvent, removeEvent } from "../../redux/actions"
 import { connect } from "react-redux";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import LuxonUtils from "@date-io/luxon";
+import { DateTime } from "luxon";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -27,6 +30,8 @@ const emptyEvent = {
   description: '',
   image: {},
   date: '',
+  startDate: new Date(),
+  endDate: new Date(),
   location: '',
   url: '',
 }
@@ -52,6 +57,10 @@ class EventModal extends React.Component {
   handleChange = key => event => {
     const value = event.currentTarget.value
     this.setState({ newEvent: {...this.state.newEvent, [key]: value} })
+  }
+
+  handleDateChange = key => date => {
+    this.setState({ newEvent: {...this.state.newEvent, [key]: date }})
   }
 
   handleImageChange = key => image => {
@@ -88,7 +97,7 @@ class EventModal extends React.Component {
   }
 
   render() {
-    const { handleDeleteEvent, handleSaveEvent, handleChange, handleImageChange, handleCancel } = this;
+    const { handleDeleteEvent, handleSaveEvent, handleChange, handleDateChange, handleImageChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       id,
@@ -97,10 +106,13 @@ class EventModal extends React.Component {
       description,
       location,
       date,
+      startDate,
+      endDate,
       url,
     } = this.state.newEvent;
 
     return (
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
       <Dialog open={showModal} onClose={closeModal} aria-labelledby="form-dialog-title" scroll="body">
         <DialogTitle id="form-dialog-title">{id ? 'Edit Event' : 'Create a Event' }</DialogTitle>
         <DialogContent>
@@ -154,6 +166,26 @@ class EventModal extends React.Component {
             onChange={handleChange('date')}
             variant="outlined"
           />
+          <KeyboardDatePicker
+            value={startDate}
+            onChange={handleDateChange('startDate')}
+            format="yyyy/MM/dd"
+            margin="dense"
+            id="startDate"
+            label="Start Date"
+            inputVariant="outlined"
+            fullWidth
+          />
+          <KeyboardDatePicker
+            value={endDate}
+            onChange={handleDateChange('endDate')}
+            format="yyyy/MM/dd"
+            margin="dense"
+            id="endDate"
+            label="End Date"
+            inputVariant="outlined"
+            fullWidth
+          />
           <TextField
             value={url || ''}
             margin="dense"
@@ -199,6 +231,7 @@ class EventModal extends React.Component {
           </div>
         </DialogActions>
       </Dialog>
+      </MuiPickersUtilsProvider>
     );
   }
 
