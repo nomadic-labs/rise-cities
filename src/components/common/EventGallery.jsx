@@ -48,6 +48,12 @@ const Event = ({ event, isEditingPage, startEditing }) => (
   </div>
 );
 
+const dateCompare = (a, b, reverse) => {
+  const aStart = a.startDate ? DateTime.fromISO(a.startDate).valueOf() : 0;
+  const bStart = b.startDate ? DateTime.fromISO(b.startDate).valueOf() : 0;
+  return (bStart - aStart) * (reverse ? -1 : 1);
+};
+
 class EventGallery extends React.Component {
   constructor(props) {
     super(props)
@@ -89,6 +95,10 @@ class EventGallery extends React.Component {
 
       return 'upcoming';
     });
+
+    const { past, upcoming } = groupedEvents;
+    if (past) past.sort((a, b) => dateCompare(a, b, false));
+    if (upcoming) upcoming.sort((a, b) => dateCompare(a, b, true));
 
     return (
       <div id="event-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>
