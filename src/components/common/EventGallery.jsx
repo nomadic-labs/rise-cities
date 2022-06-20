@@ -28,13 +28,13 @@ const mapStateToProps = state => {
   };
 };
 
-const Event = ({ event, isEditingPage, startEditing }) => (
+const Event = ({ event, isEditingPage, startEditing, theme }) => (
   <div>
     {
       isEditingPage &&
       <ThemeProvider theme={muiTheme}>
         <EditorWrapper
-          theme={this.context.theme}
+          theme={theme}
           startEditing={startEditing}
         >
           <EventGalleryItem content={event} id={event.id} />
@@ -124,6 +124,7 @@ class EventGallery extends React.Component {
               event={event}
               startEditing={() => this.setState({ showModal: true, editingEvent: event })}
               isEditingPage={this.props.isEditingPage}
+              theme={this.context.theme}
             />
           );
         })}
@@ -136,6 +137,7 @@ class EventGallery extends React.Component {
               event={event}
               startEditing={() => this.setState({ showModal: true, editingEvent: event })}
               isEditingPage={this.props.isEditingPage}
+              theme={this.context.theme}
             />
           );
         })}
