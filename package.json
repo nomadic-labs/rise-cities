@@ -36,6 +36,7 @@
     "gatsby-source-firebase-nl": "^1.0.2",
     "gatsby-source-firestore": "nomadic-labs/gatsby-source-firestore#master",
     "imagesloaded": "^4.1.4",
+    "immer": "^9.0.15",
     "jquery": "^3.6.0",
     "jss": "^9.8.7",
     "lodash": "^4.17.4",
