@@ -16,6 +16,10 @@ const formatDate = (str) => {
   });
 };
 
+const formatTime = (str, zone) => {
+  return DateTime.fromISO(str).setZone(zone).toLocaleString(DateTime.TIME_SIMPLE);
+};
+
 const EventGalleryItem = ({ id, content={} }) => {
   const eventImage = content.image?.imageSrc || DEFAULT_IMAGE
 
@@ -27,10 +31,34 @@ const EventGalleryItem = ({ id, content={} }) => {
   // we have added a time picker to the event editor so that 
   // the user can choose semantic dates, and we will format them
   if (content.startDate && content.endDate) {
-    // TODO: streamline formatting, e.g. "June 1 - 2" instead of "June 1 - June 2"
-    dateString = `${formatDate(content.startDate)} - ${formatDate(content.endDate)}`;
+    const start = DateTime.fromISO(content.startDate);
+    const end = DateTime.fromISO(content.endDate);
+
+    if (start.year === end.year) {
+      const month1 = start.toLocaleString({ month: 'long' });
+      const month2 = end.toLocaleString({ month: 'long' });
+      const day1 = start.toLocaleString({ day: 'numeric' });
+      const day2 = end.toLocaleString({ day: 'numeric' });
+      const year = start.toLocaleString({ year: 'numeric' });
+
+      if (start.month === end.month) {
+        dateString = `${month1} ${day1} – ${day2}, ${year}`;
+      } else {
+        dateString = `${month1} ${day1} – ${month2} ${day2}, ${year}`;
+      }
+    } else {
+      dateString = `${formatDate(content.startDate)} - ${formatDate(content.endDate)}`;
+    }
   } else if (content.startDate) {
     dateString = formatDate(content.startDate);
+  }
+
+  let timeString = null;
+  const zone = content.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if (content.startTime && content.endTime) {
+    timeString = `${formatTime(content.startTime, zone)} – ${formatTime(content.endTime, zone)}`;
+  } else if (content.startTime) {
+    timeString = formatTime(content.startTime);
   }
 
   return (
@@ -40,6 +68,7 @@ const EventGalleryItem = ({ id, content={} }) => {
           <Grid item xs={12} sm={3} md={3}>
             <div className="text-secondary text-xs mb-2">{content.location}</div>
             <div className="text-bold text-uppercase">{dateString}</div>
+            { timeString && <div className="text-xs text-uppercase text-muted">{timeString}</div> }
           </Grid>
 
           <Grid item xs={4} sm={3} md={4}>
@@ -72,6 +101,7 @@ const EventGalleryItem = ({ id, content={} }) => {
               <Grid item xs={12}>
                 <div className="text-secondary text-xs mb-2">{content.location}</div>
                 <div className="text-bold text-dark">{dateString}</div>
+                { timeString && <div className="text-xs text-uppercase text-muted">{timeString}</div> }
                 <h3 className="text-uppercase mt-2 text-dark">
                   { content.title }
                 </h3>

@@ -10,7 +10,12 @@ import ImageUpload from '../editing/ImageUpload';
 import {uploadFile as uploadImage} from "../../aws/operations";
 import { saveEvent, removeEvent } from "../../redux/actions"
 import { connect } from "react-redux";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { 
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker, 
+  KeyboardTimePicker,
+} from "@material-ui/pickers";
+import TimezoneSelect from "./TimezoneSelect";
 import LuxonUtils from "@date-io/luxon";
 import { DateTime } from "luxon";
 
@@ -30,8 +35,11 @@ const emptyEvent = {
   description: '',
   image: {},
   date: '',
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: DateTime.local(),
+  endDate: DateTime.local(),
+  startTime: DateTime.fromISO('0:00'),
+  endTime: DateTime.fromISO('0:00'),
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   location: '',
   url: '',
 }
@@ -50,7 +58,19 @@ class EventModal extends React.Component {
     }
 
     if (prevProps.event !== this.props.event && this.props.event?.id) {
-      this.setState({ newEvent: this.props.event })
+      const { event } = this.props;
+      const timezone = event.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const eventCopy = {
+        ...event,
+        startDate: event.startDate ? DateTime.fromISO(event.startDate) : null,
+        endDate: event.endDate ? DateTime.fromISO(event.endDate) : null,
+        startTime: event.startTime ? DateTime.fromISO(event.startTime): null,
+        endTime: event.endTime ? DateTime.fromISO(event.endTime): null,
+        timezone
+      };
+
+      console.log('initial', eventCopy);
+      this.setState({ newEvent: eventCopy })
     }
   }
 
@@ -59,8 +79,9 @@ class EventModal extends React.Component {
     this.setState({ newEvent: {...this.state.newEvent, [key]: value} })
   }
 
-  handleDateChange = key => date => {
-    this.setState({ newEvent: {...this.state.newEvent, [key]: date }})
+  handleValueChange = key => value => {
+    console.log('handleValueChange', key, value);
+    this.setState({ newEvent: {...this.state.newEvent, [key]: value }})
   }
 
   handleImageChange = key => image => {
@@ -75,10 +96,23 @@ class EventModal extends React.Component {
     const { newEvent } = this.state;
     const id = newEvent.id ? newEvent.id : `event-${Date.now()}`
 
+    console.log('form state', newEvent);
+
+    const startDate = newEvent.startDate ? newEvent.startDate.toISODate() : '';
+    const endDate = newEvent.endDate ? newEvent.endDate.toISODate() : '';
+    const startTime = newEvent.startTime ? newEvent.startTime.toISOTime() : '';
+    const endTime = newEvent.endTime ? newEvent.endTime.toISOTime() : '';
+
     const data = {
       ...newEvent,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
       id
     }
+
+    console.log('saving data', data);
 
     this.props.onSaveItem(id, data)
     this.props.closeModal()
@@ -97,7 +131,7 @@ class EventModal extends React.Component {
   }
 
   render() {
-    const { handleDeleteEvent, handleSaveEvent, handleChange, handleDateChange, handleImageChange, handleCancel } = this;
+    const { handleDeleteEvent, handleSaveEvent, handleChange, handleValueChange, handleImageChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       id,
@@ -108,6 +142,9 @@ class EventModal extends React.Component {
       date,
       startDate,
       endDate,
+      startTime,
+      endTime,
+      timezone,
       url,
     } = this.state.newEvent;
 
@@ -166,26 +203,66 @@ class EventModal extends React.Component {
             onChange={handleChange('date')}
             variant="outlined"
           />
-          <KeyboardDatePicker
-            value={startDate}
-            onChange={handleDateChange('startDate')}
-            format="yyyy/MM/dd"
-            margin="dense"
-            id="startDate"
-            label="Start Date"
-            inputVariant="outlined"
-            fullWidth
-          />
-          <KeyboardDatePicker
-            value={endDate}
-            onChange={handleDateChange('endDate')}
-            format="yyyy/MM/dd"
-            margin="dense"
-            id="endDate"
-            label="End Date"
-            inputVariant="outlined"
-            fullWidth
-          />
+          <Grid container>
+            <Grid item xs={6}>
+              <KeyboardDatePicker
+                value={startDate}
+                onChange={handleValueChange('startDate')}
+                format="yyyy/MM/dd"
+                margin="dense"
+                id="startDate"
+                label="Start Date"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <KeyboardDatePicker
+                value={endDate}
+                onChange={handleValueChange('endDate')}
+                format="yyyy/MM/dd"
+                margin="dense"
+                id="endDate"
+                label="End Date"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <KeyboardTimePicker
+                value={startTime}
+                onChange={handleValueChange('startTime')}
+                format="HH:mm"
+                margin="dense"
+                id="startTime"
+                label="Start Time"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <KeyboardTimePicker
+                value={endTime}
+                onChange={handleValueChange('endTime')}
+                format="HH:mm"
+                margin="dense"
+                id="endTime"
+                label="End Time"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <label className="text-small" htmlFor="timezone">Timezone</label>
+            <TimezoneSelect
+              handleChange={handleValueChange('timezone')}
+              name="timezone"
+              id="timezone"
+              className="mb-2"
+              value={timezone}
+            />
+          </Grid>
           <TextField
             value={url || ''}
             margin="dense"
@@ -193,7 +270,7 @@ class EventModal extends React.Component {
             label="Website URL"
             type="url"
             fullWidth
-            onChange={handleChange('url')}
+            onChange={handleValueChange('url')}
             variant="outlined"
           />
         </DialogContent>
