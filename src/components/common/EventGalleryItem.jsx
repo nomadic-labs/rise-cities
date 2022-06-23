@@ -47,7 +47,7 @@ const EventGalleryItem = ({ id, content={} }) => {
         dateString = `${month1} ${day1} – ${month2} ${day2}, ${year}`;
       }
     } else {
-      dateString = `${formatDate(content.startDate)} - ${formatDate(content.endDate)}`;
+      dateString = `${formatDate(content.startDate)} – ${formatDate(content.endDate)}`;
     }
   } else if (content.startDate) {
     dateString = formatDate(content.startDate);

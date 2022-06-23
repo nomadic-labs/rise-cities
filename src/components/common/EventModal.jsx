@@ -37,8 +37,8 @@ const emptyEvent = {
   date: '',
   startDate: DateTime.local(),
   endDate: DateTime.local(),
-  startTime: DateTime.fromISO('0:00'),
-  endTime: DateTime.fromISO('0:00'),
+  startTime: DateTime.fromISO('00:00'),
+  endTime: DateTime.fromISO('00:00'),
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   location: '',
   url: '',
@@ -50,10 +50,16 @@ class EventModal extends React.Component {
     this.state = {
       newEvent: props.event || emptyEvent
     }
+
+    console.log('initial state', this.state.newEvent);
   }
 
   componentDidUpdate(prevProps) {
+
+    console.log('componentDidUpdate', prevProps.event, this.props.event, this.state.newEvent);
+
     if (prevProps.event !== this.props.event && !Boolean(this.props.event)) {
+      console.log('initial', emptyEvent);
       this.setState({ newEvent: emptyEvent })
     }
 
@@ -147,6 +153,8 @@ class EventModal extends React.Component {
       timezone,
       url,
     } = this.state.newEvent;
+
+    console.log('render', startDate, startTime);
 
     return (
       <MuiPickersUtilsProvider utils={LuxonUtils}>
@@ -270,7 +278,7 @@ class EventModal extends React.Component {
             label="Website URL"
             type="url"
             fullWidth
-            onChange={handleValueChange('url')}
+            onChange={handleChange('url')}
             variant="outlined"
           />
         </DialogContent>
@@ -299,7 +307,7 @@ class EventModal extends React.Component {
                   color="primary"
                   variant="contained"
                   style={{borderRadius:0}}
-                  disabled={!title || !date}
+                  disabled={!title}
                   disableElevation>
                   Save
                 </Button>
