@@ -50,16 +50,11 @@ class EventModal extends React.Component {
     this.state = {
       newEvent: props.event || emptyEvent
     }
-
-    console.log('initial state', this.state.newEvent);
   }
 
   componentDidUpdate(prevProps) {
 
-    console.log('componentDidUpdate', prevProps.event, this.props.event, this.state.newEvent);
-
     if (prevProps.event !== this.props.event && !Boolean(this.props.event)) {
-      console.log('initial', emptyEvent);
       this.setState({ newEvent: emptyEvent })
     }
 
@@ -75,7 +70,6 @@ class EventModal extends React.Component {
         timezone
       };
 
-      console.log('initial', eventCopy);
       this.setState({ newEvent: eventCopy })
     }
   }
@@ -86,7 +80,6 @@ class EventModal extends React.Component {
   }
 
   handleValueChange = key => value => {
-    console.log('handleValueChange', key, value);
     this.setState({ newEvent: {...this.state.newEvent, [key]: value }})
   }
 
@@ -102,8 +95,6 @@ class EventModal extends React.Component {
     const { newEvent } = this.state;
     const id = newEvent.id ? newEvent.id : `event-${Date.now()}`
 
-    console.log('form state', newEvent);
-
     const startDate = newEvent.startDate ? newEvent.startDate.toISODate() : '';
     const endDate = newEvent.endDate ? newEvent.endDate.toISODate() : '';
     const startTime = newEvent.startTime ? newEvent.startTime.toISOTime() : '';
@@ -117,8 +108,6 @@ class EventModal extends React.Component {
       endTime,
       id
     }
-
-    console.log('saving data', data);
 
     this.props.onSaveItem(id, data)
     this.props.closeModal()
@@ -153,8 +142,6 @@ class EventModal extends React.Component {
       timezone,
       url,
     } = this.state.newEvent;
-
-    console.log('render', startDate, startTime);
 
     return (
       <MuiPickersUtilsProvider utils={LuxonUtils}>

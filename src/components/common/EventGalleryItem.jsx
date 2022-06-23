@@ -58,7 +58,7 @@ const EventGalleryItem = ({ id, content={} }) => {
   if (content.startTime && content.endTime) {
     timeString = `${formatTime(content.startTime, zone)} – ${formatTime(content.endTime, zone)}`;
   } else if (content.startTime) {
-    timeString = formatTime(content.startTime);
+    timeString = formatTime(content.startTime, zone);
   }
 
   return (
