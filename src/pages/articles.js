@@ -4,6 +4,10 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Masonry from 'react-masonry-component'
 import LazyLoad from 'react-lazyload';
+import { EditableTextArea } from "react-easy-editables";
+
+import { useDispatch } from 'react-redux';
+import { updateFirestoreDoc } from "../redux/actions";
 
 import Layout from "../layouts/default.js";
 import ensureAbsoluteUrl from '../utils/ensureAbsoluteUrl';
@@ -13,36 +17,62 @@ import blogIcon from "../assets/images/icons/blogs-icon-32px.svg"
 import podcastIcon from "../assets/images/icons/podcast-icon-32px.svg"
 import videoIcon from "../assets/images/icons/video-icon-32px.svg"
 
+import produce from 'immer';
+import findIndex from 'lodash/findIndex';
 
-const ArticleGallery = ({ pages }) => (
-  <LazyLoad>
-    <Masonry className="featured-content-collection" options={{ gutter: 16 }}>
-      {
-        pages.map(page => {
-          const content = JSON.parse(page.content)
-          return(
-            <div className="featured-content-item mb-10" key={page.id}>
-              {content.headerImage &&
-                <img src={content.headerImage.imageSrc} alt="" />
-              }
-              <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
-              {page.externalLink ? (
-                <a href={ensureAbsoluteUrl(page.externalLink)} className="pretty-link" target="_blank" rel="noopener noreferrer">
-                  <h3 className="mb-0 mt-0">{page.title}</h3>
-                </a>
-                ) : (
-                <Link to={page.slug} className="pretty-link">
-                  <h3 className="mb-0 mt-0">{page.title}</h3>
-                </Link>
-              )}
-              <p className="text-xs mt-2">{page.description}</p>
-            </div>
-          )
-        })
-      }
-    </Masonry>
-  </LazyLoad>
-)
+const ArticleGallery = ({ pages, updatePageDescription }) => {
+
+  const dispatch = useDispatch();
+
+  const saveDescription = (id, content) => {
+    const { text: description } = content;
+
+    // update local state
+    updatePageDescription(id, description);
+
+    // save to database
+    dispatch(updateFirestoreDoc(id, { description }));
+  };
+
+  return (
+    <LazyLoad>
+      <Masonry className="featured-content-collection" options={{ gutter: 16 }}>
+        {
+          pages.map(page => {
+            const content = JSON.parse(page.content)
+            const dateString = page.date ? new Date(parseInt(page.date)).toDateString() : ""
+
+            const description = { text: page.description };
+
+            return (
+              <div className="featured-content-item mb-10" key={page.id}>
+                {content.headerImage &&
+                  <img src={content.headerImage.imageSrc} alt="" />
+                }
+                <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{page.category}</p>
+                {page.externalLink ? (
+                  <a href={ensureAbsoluteUrl(page.externalLink)} className="pretty-link" target="_blank" rel="noopener noreferrer">
+                    <h3 className="mb-0 mt-0">{page.title}</h3>
+                  </a>
+                  ) : (
+                  <Link to={page.slug} className="pretty-link">
+                    <h3 className="mb-0 mt-0">{page.title}</h3>
+                  </Link>
+                )}
+                <p className="text-xs text-uppercase text-muted mb-1">{dateString}</p>
+                <div className="text-xs mt-2">
+                  <EditableTextArea
+                    content={description}
+                    onSave={(content) => saveDescription(page.id, content)} />
+                </div>
+              </div>
+            )
+          })
+        }
+      </Masonry>
+    </LazyLoad>
+  );
+}
 
 const FeaturedContentPage = ({ data, location }) => {
   const allPages = data.allPages.nodes
@@ -51,6 +81,14 @@ const FeaturedContentPage = ({ data, location }) => {
 
   const [pages, setPages] = useState(orderedPages)
   const [filter, setFilter] = useState()
+
+  const updatePageDescription = (pageId, description) => {
+    setPages(produce(pages, (draft) => {
+      const index = findIndex(draft, { id: pageId });
+      if (index === -1) return;
+      draft[index].description = description;
+    }));
+  };
 
   useEffect(() => {
     if (!filter) {
@@ -99,7 +137,7 @@ const FeaturedContentPage = ({ data, location }) => {
                   </ul>
                 </div>
 
-                <ArticleGallery pages={pages} />
+                <ArticleGallery pages={pages} updatePageDescription={updatePageDescription} />
               </div>
             </Grid>
           </Grid>

@@ -10,6 +10,14 @@ import ImageUpload from '../editing/ImageUpload';
 import {uploadFile as uploadImage} from "../../aws/operations";
 import { saveEvent, removeEvent } from "../../redux/actions"
 import { connect } from "react-redux";
+import { 
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker, 
+  KeyboardTimePicker,
+} from "@material-ui/pickers";
+import TimezoneSelect from "./TimezoneSelect";
+import LuxonUtils from "@date-io/luxon";
+import { DateTime } from "luxon";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -27,6 +35,11 @@ const emptyEvent = {
   description: '',
   image: {},
   date: '',
+  startDate: DateTime.local(),
+  endDate: DateTime.local(),
+  startTime: DateTime.fromISO('00:00'),
+  endTime: DateTime.fromISO('00:00'),
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   location: '',
   url: '',
 }
@@ -40,18 +53,34 @@ class EventModal extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+
     if (prevProps.event !== this.props.event && !Boolean(this.props.event)) {
       this.setState({ newEvent: emptyEvent })
     }
 
     if (prevProps.event !== this.props.event && this.props.event?.id) {
-      this.setState({ newEvent: this.props.event })
+      const { event } = this.props;
+      const timezone = event.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const eventCopy = {
+        ...event,
+        startDate: event.startDate ? DateTime.fromISO(event.startDate) : null,
+        endDate: event.endDate ? DateTime.fromISO(event.endDate) : null,
+        startTime: event.startTime ? DateTime.fromISO(event.startTime): null,
+        endTime: event.endTime ? DateTime.fromISO(event.endTime): null,
+        timezone
+      };
+
+      this.setState({ newEvent: eventCopy })
     }
   }
 
   handleChange = key => event => {
     const value = event.currentTarget.value
     this.setState({ newEvent: {...this.state.newEvent, [key]: value} })
+  }
+
+  handleValueChange = key => value => {
+    this.setState({ newEvent: {...this.state.newEvent, [key]: value }})
   }
 
   handleImageChange = key => image => {
@@ -66,8 +95,17 @@ class EventModal extends React.Component {
     const { newEvent } = this.state;
     const id = newEvent.id ? newEvent.id : `event-${Date.now()}`
 
+    const startDate = newEvent.startDate ? newEvent.startDate.toISODate() : '';
+    const endDate = newEvent.endDate ? newEvent.endDate.toISODate() : '';
+    const startTime = newEvent.startTime ? newEvent.startTime.toISOTime() : '';
+    const endTime = newEvent.endTime ? newEvent.endTime.toISOTime() : '';
+
     const data = {
       ...newEvent,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
       id
     }
 
@@ -88,7 +126,7 @@ class EventModal extends React.Component {
   }
 
   render() {
-    const { handleDeleteEvent, handleSaveEvent, handleChange, handleImageChange, handleCancel } = this;
+    const { handleDeleteEvent, handleSaveEvent, handleChange, handleValueChange, handleImageChange, handleCancel } = this;
     const { showModal, closeModal } = this.props;
     const {
       id,
@@ -97,10 +135,16 @@ class EventModal extends React.Component {
       description,
       location,
       date,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      timezone,
       url,
     } = this.state.newEvent;
 
     return (
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
       <Dialog open={showModal} onClose={closeModal} aria-labelledby="form-dialog-title" scroll="body">
         <DialogTitle id="form-dialog-title">{id ? 'Edit Event' : 'Create a Event' }</DialogTitle>
         <DialogContent>
@@ -154,6 +198,66 @@ class EventModal extends React.Component {
             onChange={handleChange('date')}
             variant="outlined"
           />
+          <Grid container>
+            <Grid item xs={6}>
+              <KeyboardDatePicker
+                value={startDate}
+                onChange={handleValueChange('startDate')}
+                format="yyyy/MM/dd"
+                margin="dense"
+                id="startDate"
+                label="Start Date"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <KeyboardDatePicker
+                value={endDate}
+                onChange={handleValueChange('endDate')}
+                format="yyyy/MM/dd"
+                margin="dense"
+                id="endDate"
+                label="End Date"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <KeyboardTimePicker
+                value={startTime}
+                onChange={handleValueChange('startTime')}
+                format="HH:mm"
+                margin="dense"
+                id="startTime"
+                label="Start Time"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <KeyboardTimePicker
+                value={endTime}
+                onChange={handleValueChange('endTime')}
+                format="HH:mm"
+                margin="dense"
+                id="endTime"
+                label="End Time"
+                inputVariant="outlined"
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <label className="text-small" htmlFor="timezone">Timezone</label>
+            <TimezoneSelect
+              handleChange={handleValueChange('timezone')}
+              name="timezone"
+              id="timezone"
+              className="mb-2"
+              value={timezone}
+            />
+          </Grid>
           <TextField
             value={url || ''}
             margin="dense"
@@ -190,7 +294,7 @@ class EventModal extends React.Component {
                   color="primary"
                   variant="contained"
                   style={{borderRadius:0}}
-                  disabled={!title || !date}
+                  disabled={!title}
                   disableElevation>
                   Save
                 </Button>
@@ -199,6 +303,7 @@ class EventModal extends React.Component {
           </div>
         </DialogActions>
       </Dialog>
+      </MuiPickersUtilsProvider>
     );
   }
 

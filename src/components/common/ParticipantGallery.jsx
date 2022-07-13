@@ -109,6 +109,7 @@ class ParticipantGallery extends React.Component {
       infinite: true,
       speed: 250,
       autoplay: !this.props.isEditingPage,
+      autoplaySpeed: 10000,
       slidesToShow: slidesToShow,
       slidesToScroll: slidesToShow,
       dots: true,

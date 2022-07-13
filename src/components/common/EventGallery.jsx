@@ -7,6 +7,9 @@ import EventModal from "./EventModal";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
 
+import groupBy from 'lodash/groupBy';
+import { DateTime } from 'luxon';
+
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
@@ -23,6 +26,32 @@ const mapStateToProps = state => {
   return {
     isEditingPage: state.adminTools.isEditingPage,
   };
+};
+
+const Event = ({ event, isEditingPage, startEditing, theme }) => (
+  <div>
+    {
+      isEditingPage &&
+      <ThemeProvider theme={muiTheme}>
+        <EditorWrapper
+          theme={theme}
+          startEditing={startEditing}
+        >
+          <EventGalleryItem content={event} id={event.id} />
+        </EditorWrapper>
+      </ThemeProvider>
+    }
+    {
+      !isEditingPage &&
+      <EventGalleryItem content={event} id={event.id} />
+    }
+  </div>
+);
+
+const dateCompare = (a, b, reverse) => {
+  const aStart = a.startDate ? DateTime.fromISO(a.startDate).valueOf() : 0;
+  const bStart = b.startDate ? DateTime.fromISO(b.startDate).valueOf() : 0;
+  return (bStart - aStart) * (reverse ? -1 : 1);
 };
 
 class EventGallery extends React.Component {
@@ -54,6 +83,23 @@ class EventGallery extends React.Component {
     const { showModal, editingEvent } = this.state;
     const events = Object.keys(this.props.content).reverse().map(key => this.props.content[key])
 
+    const today = DateTime.now();
+
+    const groupedEvents = groupBy(events, (event) => {
+
+      if (event.endDate && event.startDate) {
+        return DateTime.fromISO(event.endDate) < today ? 'past' : 'upcoming';
+      } else if (event.startDate) {
+        return DateTime.fromISO(event.startDate) < today ? 'past' : 'upcoming';
+      }
+
+      return 'upcoming';
+    });
+
+    const { past, upcoming } = groupedEvents;
+    if (past) past.sort((a, b) => dateCompare(a, b, false));
+    if (upcoming) upcoming.sort((a, b) => dateCompare(a, b, true));
+
     return (
       <div id="event-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>
         {
@@ -69,27 +115,31 @@ class EventGallery extends React.Component {
             </div>
           </div>
         }
-        {events.map((event,index) => {
+        <h3 className="text-black">
+          Upcoming Events
+        </h3>
+        {groupedEvents['upcoming'].map((event) => {
           return (
-            <div
-              key={event.id}>
-              {
-                this.props.isEditingPage &&
-                <ThemeProvider theme={muiTheme}>
-                  <EditorWrapper
-                    theme={this.context.theme}
-                    startEditing={() => this.setState({ showModal: true, editingEvent: event })}
-                  >
-                    <EventGalleryItem content={event} id={event.id} />
-                  </EditorWrapper>
-                </ThemeProvider>
-              }
-              {
-                !this.props.isEditingPage &&
-                <EventGalleryItem content={event} id={event.id} />
-              }
-            </div>
-          )
+            <Event key={event.id}
+              event={event}
+              startEditing={() => this.setState({ showModal: true, editingEvent: event })}
+              isEditingPage={this.props.isEditingPage}
+              theme={this.context.theme}
+            />
+          );
+        })}
+        <h3 className="text-black">
+          Past Events
+        </h3>
+        {groupedEvents['past'].map((event) => {
+          return (
+            <Event key={event.id}
+              event={event}
+              startEditing={() => this.setState({ showModal: true, editingEvent: event })}
+              isEditingPage={this.props.isEditingPage}
+              theme={this.context.theme}
+            />
+          );
         })}
 
         <EventModal
