@@ -115,32 +115,40 @@ class EventGallery extends React.Component {
             </div>
           </div>
         }
-        <h3 className="text-black">
-          Upcoming Events
-        </h3>
-        {groupedEvents['upcoming'].map((event) => {
-          return (
-            <Event key={event.id}
-              event={event}
-              startEditing={() => this.setState({ showModal: true, editingEvent: event })}
-              isEditingPage={this.props.isEditingPage}
-              theme={this.context.theme}
-            />
-          );
-        })}
-        <h3 className="text-black">
-          Past Events
-        </h3>
-        {groupedEvents['past'].map((event) => {
-          return (
-            <Event key={event.id}
-              event={event}
-              startEditing={() => this.setState({ showModal: true, editingEvent: event })}
-              isEditingPage={this.props.isEditingPage}
-              theme={this.context.theme}
-            />
-          );
-        })}
+        { groupedEvents['upcoming'] &&
+        <>
+          <h3 className="text-black">
+            Upcoming Events
+          </h3>
+          {groupedEvents['upcoming'].map((event) => {
+            return (
+              <Event key={event.id}
+                event={event}
+                startEditing={() => this.setState({ showModal: true, editingEvent: event })}
+                isEditingPage={this.props.isEditingPage}
+                theme={this.context.theme}
+              />
+            );
+          })}
+        </>
+        }
+        { groupedEvents['past'] &&
+        <>
+          <h3 className="text-black">
+            Past Events
+          </h3>
+          {groupedEvents['past'].map((event) => {
+            return (
+              <Event key={event.id}
+                event={event}
+                startEditing={() => this.setState({ showModal: true, editingEvent: event })}
+                isEditingPage={this.props.isEditingPage}
+                theme={this.context.theme}
+              />
+            );
+          })}
+        </>
+        }
 
         <EventModal
           event={editingEvent}
