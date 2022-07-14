@@ -1149,5 +1149,12 @@ blockquote {
   white-space: pre-wrap;
 }
 
+#tandems {
+  .criteria {
+    font-size: 26px;
+    text-transform: uppercase;
+  }
+}
+
 
 @import "responsive";
