@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { graphql } from "gatsby";
 import Helmet from "react-helmet";
 import Container from "@material-ui/core/Container"
@@ -9,7 +9,7 @@ import ParticipantGallery from "../components/common/ParticipantGallery"
 import MultidayAgenda from "../components/common/MultidayAgenda"
 import Faqs from "../components/common/Faqs"
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   EditableParagraph,
   EditableText,
@@ -28,53 +28,38 @@ import {
 import Layout from "../layouts/default.js";
 import "../assets/sass/events.scss";
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onUpdatePageContent: (id, data) => {
-      dispatch(updatePageContent(id, data));
-    },
-    onLoadPageData: data => {
-      dispatch(loadPageData(data));
-    },
-    onUpdateTitle: title => {
-      dispatch(updateTitle(title));
-    }
-  };
-};
+const FellowshipPage = (props) => {
 
-const mapStateToProps = state => {
-  return {
-    pageData: state.page.data,
-    pages: state.pages.pages,
-    isEditingPage: state.adminTools.isEditingPage,
-  };
-};
+  const dispatch = useDispatch();
 
-
-class FellowshipPage extends React.Component {
-  constructor(props) {
-    super(props)
+  useEffect(() => {
+    const { data: { pages } } = props;
     const initialPageData = {
-      ...this.props.data.pages,
-      content: JSON.parse(this.props.data.pages.content)
+      ...pages,
+      content: JSON.parse(pages.content)
     };
+    dispatch(loadPageData(initialPageData));
 
-    this.props.onLoadPageData(initialPageData);
-    this.state = {
-      selectedProfile: null
-    }
-  }
-
-  componentDidMount() {
     AOS.init({ delay: 50, duration: 400 })
+  }, []);
+
+  const isEditingPage = useSelector((state) => state.adminTools.isEditingPage);
+  const pageData = useSelector((state) => state.page?.data);
+
+  if (!pageData) {
+    // first render, we haven't saved it to redux state yet
+    return null;
   }
 
-  onSave = id => content => {
-    this.props.onUpdatePageContent(id, content);
+  const { content } = pageData;
+
+  /*
+  const onSave = id => content => {
+    dispatch(updatePageContent(id, content));
   };
 
-  onUpdateTitle = content => {
-    this.props.onUpdateTitle(content.text)
+  const onUpdateTitle = content => {
+    dispatch(updateTitle(content.text));
   }
 
   onUpdateHeaderImage = content => {
@@ -85,45 +70,26 @@ class FellowshipPage extends React.Component {
   onDeleteHeaderImage = () => {
     this.props.onUpdatePageContent('headerImage', null);
   }
+  */
 
-  selectSpeaker = speakerName => {
-    if (!speakerName) {
-      this.setState({ selectedProfile: null })
-    }
-    const speakerObj = this.props.pageData.content["participants-collection"]
-    const speakerKeys = Object.keys(speakerObj)
-    const speakersArr = speakerKeys.map(key => speakerObj[key])
-    const speaker = speakersArr.find(s => s.name === speakerName)
+  //const pageData = this.props.pageData ? this.props.pageData : this.props.data.pages;
+  //const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
 
-    if (speaker) {
-      this.setState({ selectedProfile: speaker })
-    }
-  }
+  return (
+    <Layout location={props.location}>
+      <Helmet>
+        <title>{pageData.title}</title>
+        <meta description={pageData.description} />
+      </Helmet>
 
-  render() {
-    const pageData = this.props.pageData ? this.props.pageData : this.props.data.pages;
-    const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
-    const speakerObj = content["participants-collection"] || {}
-    const speakerKeys = Object.keys(speakerObj)
-    const itemsToShow = speakerKeys.length
-    const speakersArr = speakerKeys.map(key => speakerObj[key])
-
-    return (
-      <Layout location={this.props.location}>
-        <Helmet>
-          <title>{pageData.title}</title>
-          <meta description={pageData.description} />
-        </Helmet>
-
-        I am here!
+      I am here!
 
 
-      </Layout>
-    );
-  }
+    </Layout>
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FellowshipPage);
+export default FellowshipPage;
 
 export const query = graphql`
   query FellowshipPageQuery($slug: String!) {
