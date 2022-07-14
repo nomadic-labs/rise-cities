@@ -15,9 +15,6 @@ const emptyFaq = {
 }
 
 class Faqs extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
   addFaq = () => {
     const newContent = [...this.props.content]

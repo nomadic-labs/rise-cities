@@ -3,9 +3,7 @@ import Button from "@material-ui/core/Button"
 import { connect } from "react-redux";
 
 import AgendaList from "./AgendaList"
-import AgendaItem from "./AgendaItem"
-import AgendaModal from "./AgendaModal";
-import {EditablesContext, EditorWrapper, EditableText} from "react-easy-editables";
+import {EditablesContext, EditableText} from "react-easy-editables";
 
 const mapStateToProps = state => {
   return {
@@ -19,9 +17,6 @@ const emptyAgendaDay = {
 }
 
 class MultidayAgenda extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
   addDayToAgenda = () => {
     const newContent = [...this.props.content]

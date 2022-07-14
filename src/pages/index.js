@@ -35,7 +35,6 @@ import sustainableIcon from "../assets/images/icons/sustainable-icon-32px.svg"
 import equitableIcon from "../assets/images/icons/inclusive-icon-32px.svg"
 import globalIcon from "../assets/images/icons/global-icon-32px.svg"
 import localIcon from "../assets/images/icons/neighbourhood-icon-32px.svg"
-import RiseCityLab from "../assets/images/svgs/rise-city-lab.svg"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 

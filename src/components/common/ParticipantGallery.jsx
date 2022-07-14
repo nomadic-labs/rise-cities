@@ -82,7 +82,7 @@ class ParticipantGallery extends React.Component {
   }
 
   render() {
-    const { showModal, editingParticipant, showProfileModal, selectedProfile } = this.state;
+    const { showModal, editingParticipant, selectedProfile } = this.state;
     const itemsToShow = this.props.itemsToShow || ITEM_NUMBER;
     const profiles = Object.keys(this.props.content).map(key => this.props.content[key])
     const orderedProfiles = profiles.sort((a,b) => {
