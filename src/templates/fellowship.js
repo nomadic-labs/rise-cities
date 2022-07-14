@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import AOS from 'aos';
+import TandemMap from '../components/common/TandemMap';
 import LazyLoad from 'react-lazyload';
 import ParticipantGallery from "../components/common/ParticipantGallery"
 import MultidayAgenda from "../components/common/MultidayAgenda"
@@ -207,6 +208,10 @@ const FellowshipPage = (props) => {
                 onSave={onSave("eligibility-criteria")} />
             </Grid>
           </Grid>
+
+          <div className="mt-10">
+            <TandemMap />
+          </div>
         </Container>
       </section>
 
