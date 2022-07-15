@@ -295,9 +295,11 @@ body .nl-page {
     }
 
     .slick-dots {
+      /*
       li {
-        /*bottom: -40px;*/
+        bottom: -40px;
       }
+      */
 
       .slick-active > div {
         border: 2px solid $primary-color;
@@ -533,13 +535,15 @@ body .nl-page {
     }
   }
 
+  /*
   #logistics {
-    /*background: linear-gradient(90deg, $white 0%, $white 57%, $gray-600 57%, $gray-600 100%);*/
+    background: linear-gradient(90deg, $white 0%, $white 57%, $gray-600 57%, $gray-600 100%);
 
     .link-area {
-      /*padding-left: 40px;*/
+      padding-left: 40px;
     }
   }
+  */
 
   .events-column {
     flex: 1 1 0px;
@@ -756,9 +760,11 @@ body .nl-page {
     margin-bottom: 16px;
   }
 
+  /*
   .summary {
 
   }
+  */
 }
 
 button {
@@ -1153,6 +1159,13 @@ blockquote {
   .criteria {
     font-size: 26px;
     text-transform: uppercase;
+  }
+
+  .map-container {
+    overflow: hidden;
+    max-height: 600px;
+    width: 100%;
+    border: $primary-color solid 1px;
   }
 }
 

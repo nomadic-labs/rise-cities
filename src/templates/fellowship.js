@@ -209,7 +209,7 @@ const FellowshipPage = (props) => {
             </Grid>
           </Grid>
 
-          <div className="mt-10">
+          <div className="mt-10 map-container">
             <TandemMap />
           </div>
         </Container>
