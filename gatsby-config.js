@@ -44,6 +44,10 @@ module.exports = {
             type: "Config",
             collection: "config",
           },
+          {
+            type: "Tandems",
+            collection: "tandems",
+          }
         ]
       }
     },
