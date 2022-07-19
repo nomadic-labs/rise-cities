@@ -7,16 +7,11 @@ import AOS from 'aos';
 import TandemMap from '../components/common/TandemMap';
 import LazyLoad from 'react-lazyload';
 import ParticipantGallery from "../components/common/ParticipantGallery"
-import MultidayAgenda from "../components/common/MultidayAgenda"
-import Faqs from "../components/common/Faqs"
 
 import { useDispatch, useSelector } from "react-redux";
 import {
   EditableParagraph,
   EditableText,
-  EditableEmbeddedIframe,
-  EditableLink,
-  EditableBackgroundImage,
   EditableImageUpload,
 } from "react-easy-editables";
 import { uploadFile } from "../aws/operations";
@@ -24,7 +19,6 @@ import { uploadFile } from "../aws/operations";
 import {
   updatePageContent,
   loadPageData,
-  updateTitle,
 } from "../redux/actions";
 
 import Layout from "../layouts/default.js";
@@ -212,6 +206,25 @@ const FellowshipPage = (props) => {
           <div className="mt-10 map-container">
             <TandemMap />
           </div>
+
+
+        </Container>
+      </section>
+
+      <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
+
+      <section className="mt-10 mb-15" data-aos="fade-up" id="people">
+        <Container>
+          <h2 className="text-black">
+            <EditableText content={content["mentors-title"]} 
+              onSave={onSave("mentors-title")} />
+          </h2>
+
+          <LazyLoad offset={200}>
+            <ParticipantGallery 
+              content={content["mentors-collection"]} 
+              onSave={onSave("mentors-collection")} />
+          </LazyLoad>
         </Container>
       </section>
 

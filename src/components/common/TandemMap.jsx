@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
-import { ComposableMap, Graticule, ZoomableGroup, Geographies, Geography, Marker } from 'react-simple-maps';
-import some from 'lodash/some';
+import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import find from 'lodash/find';
 import Tooltip from '@material-ui/core/Tooltip';
-import Popover from '@material-ui/core/Popover';
+import TandemDetailModal from './TandemDetailModal';
 
 const PRIMARY_COLOR = '#FFCD44';
 const SECONDARY_COLOR = '#46B27E';
@@ -52,27 +51,14 @@ const TandemMap = (props) => {
   `);
 
   const [ hover, setHover ] = useState(null);
-  const [ clicked, setClicked ] = useState(null);
   const [ selected, setSelected ] = useState(null);
 
-  const handleClick = (e, id) => {
-    setClicked(e.currentTarget);
-    setSelected(id);
-  };
-
-  const showPopover = !!clicked;
   const tandem = find(tandems, { id: selected });
 
   return (
     <>
 
-    <Popover 
-      open={showPopover} 
-      onClose={() => { setClicked(null); setSelected(null); }}
-      anchorEl={clicked}
-    >
-      <TandemInfo tandem={tandem} />
-    </Popover>
+    <TandemDetailModal tandem={tandem} closeModal={() => setSelected(null)} />
 
     <ComposableMap projection="geoMercator"
       projectionConfig={{ scale: 350, center: [9, 45] }}>
@@ -82,7 +68,7 @@ const TandemMap = (props) => {
           geographies.map((geo) => {
             return (
               <Geography key={geo.rsmKey} geography={geo} 
-                fill="lightgray" stroke="white" strokeWidth="1" />
+                fill={PRIMARY_COLOR} stroke="white" strokeWidth="1" />
             );
           })
         )}
@@ -99,10 +85,8 @@ const TandemMap = (props) => {
             <Tooltip title={`${city}, ${country}`}>
               <circle r={radius} 
                 fill={SECONDARY_COLOR} 
-                stroke={SECONDARY_COLOR} 
-                strokeWidth={1} 
                 style={{ cursor: 'pointer' }}
-                onClick={(e) => handleClick(e, id)} />
+                onClick={() => setSelected(id)} />
             </Tooltip>
           </Marker>
         );
