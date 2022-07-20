@@ -31,6 +31,14 @@ const TandemMap = (props) => {
   const [ hover, setHover ] = useState(null);
   const [ selected, setSelected ] = useState(null);
 
+  const onHover = (tandem) => {
+    setHover(tandem.id);
+
+    // preload the image so that when they click the marker 
+    // to open the modal, it's already cached
+    new Image().src = tandem.imageUrl;
+  };
+
   const tandem = find(tandems, { id: selected });
 
   return (
@@ -57,7 +65,7 @@ const TandemMap = (props) => {
         const radius = hover === id ? 9 : 4;
         return (
           <Marker key={id} coordinates={[ lon, lat ]}
-            onMouseEnter={() => setHover(id)}
+            onMouseEnter={() => onHover(tandem)}
             onMouseLeave={() => setHover(null)}
           >
             <Tooltip title={`${city}, ${country}`}>
