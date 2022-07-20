@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import AOS from 'aos';
 import TandemMap from '../components/common/TandemMap';
+import Curriculum from '../components/common/Curriculum';
 import LazyLoad from 'react-lazyload';
 import ParticipantGallery from "../components/common/ParticipantGallery"
 
@@ -23,6 +24,7 @@ import {
 
 import Layout from "../layouts/default.js";
 import "../assets/sass/events.scss";
+import EventGallery from "../components/common/EventGallery";
 
 const FellowshipPage = (props) => {
 
@@ -135,7 +137,7 @@ const FellowshipPage = (props) => {
             </Grid>
             <Grid item md={8}>
               <div style={{ marginTop: '120px' }} data-aos="fade-up">
-                <Grid container>
+                <Grid container spacing={6}>
                   <Grid item md={6}>
                     <h2 className="text-black mb-1">
                       <EditableText content={content["benefits-title"]}
@@ -166,17 +168,48 @@ const FellowshipPage = (props) => {
 
       <Container><div className="fancy-border" data-aos="flip-right" /></Container>
 
-      <section data-aos="fade-up" className="pt-15 pb-15">
+      <section data-aos="fade-up" className="pt-15 pb-15" id="timeline">
         <Container>
-          Curriculum - TBD
+          <h2 className="text-black">
+            <EditableText content={content["timeline-title"]} 
+              onSave={onSave("timeline-title")} />
+          </h2>
+
+          <EventGallery content={content["timeline-collection"]}
+            onSave={onSave("timeline-collection")} />
+
         </Container>
       </section>
 
       <Container><div className="fancy-border" data-aos="flip-right" /></Container>
 
-      <section data-aos="fade-up" className="pt-15 pb-15">
+      <section data-aos="fade-up" className="pt-15 pb-15" id="curriculum">
         <Container>
-          Timeline - TBD
+          <Grid container spacing={6} className="display-flex align-center">
+            <Grid item md={6}>
+              <h2 className="text-black">
+                <EditableText content={content["curriculum-title"]} 
+                  onSave={onSave("curriculum-title")} />
+              </h2>
+
+              <EditableParagraph content={content["curriculum-description"]} 
+                onSave={onSave("curriculum-description")} />
+
+            </Grid>
+            <Grid item md={6}>
+              <EditableImageUpload
+                content={content["curriculum-image"]}
+                onSave={onSave("curriculum-image")}
+                uploadImage={uploadFile}
+                styles={{ image: { objectFit: 'cover' }}}
+              />
+            </Grid>
+          </Grid>
+
+          <LazyLoad offset={200}>
+            <Curriculum />
+          </LazyLoad>
+
         </Container>
       </section>
 
@@ -204,9 +237,10 @@ const FellowshipPage = (props) => {
           </Grid>
 
           <div className="mt-10 map-container">
-            <TandemMap />
+            <LazyLoad offset={200}>
+              <TandemMap />
+            </LazyLoad>
           </div>
-
 
         </Container>
       </section>
@@ -225,6 +259,21 @@ const FellowshipPage = (props) => {
               content={content["mentors-collection"]} 
               onSave={onSave("mentors-collection")} />
           </LazyLoad>
+        </Container>
+      </section>
+
+      <Container><div className="fancy-border" data-aos="flip-right" data-aos-offset="100" /></Container>
+
+      <section className="mt-10 mb-15" data-aos="fade-up" id="funding">
+        <Container>
+          <h2 className="text-black">
+            <EditableText content={content["funding-title"]} 
+              onSave={onSave("funding-title")} />
+          </h2>
+
+          <EditableParagraph content={content["funding-content"]}
+            onSave={onSave("funding-content")} />
+
         </Container>
       </section>
 

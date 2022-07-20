@@ -8,28 +8,6 @@ import TandemDetailModal from './TandemDetailModal';
 const PRIMARY_COLOR = '#FFCD44';
 const SECONDARY_COLOR = '#46B27E';
 
-const TandemInfo = (props) => {
-  const { tandem } = props;
-  if (!tandem) return null;
-
-  const { title, description, url, imageUrl } = tandem;
-
-  return (
-    <div className="tandem-info">
-      <div className="tandem-img">
-        <img src={imageUrl} />
-      </div>
-      <div className="p-10">
-        <h3>{title}</h3>
-        <p>{description}</p>
-        <a href={url} target="_blank" rel="noopener noreferrer" className="tandem-link">
-          Tandem Link
-        </a>
-      </div>
-    </div>
-  );
-};
-
 const TandemMap = (props) => {
 
   const { allTandems: { nodes: tandems } } = useStaticQuery(graphql`

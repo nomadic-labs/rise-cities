@@ -47,6 +47,10 @@ module.exports = {
           {
             type: "Tandems",
             collection: "tandems",
+          },
+          {
+            type: "Curriculum",
+            collection: "curriculum",
           }
         ]
       }
