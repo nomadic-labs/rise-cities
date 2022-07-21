@@ -12,6 +12,8 @@ import map from 'lodash/map';
 import { DateTime } from 'luxon';
 import Filter from './Filter';
 
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
+
 import upcomingIcon from '../../assets/images/icons/upcoming-icon.svg';
 import pastIcon from '../../assets/images/icons/past-icon.svg';
 
@@ -152,18 +154,20 @@ class EventGallery extends React.Component {
           </div>
         }
 
-        {eventsToShow.map((event) => {
-          return (
-          <div className="delay-in">
-            <Event key={event.id}
-              event={event}
-              startEditing={() => this.setState({ showModal: true, editingEvent: event })}
-              isEditingPage={this.props.isEditingPage}
-              theme={this.context.theme}
-            />
-          </div>
-          );
-        })}
+        <SwitchTransition>
+          <CSSTransition key={filter} timeout={300}>
+            <div id="event-transition">
+            {eventsToShow.map((event) => (
+              <Event key={event.id}
+                event={event}
+                startEditing={() => this.setState({ showModal: true, editingEvent: event })}
+                isEditingPage={this.props.isEditingPage}
+                theme={this.context.theme}
+              />
+            ))}
+            </div>
+          </CSSTransition>
+        </SwitchTransition>
 
         <EventModal
           event={editingEvent}
