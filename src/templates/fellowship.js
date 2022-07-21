@@ -74,7 +74,7 @@ const FellowshipPage = (props) => {
   //const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
 
   return (
-    <Layout location={props.location}>
+    <Layout location={props.location} hideContact>
       <Helmet>
         <title>{pageData.title}</title>
         <meta description={pageData.description} />

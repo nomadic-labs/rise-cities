@@ -81,6 +81,8 @@ class DefaultLayout extends React.Component {
   render() {
     const { props } = this;
     const themeClass = props.theme === "gray" ? "theme-gray" : "theme-light"
+    const { hideContact } = props;
+
     return(
       <div style={styles.container} className={`nl-page ${props.className || ""} ${themeClass}`}>
         <Helmet>
@@ -111,7 +113,7 @@ class DefaultLayout extends React.Component {
           <Footer { ...props } />
           <CreatePageModal />
         </EditablesContext.Provider>
-        <ContactPopup />
+        { !hideContact && <ContactPopup /> }
       </div>
     )
   }
