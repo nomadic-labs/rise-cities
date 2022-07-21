@@ -1167,8 +1167,19 @@ ul.filter {
 
   .map-container {
     overflow: hidden;
-    max-height: 650px;
+    max-height: 600px;
     width: 100%;
+  }
+
+  .tandem-row {
+    cursor: pointer;
+
+    &:hover {
+      animation-name: jump;
+      animation-duration: 0.5s;
+      animation-timing-function: ease;
+      animation-iteration-count: 1;
+    }
   }
 
 }

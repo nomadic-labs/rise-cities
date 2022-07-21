@@ -1,12 +1,36 @@
 import React, { useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import find from 'lodash/find';
 import Tooltip from '@material-ui/core/Tooltip';
 import TandemDetailModal from './TandemDetailModal';
+import { Grid } from '@material-ui/core';
+
+import take from 'lodash/take';
+import takeRight from 'lodash/takeRight';
 
 const PRIMARY_COLOR = '#FFCD44';
 const SECONDARY_COLOR = '#46B27E';
+
+const TandemRow = (props) => {
+  const { tandem, onHover, onClick } = props;
+
+  return (
+    <div className="tandem-row" 
+      onMouseEnter={() => onHover(tandem)}
+      onMouseLeave={() => onHover(null)}
+      onClick={onClick}>
+      <div className="pt-5 pb-5">
+        <div className="text-uppercase text-xs">
+          {tandem.city}, {tandem.country}
+        </div>
+        <div className="text-bold">
+          {tandem.title}
+        </div>
+      </div>
+      <div className="fancy-border" />
+    </div>
+  );
+};
 
 const TandemMap = (props) => {
 
@@ -32,56 +56,76 @@ const TandemMap = (props) => {
   const [ selected, setSelected ] = useState(null);
 
   const onHover = (tandem) => {
-    setHover(tandem.id);
+    if (tandem) {
+      setHover(tandem.id);
 
-    // preload the image so that when they click the marker 
-    // to open the modal, it's already cached
-    new Image().src = tandem.imageUrl;
+      // preload the image so that when they click the marker 
+      // to open the modal, it's already cached
+      new Image().src = tandem.imageUrl;
+    } else {
+      setHover(null);
+    }
   };
 
-  const tandem = find(tandems, { id: selected });
+  const columns = [
+    take(tandems, 6),
+    takeRight(tandems, 6),
+  ];
 
   return (
     <>
+    <TandemDetailModal tandem={selected} closeModal={() => setSelected(null)} />
 
-    <TandemDetailModal tandem={tandem} closeModal={() => setSelected(null)} />
+    <Grid container spacing={3}>
 
-    <ComposableMap projection="geoMercator"
-      projectionConfig={{ scale: 350, center: [9, 45] }}>
+      { columns.map((column, i) => (
+        <Grid item xs={12} sm={3} key={i}>
+          { column.map((tandem) => (
+            <TandemRow tandem={tandem} onHover={onHover} onClick={() => setSelected(tandem)}/>) 
+          )}
+        </Grid>
+      ))}
 
-      <Geographies geography="/mapdata.json">
-        {({ geographies }) => (
-          geographies.map((geo) => {
+      <Grid item xs={12} sm={6} className="map-container">
+        <ComposableMap projection="geoMercator"
+          projectionConfig={{ scale: 650, center: [9, 50] }}
+          height={600} width={600}>
+
+          <Geographies geography="/mapdata.json">
+            {({ geographies }) => (
+              geographies.map((geo) => {
+                return (
+                  <Geography key={geo.rsmKey} geography={geo} 
+                    tabIndex="-1"
+                    fill={PRIMARY_COLOR} stroke="white" strokeWidth="1" />
+                );
+              })
+            )}
+          </Geographies>
+
+          { tandems.map((tandem) => {
+            const { id, lat, lon, city, country } = tandem;
+            const radius = hover === id ? 9 : 4;
             return (
-              <Geography key={geo.rsmKey} geography={geo} 
-                tabIndex="-1"
-                fill={PRIMARY_COLOR} stroke="white" strokeWidth="1" />
+              <Marker key={id} coordinates={[ lon, lat ]}
+                onMouseEnter={() => onHover(tandem)}
+                onMouseLeave={() => onHover(null)}
+              >
+                <Tooltip title={`${city}, ${country}`}>
+                  <circle r={radius} 
+                    fill={SECONDARY_COLOR} 
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setSelected(tandem)} 
+                    tabIndex="0"
+                  />
+                </Tooltip>
+              </Marker>
             );
-          })
-        )}
-      </Geographies>
+          })}
 
-      { tandems.map((tandem) => {
-        const { id, lat, lon, city, country } = tandem;
-        const radius = hover === id ? 9 : 4;
-        return (
-          <Marker key={id} coordinates={[ lon, lat ]}
-            onMouseEnter={() => onHover(tandem)}
-            onMouseLeave={() => setHover(null)}
-          >
-            <Tooltip title={`${city}, ${country}`}>
-              <circle r={radius} 
-                fill={SECONDARY_COLOR} 
-                style={{ cursor: 'pointer' }}
-                onClick={() => setSelected(id)} 
-                tabIndex="0"
-              />
-            </Tooltip>
-          </Marker>
-        );
-      })}
-
-    </ComposableMap>
+        </ComposableMap>
+      </Grid>
+    </Grid>
     </>
   );
 };

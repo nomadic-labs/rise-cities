@@ -236,7 +236,7 @@ const FellowshipPage = (props) => {
             </Grid>
           </Grid>
 
-          <div className="mt-10 map-container">
+          <div className="mt-10">
             <LazyLoad offset={200}>
               <TandemMap />
             </LazyLoad>
