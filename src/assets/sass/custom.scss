@@ -1098,41 +1098,41 @@ blockquote {
   }
 }
 
-#articles {
-  ul.filter {
-    display: flex;
-    padding: 0;
+//#articles {
+ul.filter {
+  display: flex;
+  padding: 0;
 
-    li {
-      margin-right: 40px;
-      list-style: none;
+  li {
+    margin-right: 40px;
+    list-style: none;
 
-      button {
-        background: transparent;
-        border: none;
-        font-size: $font-size-xs;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    button {
+      background: transparent;
+      border: none;
+      font-size: $font-size-xs;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
-        img {
-          height: 30px;
-          width: 30px;
-        }
+      img {
+        height: 30px;
+        width: 30px;
       }
+    }
 
-      &.active {
-        button {
-          &:after {
-            width: 100%;
-            border-color: $primary-color;
-          }
+    &.active {
+      button {
+        &:after {
+          width: 100%;
+          border-color: $primary-color;
         }
       }
     }
   }
 }
+//}
 
 #contact-button {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.25);
@@ -1177,6 +1177,5 @@ blockquote {
     }
   }
 }
-
 
 @import "responsive";
