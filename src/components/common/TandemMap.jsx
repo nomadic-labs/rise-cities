@@ -54,6 +54,7 @@ const TandemMap = (props) => {
           geographies.map((geo) => {
             return (
               <Geography key={geo.rsmKey} geography={geo} 
+                tabIndex="-1"
                 fill={PRIMARY_COLOR} stroke="white" strokeWidth="1" />
             );
           })
@@ -72,7 +73,9 @@ const TandemMap = (props) => {
               <circle r={radius} 
                 fill={SECONDARY_COLOR} 
                 style={{ cursor: 'pointer' }}
-                onClick={() => setSelected(id)} />
+                onClick={() => setSelected(id)} 
+                tabIndex="0"
+              />
             </Tooltip>
           </Marker>
         );
