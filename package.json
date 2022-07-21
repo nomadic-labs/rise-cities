@@ -20,6 +20,7 @@
     "babel-polyfill": "^6.26.0",
     "browserslist": "^3.2.0",
     "caniuse-db": "^1.0.30000867",
+    "classnames": "^2.3.1",
     "firebase": "^7.5.2",
     "firebase-admin": "^8.8.0",
     "firebase-tools": "^7.9.0",

@@ -116,6 +116,10 @@ body .nl-page {
       &:last-of-type {
         margin-right: 0;
       }
+
+      &.is-active {
+        border-bottom: 2px solid $secondary-color;
+      }
     }
   }
 

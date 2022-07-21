@@ -6,6 +6,7 @@ import Container from "@material-ui/core/Container"
 import Hidden from "@material-ui/core/Hidden"
 import Grid from "@material-ui/core/Grid"
 import imagesloaded from "imagesloaded"
+import classnames from 'classnames';
 
 class Header extends React.Component {
 
@@ -81,6 +82,10 @@ class Header extends React.Component {
       return <div />
     }
 
+    const pathname = this.props.location?.pathname || '';
+    // TODO don't hardcode this path?
+    const isFellowship = pathname.startsWith('/fellowship');
+
     return (
       <nav id="navbar" data-aos="fade-in">
         <Container>
@@ -96,7 +101,8 @@ class Header extends React.Component {
               <Hidden smDown>
                 <div className='navbar-items'>
                   <a className='navbar-item' href="#program" onClick={this.handleClick}>Program</a>
-                  <a className='navbar-item' href="#rise-city-lab" onClick={this.handleClick}>RISE Fellowship</a>
+                  <a className={classnames('navbar-item', { 'is-active': isFellowship })} 
+                    href="#rise-city-lab" onClick={this.handleClick}>RISE Fellowship</a>
                   <a className='navbar-item' href="#featured" onClick={this.handleClick}>Newsroom</a>
                   <a className='navbar-item' href="#events" onClick={this.handleClick}>Events</a>
                   <a className='navbar-item' href="#people" onClick={this.handleClick}>People</a>
