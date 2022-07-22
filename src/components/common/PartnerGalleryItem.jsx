@@ -6,9 +6,14 @@ const DEFAULT_IMAGE = '/default-partner-image.jpg'
 const PartnerGalleryItem = ({ id, content={} }) => {
   const partnerImage = content.image?.imageSrc || DEFAULT_IMAGE
 
+  const { url } = content;
+  const linkProps = url ? 
+    { href: ensureAbsoluteUrl(url), target: '_blank', rel: 'noopener noreferrer' } :
+    {};
+
   return (
     <div className="partner">
-      <a className="partner-link pretty-link" href={ensureAbsoluteUrl(content.url)} target="_blank" rel="noopener noreferrer">
+      <a className="partner-link pretty-link" {...linkProps}>
         <div className="partner-image">
           <img src={partnerImage} alt={content.name}/>
         </div>
