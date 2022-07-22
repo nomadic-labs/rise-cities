@@ -4,9 +4,9 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Masonry from 'react-masonry-component'
 import LazyLoad from 'react-lazyload';
-import { EditableTextArea } from "react-easy-editables";
+import { EditableTextArea, EditorWrapper, theme } from "react-easy-editables";
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFirestoreDoc } from "../redux/actions";
 
 import Layout from "../layouts/default.js";
@@ -20,7 +20,50 @@ import videoIcon from "../assets/images/icons/video-icon-32px.svg"
 import produce from 'immer';
 import findIndex from 'lodash/findIndex';
 
-const ArticleGallery = ({ pages, updatePageDescription }) => {
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import LuxonUtils from '@date-io/luxon';
+import { DateTime } from 'luxon';
+
+const DateField = (props) => {
+  const { date, onSave } = props;
+
+  const [ isEditingDate, setEditingDate ] = useState(false);
+
+  const dateString = date ? new Date(parseInt(date)).toDateString() : ""
+  const dateObj = date ? DateTime.fromMillis(date) : DateTime.now();
+  const isEditingPage = useSelector((state) => state.adminTools.isEditingPage);
+
+  const handleChange = (value) => {
+    onSave(value.toMillis());
+    setEditingDate(false);
+  };
+
+  return (
+    <>
+    { isEditingPage && !isEditingDate &&
+      <EditorWrapper theme={theme} startEditing={() => setEditingDate(true)}>
+        <p className="text-xs text-uppercase text-muted mb-1">{dateString || 'Edit date'}</p>
+      </EditorWrapper>
+    }
+    { isEditingPage && isEditingDate &&
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
+        <DatePicker 
+          value={dateObj} 
+          onChange={handleChange} 
+          variant="inline" 
+          disableToolbar 
+          format="yyyy/MM/dd"
+        />
+      </MuiPickersUtilsProvider>
+    }
+    { !isEditingPage &&
+      <p className="text-xs text-uppercase text-muted mb-1">{dateString}</p>
+    }
+    </>
+  );
+};
+
+const ArticleGallery = ({ pages, updatePage }) => {
 
   const dispatch = useDispatch();
 
@@ -28,10 +71,15 @@ const ArticleGallery = ({ pages, updatePageDescription }) => {
     const { text: description } = content;
 
     // update local state
-    updatePageDescription(id, description);
+    updatePage(id, 'description', description);
 
     // save to database
     dispatch(updateFirestoreDoc(id, { description }));
+  };
+
+  const saveDate = (id, date) => {
+    updatePage(id, 'date', date);
+    dispatch(updateFirestoreDoc(id, { date }));
   };
 
   return (
@@ -40,7 +88,6 @@ const ArticleGallery = ({ pages, updatePageDescription }) => {
         {
           pages.map(page => {
             const content = JSON.parse(page.content)
-            const dateString = page.date ? new Date(parseInt(page.date)).toDateString() : ""
 
             const description = { text: page.description };
 
@@ -59,7 +106,10 @@ const ArticleGallery = ({ pages, updatePageDescription }) => {
                     <h3 className="mb-0 mt-0">{page.title}</h3>
                   </Link>
                 )}
-                <p className="text-xs text-uppercase text-muted mb-1">{dateString}</p>
+                <DateField 
+                  date={page.date} 
+                  onSave={(date) => saveDate(page.id, date)}
+                />
                 <div className="text-xs mt-2">
                   <EditableTextArea
                     content={description}
@@ -82,11 +132,11 @@ const FeaturedContentPage = ({ data, location }) => {
   const [pages, setPages] = useState(orderedPages)
   const [filter, setFilter] = useState()
 
-  const updatePageDescription = (pageId, description) => {
+  const updatePage = (pageId, field, value) => {
     setPages(produce(pages, (draft) => {
       const index = findIndex(draft, { id: pageId });
       if (index === -1) return;
-      draft[index].description = description;
+      draft[index][field] = value;
     }));
   };
 
@@ -137,7 +187,7 @@ const FeaturedContentPage = ({ data, location }) => {
                   </ul>
                 </div>
 
-                <ArticleGallery pages={pages} updatePageDescription={updatePageDescription} />
+                <ArticleGallery pages={pages} updatePage={updatePage} />
               </div>
             </Grid>
           </Grid>
