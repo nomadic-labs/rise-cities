@@ -7,7 +7,7 @@ import { Grid } from '@material-ui/core';
 import take from 'lodash/take';
 import takeRight from 'lodash/takeRight';
 
-import MarkerIcon from './MarkerIcon';
+import MarkerIcon, { MarkerIconSvg } from './MarkerIcon';
 
 const PRIMARY_COLOR = '#FFCD44';
 const SECONDARY_COLOR = '#46B27E';
@@ -20,12 +20,17 @@ const TandemRow = (props) => {
       onMouseEnter={() => onHover(tandem)}
       onMouseLeave={() => onHover(null)}
       onClick={onClick}>
-      <div className="pt-5 pb-5">
-        <div className="text-uppercase text-xs">
-          {tandem.city}, {tandem.country}
+      <div className="display-flex align-center">
+        <div className="mr-5">
+          <MarkerIconSvg />
         </div>
-        <div className="text-bold">
-          {tandem.title}
+        <div className="pt-5 pb-5">
+          <div className="text-uppercase text-xs">
+            {tandem.city}, {tandem.country}
+          </div>
+          <div className="text-bold">
+            {tandem.title}
+          </div>
         </div>
       </div>
       <div className="fancy-border" />

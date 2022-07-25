@@ -24,3 +24,11 @@ const MarkerIcon = ({ expand, shift, label, ...rest }) => {
 };
 
 export default MarkerIcon;
+
+// the default export above is used within the map <svg> container...
+// below, this one can be used as an SVG element on its own
+export const MarkerIconSvg = (props) => (
+  <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <MarkerIcon {...props} />
+  </svg>
+);
