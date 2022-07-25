@@ -20,6 +20,9 @@ import CurriculumDetailModal from './CurriculumDetailModal';
 import { EditorWrapper, theme } from 'react-easy-editables';
 import CurriculumEditingModal from './CurriculumEditingModal';
 
+import produce from 'immer';
+import findIndex from 'lodash/findIndex';
+
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
@@ -41,8 +44,7 @@ const TOPICS = {
 
 const CurriculumModule = (props) => {
   const { module, onClick } = props;
-  const { title, type } = module;
-  const image = module.image ? JSON.parse(module.image) : {};
+  const { title, type, image } = module;
 
   return (
     <Grid item xs={12} sm={4} className="curriculum-item">
@@ -61,7 +63,7 @@ const CurriculumModule = (props) => {
 
 const Curriculum = (props) => {
 
-  const { allCurriculum: { nodes: curriculum } } = useStaticQuery(graphql`
+  const { allCurriculum: { nodes } } = useStaticQuery(graphql`
     query CurriculumQuery {
       allCurriculum(sort: {fields: order, order: ASC}) {
         nodes {
@@ -79,9 +81,20 @@ const Curriculum = (props) => {
     }
   `);
 
+  const [ curriculum, setCurriculum ] = useState([]);
+
   const [ selected, setSelected ] = useState(null);
   const [ isEditing, setEditing ] = useState(false);
   const [ editingModule, setEditingModule ] = useState(null);
+
+  useEffect(() => {
+    setCurriculum(nodes.map((node) => {
+      return {
+        ...node,
+        image: node.image ? JSON.parse(node.image) : {}
+      };
+    }));
+  }, [ nodes ]);
 
   const startEditing = (module) => {
     setEditing(true);
@@ -91,6 +104,28 @@ const Curriculum = (props) => {
   const stopEditing = () => {
     setEditing(false);
     setEditingModule(null);
+  };
+
+  const onSave = (module) => {
+    setCurriculum(produce(curriculum, (draft) => {
+      if (module.id) {
+        const index = findIndex(draft, { id: module.id });
+        draft[index] = module;
+      } else {
+        draft.unshift(module);
+      }
+    }));
+
+    stopEditing();
+  };
+
+  const onDelete = (module) => {
+    setCurriculum(produce(curriculum, (draft) => {
+      const index = findIndex(draft, { id: module.id });
+      draft.splice(index, 1);
+    }));
+
+    stopEditing();
   };
 
   const isEditingPage = useSelector((state) => state.adminTools.isEditingPage);
@@ -107,6 +142,8 @@ const Curriculum = (props) => {
       <CurriculumEditingModal open={isEditing} 
         module={editingModule} 
         closeModal={stopEditing} 
+        onSave={onSave}
+        onDelete={onDelete}
       />
 
       { isEditingPage && 

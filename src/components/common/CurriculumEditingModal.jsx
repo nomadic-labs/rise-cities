@@ -25,16 +25,13 @@ const TYPES = [
 
 const CurriculumEditingModal = (props) => {
 
-  const { open, closeModal } = props;
+  const { open, closeModal, onSave, onDelete } = props;
 
   const [ module, setModule ] = useState(null);
 
   useEffect(() => {
     if (props.module) {
-      setModule({
-        ...props.module,
-        image: props.module.image ? JSON.parse(props.module.image) : {}
-      });
+      setModule(props.module);
     } else {
       setModule({
         image: {},
@@ -44,7 +41,7 @@ const CurriculumEditingModal = (props) => {
         url: '',
         order: 1,
         topic: TOPICS[0],
-        types: TYPES[0],
+        type: TYPES[0],
       });
     }
   }, [ props.module ]);
@@ -56,12 +53,6 @@ const CurriculumEditingModal = (props) => {
   };
   const handleChangeEvent = (key) => (e) => {
     handleChange(key)(e.target.value);
-  };
-
-  const handleDelete = () => {
-  };
-
-  const handleSave = () => {
   };
 
   if (!module) return null;
@@ -172,7 +163,7 @@ const CurriculumEditingModal = (props) => {
             <Grid item>
               {
                 !isNew &&
-                <Button onClick={handleDelete} color="secondary">
+                <Button onClick={() => onDelete(module)} color="secondary">
                   Delete
                 </Button>
               }
@@ -187,7 +178,7 @@ const CurriculumEditingModal = (props) => {
                 Cancel
               </Button>
               <Button
-                onClick={handleSave}
+                onClick={() => onSave(module)}
                 color="primary"
                 variant="contained"
                 style={{borderRadius:0}}
