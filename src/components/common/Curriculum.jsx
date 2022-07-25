@@ -13,6 +13,7 @@ import sustainableIcon from '../../assets/images/icons/sustainable-icon-32px.svg
 import equitableIcon from '../../assets/images/icons/inclusive-icon-32px.svg';
 
 import groupBy from 'lodash/groupBy';
+import CurriculumDetailModal from './CurriculumDetailModal';
 
 const TOPICS = {
   Resilient: resilientIcon,
@@ -23,7 +24,7 @@ const TOPICS = {
 
 const Curriculum = (props) => {
 
-  const { allCurriculum: { nodes } } = useStaticQuery(graphql`
+  const { allCurriculum: { nodes: curriculum } } = useStaticQuery(graphql`
     query CurriculumQuery {
       allCurriculum(sort: {fields: order, order: ASC}) {
         nodes {
@@ -40,11 +41,7 @@ const Curriculum = (props) => {
     }
   `);
 
-  const [ curriculum, setCurriculum ] = useState([]);
-
-  useEffect(() => {
-    setCurriculum(nodes);
-  }, [ nodes ]);
+  const [ selected, setSelected ] = useState(null);
 
   const isEditingPage = useSelector((state) => state.adminTools.isEditingPage);
 
@@ -53,7 +50,10 @@ const Curriculum = (props) => {
   const topics = groupBy(curriculum, 'topic');
 
   return (
-    <div>
+    <>
+
+      <CurriculumDetailModal module={selected} closeModal={() => setSelected(null)} />
+
       { Object.keys(TOPICS).map((topic) => (
         <div key={topic} className="p-2">
           <Accordion
@@ -77,11 +77,15 @@ const Curriculum = (props) => {
 
                     return (
                       <Grid item xs={12} sm={4} key={id} className="curriculum-item">
-                        { image.imageSrc && 
-                          <img src={image.imageSrc} alt={title} />
-                        }
-                        <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{type}</p>
-                        <h3 className="mb-0 mt-0">{title}</h3>
+                        <button onClick={() => setSelected(item)}>
+                          { image.imageSrc && 
+                            <img src={image.imageSrc} alt={title} />
+                          }
+                          <p className="mb-1 mt-1 text-xs text-uppercase text-clamped">{type}</p>
+                          <h3 className="mb-0 mt-0">
+                            <span className="pretty-link">{title}</span>
+                          </h3>
+                        </button>
                       </Grid>
                     );
                   })}
@@ -91,7 +95,7 @@ const Curriculum = (props) => {
           </Accordion>
         </div>
       ))}
-    </div>
+    </>
   );
 };
 

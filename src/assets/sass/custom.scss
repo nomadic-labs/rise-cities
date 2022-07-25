@@ -1219,9 +1219,47 @@ ul.filter {
 }
 
 .curriculum-item {
-  img {
-    width: 100%;
-    object-fit: scale-down;
+  button {
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+
+    cursor: pointer;
+
+    .pretty-link {
+      @include pretty-link;
+    }
+
+    img {
+      width: 100%;
+      object-fit: scale-down;
+    }
+
+    &:hover {
+      .pretty-link:after {
+        width: 100%;
+      }
+    }
+
+    &:focus {
+      .pretty-link {
+        animation-name: bump;
+        animation-duration: 0.5s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+
+        &:after {
+          width: 100%;
+          border-color: $primary-color;
+        }
+      }
+    }
+
   }
 }
 
