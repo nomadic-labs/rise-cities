@@ -55,7 +55,7 @@ const Curriculum = (props) => {
       <CurriculumDetailModal module={selected} closeModal={() => setSelected(null)} />
 
       { Object.keys(TOPICS).map((topic) => (
-        <div key={topic} className="p-2">
+        <div key={topic} className="p-1">
           <Accordion
             square
             elevation="0"
