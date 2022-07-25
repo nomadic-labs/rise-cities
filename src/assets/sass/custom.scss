@@ -1213,4 +1213,16 @@ ul.filter {
   }
 }
 
+.curriculum-accordion {
+  border: none;
+  border-bottom: 2px solid black;
+}
+
+.curriculum-item {
+  img {
+    width: 100%;
+    object-fit: scale-down;
+  }
+}
+
 @import "responsive";
