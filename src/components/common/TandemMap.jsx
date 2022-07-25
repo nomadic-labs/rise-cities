@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import Tooltip from '@material-ui/core/Tooltip';
 import TandemDetailModal from './TandemDetailModal';
 import { Grid } from '@material-ui/core';
 
 import take from 'lodash/take';
 import takeRight from 'lodash/takeRight';
+
+import MarkerIcon from './MarkerIcon';
 
 const PRIMARY_COLOR = '#FFCD44';
 const SECONDARY_COLOR = '#46B27E';
@@ -57,6 +58,7 @@ const TandemMap = (props) => {
 
   const onHover = (tandem) => {
     if (tandem) {
+
       setHover(tandem.id);
 
       // preload the image so that when they click the marker 
@@ -74,6 +76,7 @@ const TandemMap = (props) => {
 
   return (
     <>
+
     <TandemDetailModal tandem={selected} closeModal={() => setSelected(null)} />
 
     <Grid container spacing={3}>
@@ -81,8 +84,13 @@ const TandemMap = (props) => {
       { columns.map((column, i) => (
         <Grid item xs={12} sm={3} key={i}>
           { column.map((tandem) => (
-            <TandemRow tandem={tandem} onHover={onHover} onClick={() => setSelected(tandem)}/>) 
-          )}
+            <TandemRow 
+              key={tandem.id}
+              tandem={tandem} 
+              onHover={onHover} 
+              onClick={() => setSelected(tandem)}
+            />
+          ))}
         </Grid>
       ))}
 
@@ -105,20 +113,19 @@ const TandemMap = (props) => {
 
           { tandems.map((tandem) => {
             const { id, lat, lon, city, country } = tandem;
-            const radius = hover === id ? 9 : 4;
+            const isHovering = hover === id;
             return (
-              <Marker key={id} coordinates={[ lon, lat ]}
-                onMouseEnter={() => onHover(tandem)}
-                onMouseLeave={() => onHover(null)}
-              >
-                <Tooltip title={`${city}, ${country}`}>
-                  <circle r={radius} 
-                    fill={SECONDARY_COLOR} 
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => setSelected(tandem)} 
-                    tabIndex="0"
-                  />
-                </Tooltip>
+              <Marker key={id} coordinates={[ lon, lat ]}>
+                <MarkerIcon 
+                  label={isHovering && `${city}, ${country}`}
+                  expand={isHovering} 
+                  shift 
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setSelected(tandem)}
+                  onMouseEnter={() => onHover(tandem)}
+                  onMouseLeave={() => onHover(null)}
+                  tabIndex="0"
+                />
               </Marker>
             );
           })}
