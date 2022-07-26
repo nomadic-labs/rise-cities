@@ -49,7 +49,7 @@ const CurriculumModule = (props) => {
   const { title, type, image } = module;
 
   return (
-    <Grid item xs={12} sm={4} className="curriculum-item">
+    <div className="curriculum-item">
       <button onClick={onClick}>
         { image.imageSrc && 
           <img src={image.imageSrc} alt={title} />
@@ -59,7 +59,7 @@ const CurriculumModule = (props) => {
           <span className="pretty-link">{title}</span>
         </h3>
       </button>
-    </Grid>
+    </div>
   );
 };
 
@@ -189,7 +189,7 @@ const Curriculum = (props) => {
               <div className="mb-3">
                 <Grid container spacing={3}>
                   { topics[topic].map((module) => (
-                    <React.Fragment key={module.id}>
+                    <Grid item xs={12} sm={4} key={module.id}>
 
                       { isEditingPage &&
                       <ThemeProvider theme={muiTheme}>
@@ -206,7 +206,7 @@ const Curriculum = (props) => {
                         onClick={() => setSelected(module)} />
                       }
 
-                    </React.Fragment>
+                    </Grid>
                   ))}
                 </Grid>
               </div>
