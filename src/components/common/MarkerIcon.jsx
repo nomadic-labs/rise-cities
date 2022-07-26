@@ -14,7 +14,7 @@ const MarkerIcon = ({ isHovering, shift, city, country, ...rest }) => {
         x: 8,
         y: 22,
         element: gRef.current,
-        maxWidth: 75,
+        maxWidth: 80,
         align: 'center',
         className: 'marker-icon-text',
         /*
