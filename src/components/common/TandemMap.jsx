@@ -85,7 +85,6 @@ const TandemMap = (props) => {
     <TandemDetailModal tandem={selected} closeModal={() => setSelected(null)} />
 
     <Grid container spacing={3}>
-
       { columns.map((column, i) => (
         <Grid item xs={12} sm={3} key={i}>
           { column.map((tandem) => (
@@ -122,8 +121,8 @@ const TandemMap = (props) => {
             return (
               <Marker key={id} coordinates={[ lon, lat ]}>
                 <MarkerIcon 
-                  label={isHovering && `${city}, ${country}`}
-                  expand={isHovering} 
+                  city={city} country={country}
+                  isHovering={isHovering}
                   shift 
                   style={{ cursor: 'pointer' }}
                   onClick={() => setSelected(tandem)}

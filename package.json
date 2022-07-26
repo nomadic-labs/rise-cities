@@ -62,7 +62,8 @@
     "sass": "^1.51.0",
     "slick-carousel": "^1.8.1",
     "slugify": "^1.2.9",
-    "splitting": "^1.0.6"
+    "splitting": "^1.0.6",
+    "svg-text": "^0.5.1"
   },
   "keywords": [
     "gatsby",

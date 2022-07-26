@@ -175,7 +175,7 @@ const Curriculum = (props) => {
         <div key={topic} className="p-1">
           <Accordion
             square
-            elevation="0"
+            elevation={0}
             classes={{ root: 'curriculum-accordion' }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <div className="display-flex align-center">
