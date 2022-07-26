@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -22,6 +22,8 @@ import CurriculumEditingModal from './CurriculumEditingModal';
 
 import produce from 'immer';
 import findIndex from 'lodash/findIndex';
+
+import { saveCurriculum, deleteCurriculum } from '../../redux/actions';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -87,6 +89,8 @@ const Curriculum = (props) => {
   const [ isEditing, setEditing ] = useState(false);
   const [ editingModule, setEditingModule ] = useState(null);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setCurriculum(nodes.map((node) => {
       return {
@@ -107,6 +111,14 @@ const Curriculum = (props) => {
   };
 
   const onSave = (module) => {
+
+    const { id, ...payload } = module;
+
+    dispatch(saveCurriculum(id, {
+      ...payload,
+      image: JSON.stringify(payload.image)
+    }));
+
     setCurriculum(produce(curriculum, (draft) => {
       if (module.id) {
         const index = findIndex(draft, { id: module.id });
@@ -120,6 +132,10 @@ const Curriculum = (props) => {
   };
 
   const onDelete = (module) => {
+
+    const { id } = module;
+    dispatch(deleteCurriculum(id));
+
     setCurriculum(produce(curriculum, (draft) => {
       const index = findIndex(draft, { id: module.id });
       draft.splice(index, 1);

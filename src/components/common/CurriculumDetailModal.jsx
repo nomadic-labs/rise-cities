@@ -11,9 +11,7 @@ const CurriculumDetailModal = (props) => {
 
   if (!module) return null;
 
-  const image = module.image ? JSON.parse(module.image) : {};
-
-  const { title, summary, url, speaker } = module;
+  const { title, summary, url, speaker, image } = module;
 
   return (
     <>
