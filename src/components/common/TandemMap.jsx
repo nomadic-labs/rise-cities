@@ -1,19 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import TandemDetailModal from './TandemDetailModal';
 import { Grid } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { EditorWrapper, theme } from 'react-easy-editables';
+import { useSelector, useDispatch } from 'react-redux';
 
 import take from 'lodash/take';
 import takeRight from 'lodash/takeRight';
+import noop from 'lodash/noop';
+import findIndex from 'lodash/findIndex';
+import sortBy from 'lodash/sortBy';
 
 import MarkerIcon, { MarkerIconSvg } from './MarkerIcon';
+import TandemDetailModal from './TandemDetailModal';
+import TandemEditingModal from './TandemEditingModal';
+
+import { saveTandem } from '../../redux/actions';
+
+import produce from 'immer';
 
 const PRIMARY_COLOR = '#FFCD44';
 const SECONDARY_COLOR = '#46B27E';
 
+const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: theme.primaryColor,
+    }
+  },
+  typography: {
+    fontFamily: theme.fontFamily,
+    fontSize: theme.fontSize
+  }
+});
+
 const TandemRow = (props) => {
-  const { tandem, onHover, onClick } = props;
+  const { tandem } = props;
+
+  const onHover = props.onHover || noop;
+  const onClick = props.onClick || noop;
 
   return (
     <div className="tandem-row" 
@@ -40,7 +66,7 @@ const TandemRow = (props) => {
 
 const TandemMap = (props) => {
 
-  const { allTandems: { nodes: tandems } } = useStaticQuery(graphql`
+  const { allTandems: { nodes } } = useStaticQuery(graphql`
     query TandemQuery {
       allTandems {
         nodes {
@@ -52,14 +78,28 @@ const TandemMap = (props) => {
           title
           description
           url
-          imageUrl
+          image
         }
       }
     }
   `);
 
+  const [ tandems, setTandems ] = useState([]);
+
   const [ hover, setHover ] = useState(null);
   const [ selected, setSelected ] = useState(null);
+  const [ editing, setEditing ] = useState(null);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTandems(nodes.map((node) => {
+      return {
+        ...node,
+        image: node.image ? JSON.parse(node.image) : {}
+      };
+    }));
+  }, [ nodes ]);
 
   const onHover = (tandem) => {
     if (tandem) {
@@ -68,32 +108,85 @@ const TandemMap = (props) => {
 
       // preload the image so that when they click the marker 
       // to open the modal, it's already cached
-      new Image().src = tandem.imageUrl;
+      if (tandem.image?.imageSrc) {
+        new Image().src = tandem.image.imageSrc;
+      }
     } else {
       setHover(null);
     }
   };
 
-  const columns = [
-    take(tandems, 6),
-    takeRight(tandems, 6),
-  ];
+  const onSave = (tandem) => {
+    const { id, ...payload } = tandem;
+
+    dispatch(saveTandem(id, {
+      ...payload,
+      image: JSON.stringify(payload.image)
+    }));
+
+    setTandems(produce(tandems, (draft) => {
+      const index = findIndex(draft, { id: tandem.id });
+      draft[index] = tandem;
+    }));
+
+    stopEditing();
+  };
+
+  const startEditing = (tandem) => {
+    setEditing(tandem);
+  };
+
+  const stopEditing = () => {
+    setEditing(null);
+  };
+
+  const isEditingPage = useSelector((state) => state.adminTools.isEditingPage);
+
+  const columns = useMemo(() => {
+    const sorted = sortBy(tandems, 'city');
+    return [
+      take(sorted, 6),
+      takeRight(sorted, 6),
+    ];
+  }, [ tandems ]);
+
+  if (tandems.length === 0) return null;
 
   return (
     <>
 
     <TandemDetailModal tandem={selected} closeModal={() => setSelected(null)} />
 
+    <TandemEditingModal 
+      tandem={editing} 
+      closeModal={stopEditing} 
+      onSave={onSave}
+    />
+
     <Grid container spacing={3}>
       { columns.map((column, i) => (
         <Grid item xs={12} sm={3} key={i}>
           { column.map((tandem) => (
-            <TandemRow 
-              key={tandem.id}
-              tandem={tandem} 
-              onHover={onHover} 
-              onClick={() => setSelected(tandem)}
-            />
+            <React.Fragment key={tandem.id}>
+
+            { isEditingPage &&
+              <ThemeProvider theme={muiTheme}>
+                <EditorWrapper theme={theme} 
+                  startEditing={() => startEditing(tandem)}>
+                  <TandemRow tandem={tandem} />
+                </EditorWrapper>
+              </ThemeProvider>
+            }
+
+            { !isEditingPage &&
+              <TandemRow 
+                tandem={tandem} 
+                onHover={onHover} 
+                onClick={() => setSelected(tandem)}
+              />
+            }
+
+            </React.Fragment>
           ))}
         </Grid>
       ))}

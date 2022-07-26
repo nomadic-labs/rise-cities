@@ -834,22 +834,22 @@ export function fetchUsers() {
   };
 }
 
-export function saveCurriculum(id, module) {
+export function saveDocument(collectionId, documentId, data) {
   return (dispatch) => {
     const db = firestore;
 
-    const collection = db.collection('curriculum');
+    const collection = db.collection(collectionId);
 
     new Promise((resolve) => {
-      if (id) {
-        resolve(collection.doc(id));
+      if (documentId) {
+        resolve(collection.doc(documentId));
       } else {
         resolve(collection.add({}));
       }
     })
     .then((doc) => {
       doc
-        .update(module)
+        .update(data)
         .then(() => {
           dispatch(
             showNotification(
@@ -867,6 +867,12 @@ export function saveCurriculum(id, module) {
         )
       );
     });
+  };
+}
+
+export function saveCurriculum(id, module) {
+  return (dispatch) => {
+    dispatch(saveDocument('curriculum', id, module));
   };
 }
 
@@ -894,5 +900,11 @@ export function deleteCurriculum(id) {
           )
         );
       })
+  };
+}
+
+export function saveTandem(id, tandem) {
+  return (dispatch) => {
+    dispatch(saveDocument('tandems', id, tandem));
   };
 }

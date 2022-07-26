@@ -11,9 +11,7 @@ const TandemDetailModal = (props) => {
 
   if (!tandem) return null;
 
-  const imageUrl = tandem.imageUrl || DEFAULT_IMAGE;
-
-  const { title, description, url } = tandem;
+  const { title, description, url, image } = tandem;
 
   return (
     <>
@@ -22,7 +20,7 @@ const TandemDetailModal = (props) => {
           <Grid container>
             <Grid item xs={12}>
               <div className="tandem-img">
-                <img src={imageUrl} alt={title} />
+                <img src={image.imageSrc || DEFAULT_IMAGE} alt={title} />
               </div>
             </Grid>
             <Grid item xs={12} style={{ display: 'flex', alignItems: 'flex-end'}}>
