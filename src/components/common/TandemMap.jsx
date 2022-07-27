@@ -23,7 +23,6 @@ import { saveTandem } from '../../redux/actions';
 import produce from 'immer';
 
 const PRIMARY_COLOR = '#FFCD44';
-const SECONDARY_COLOR = '#46B27E';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -44,7 +43,7 @@ const TandemRow = (props) => {
   const onClick = props.onClick || noop;
 
   return (
-    <div className="tandem-row" 
+    <button className="tandem-row" 
       onMouseEnter={() => onHover(tandem)}
       onMouseLeave={() => onHover(null)}
       onClick={onClick}>
@@ -62,7 +61,7 @@ const TandemRow = (props) => {
         </div>
       </div>
       <div className="fancy-border" />
-    </div>
+    </button>
   );
 };
 

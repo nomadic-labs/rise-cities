@@ -39,9 +39,8 @@ const FellowshipPage = (props) => {
     dispatch(loadPageData(initialPageData));
 
     AOS.init({ delay: 50, duration: 400 })
-  }, []);
+  }, [ dispatch, props ]);
 
-  const isEditingPage = useSelector((state) => state.adminTools.isEditingPage);
   const pageData = useSelector((state) => state.page?.data);
 
   if (!pageData) {
@@ -54,24 +53,6 @@ const FellowshipPage = (props) => {
   const onSave = id => content => {
     dispatch(updatePageContent(id, content));
   };
-
-  /*
-  const onUpdateTitle = content => {
-    dispatch(updateTitle(content.text));
-  }
-
-  onUpdateHeaderImage = content => {
-    const headerObj = { imageSrc: content.imageSrc, title: content.title }
-    this.props.onUpdatePageContent('headerImage', headerObj);
-  }
-
-  onDeleteHeaderImage = () => {
-    this.props.onUpdatePageContent('headerImage', null);
-  }
-  */
-
-  //const pageData = this.props.pageData ? this.props.pageData : this.props.data.pages;
-  //const content = this.props.pageData ? this.props.pageData.content : JSON.parse(this.props.data.pages.content);
 
   return (
     <Layout location={props.location} hideContact>

@@ -1172,8 +1172,16 @@ ul.filter {
   }
 
   .tandem-row {
-    padding-right: $spacing-2;
+    text-align: left;
     cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    padding-right: $spacing-2;
+    width: 100%;
+    line-height: 1.4;
 
     &:hover {
       animation-name: jump;
