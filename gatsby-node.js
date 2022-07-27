@@ -69,9 +69,9 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions, getConfig }) => {
             use: loaders.null(),
           },
           {
-            test: /react-rte/,
+            test: /svg-text/,
             use: loaders.null(),
-          },
+          }
         ],
       }
     })
