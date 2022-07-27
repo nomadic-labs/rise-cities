@@ -122,7 +122,7 @@ const FellowshipPage = (props) => {
 
       <Container><div className="fancy-border" data-aos="flip-right" /></Container>
 
-      <section id="about" data-aos="fade-up" data-aos-delay="500" className="pt-15 pb-15">
+      <section id="fellowship-about" data-aos="fade-up" data-aos-delay="500" className="pt-15 pb-15">
         <Container>
           <Grid container spacing={6}>
             <Grid item md={4}>
@@ -136,10 +136,10 @@ const FellowshipPage = (props) => {
               </div>
             </Grid>
             <Grid item md={8}>
-              <div style={{ marginTop: '120px' }} data-aos="fade-up">
+              <div className="benefits" data-aos="fade-up">
                 <Grid container spacing={6}>
                   <Grid item md={6}>
-                    <h2 className="text-black mb-1">
+                    <h2 className="text-black mt-0 mb-1">
                       <EditableText content={content["benefits-title"]}
                         onSave={onSave("benefits-title")} />
                     </h2>

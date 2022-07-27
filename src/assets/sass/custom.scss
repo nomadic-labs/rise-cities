@@ -1172,6 +1172,7 @@ ul.filter {
   }
 
   .tandem-row {
+    padding-right: $spacing-2;
     cursor: pointer;
 
     &:hover {
@@ -1182,36 +1183,60 @@ ul.filter {
     }
   }
 
-  .marker-icon-text {
-    font-size: 9pt;
-    font-weight: bold;
-    fill: white;
+  .tandem-marker {
+
+    // chrome likes to draw a box around it when you click it
+    // and I don't like that
+    &:focus {
+      outline: none;
+    }
+
+    &.shift {
+      transform: translate(-8px, -20px);
+    }
+
+    &.expand {
+      transform: scale(2) translate(-8px, -20px);
+    }
+
+    .marker-icon-text {
+      font-size: 9pt;
+      font-weight: bold;
+      fill: white;
+    }
+
+    .marker-tooltip {
+      &.marker-show {
+        fill-opacity: 1;
+        transition: fill-opacity 0.3s;
+      }
+
+      &.marker-hide {
+        fill-opacity: 0;
+        transition: fill-opacity 0.3s;
+      }
+    }
+
+    .marker-teardrop {
+      &.marker-grow {
+        transform: scale(1.7);
+        transform-origin: 1% 3%;
+        transition: transform 0.7s;
+      }
+
+      &.marker-shrink {
+        transform: none;
+        transform-origin: 1% 3%;
+        transition: transform 0.7s;
+      }
+    }
   }
 
-  .marker-tooltip {
-    &.marker-show {
-      fill-opacity: 1;
-      transition: fill-opacity 0.3s;
-    }
+}
 
-    &.marker-hide {
-      fill-opacity: 0;
-      transition: fill-opacity 0.3s;
-    }
-  }
-
-  .marker-teardrop {
-    &.marker-grow {
-      transform: scale(1.7);
-      transform-origin: 1% 3%;
-      transition: transform 0.7s;
-    }
-
-    &.marker-shrink {
-      transform: none;
-      transform-origin: 1% 3%;
-      transition: transform 0.7s;
-    }
+#fellowship-about {
+  .benefits {
+    margin-top: 120px;
   }
 }
 

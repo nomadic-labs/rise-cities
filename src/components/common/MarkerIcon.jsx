@@ -2,8 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import SVGText from 'svg-text';
 import classnames from 'classnames';
 
-const MarkerIcon = ({ isHovering, shift, city, country, ...rest }) => {
-  const transforms = [];
+const MarkerIcon = ({ isHovering, expand, shift, city, country, ...rest }) => {
 
   const gRef = useRef();
 
@@ -38,7 +37,7 @@ const MarkerIcon = ({ isHovering, shift, city, country, ...rest }) => {
       });
 
       return () => {
-        // remove the DOM elements
+        // remove the DOM elements when unmounting
         text.rect.remove();
         text.text.remove();
         text = {};
@@ -46,11 +45,14 @@ const MarkerIcon = ({ isHovering, shift, city, country, ...rest }) => {
     }
   }, [ city, country, gRef ]);
 
-  // shift so that the point of the teardrop is (approximately) on the correct spot on the map
-  if (shift) transforms.push('translate(-8, -20)');
-
   return (
-    <g fill="black" transform={transforms.join(' ')} {...rest}>
+    <g fill="black" {...rest} 
+      className={classnames(
+        'tandem-marker', {
+          shift,
+          expand
+        }
+      )}>
       <rect width="14.5414" height="18" fill="black" fillOpacity="0" />
       <g className={classnames(
         'marker-teardrop', {

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { Grid } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { EditorWrapper, theme } from 'react-easy-editables';
 import { useSelector, useDispatch } from 'react-redux';
+
+import Hidden from '@material-ui/core/Hidden';
+import Grid from '@material-ui/core/Grid';
 
 import take from 'lodash/take';
 import takeRight from 'lodash/takeRight';
@@ -61,6 +63,65 @@ const TandemRow = (props) => {
       </div>
       <div className="fancy-border" />
     </div>
+  );
+};
+
+const Map = (props) => {
+
+  const { isMini, tandems } = props;
+
+  // mini version is non-interactive
+  const onHover = !isMini ? props.onHover : noop;
+  const onClick = !isMini ? props.onClick : noop;
+  const hover = !isMini ? props.hover : null;
+
+  const mapOptions = {
+    projectionConfig: {
+      scale: 650,
+      center: [9, 50]
+    },
+    height: 600,
+    width: 600,
+  };
+
+  return (
+    <ComposableMap projection="geoMercator"
+      {...mapOptions}>
+
+      <Geographies geography="/mapdata.json">
+        {({ geographies }) => (
+          geographies.map((geo) => {
+            return (
+              <Geography key={geo.rsmKey} geography={geo} 
+                tabIndex="-1"
+                fill={PRIMARY_COLOR} stroke="white" strokeWidth="1"
+                pointerEvents="none" />
+            );
+          })
+        )}
+      </Geographies>
+
+      { tandems.map((tandem) => {
+        const { id, lat, lon, city, country } = tandem;
+        const isHovering = hover === id;
+        return (
+          <Marker key={id} coordinates={[ lon, lat ]}>
+            <MarkerIcon 
+              city={city} country={country}
+              isHovering={isHovering}
+              shift 
+              expand={isMini}
+              style={{ cursor: !isMini ? 'pointer' : 'default' }}
+              onClick={() => onClick(tandem)}
+              onMouseEnter={() => onHover(tandem)}
+              onMouseLeave={() => onHover(null)}
+              tabIndex="0"
+            />
+          </Marker>
+        );
+      })}
+
+    </ComposableMap>
   );
 };
 
@@ -163,9 +224,19 @@ const TandemMap = (props) => {
       onSave={onSave}
     />
 
-    <Grid container spacing={3}>
+    <Grid container>
+
+      <Hidden mdUp>
+        <Grid item xs={12} md={6} className="map-container">
+          <Map
+            isMini
+            tandems={tandems}
+          />
+        </Grid>
+      </Hidden>
+
       { columns.map((column, i) => (
-        <Grid item xs={12} sm={3} key={i}>
+        <Grid item xs={12} md={3} key={i}>
           { column.map((tandem) => (
             <React.Fragment key={tandem.id}>
 
@@ -191,44 +262,17 @@ const TandemMap = (props) => {
         </Grid>
       ))}
 
-      <Grid item xs={12} sm={6} className="map-container">
-        <ComposableMap projection="geoMercator"
-          projectionConfig={{ scale: 650, center: [9, 50] }}
-          height={600} width={600}>
+      <Hidden smDown>
+        <Grid item xs={12} md={6} className="map-container">
+          <Map
+            tandems={tandems}
+            hover={hover}
+            onClick={setSelected}
+            onHover={onHover}
+          />
+        </Grid>
+      </Hidden>
 
-          <Geographies geography="/mapdata.json">
-            {({ geographies }) => (
-              geographies.map((geo) => {
-                return (
-                  <Geography key={geo.rsmKey} geography={geo} 
-                    tabIndex="-1"
-                    fill={PRIMARY_COLOR} stroke="white" strokeWidth="1" />
-                );
-              })
-            )}
-          </Geographies>
-
-          { tandems.map((tandem) => {
-            const { id, lat, lon, city, country } = tandem;
-            const isHovering = hover === id;
-            return (
-              <Marker key={id} coordinates={[ lon, lat ]}>
-                <MarkerIcon 
-                  city={city} country={country}
-                  isHovering={isHovering}
-                  shift 
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => setSelected(tandem)}
-                  onMouseEnter={() => onHover(tandem)}
-                  onMouseLeave={() => onHover(null)}
-                  tabIndex="0"
-                />
-              </Marker>
-            );
-          })}
-
-        </ComposableMap>
-      </Grid>
     </Grid>
     </>
   );
