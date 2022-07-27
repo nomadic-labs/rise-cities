@@ -83,8 +83,10 @@ class Header extends React.Component {
     }
 
     const pathname = this.props.location?.pathname || '';
-    // TODO don't hardcode this path?
-    const isFellowship = pathname.startsWith('/fellowship');
+    const fellowshipSlug = this.props.pages['fellowship']?.slug;
+    const isFellowship = fellowshipSlug ? 
+      pathname.startsWith(fellowshipSlug) : 
+      false;
 
     return (
       <nav id="navbar" data-aos="fade-in">
