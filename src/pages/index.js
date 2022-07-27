@@ -355,6 +355,10 @@ class HomePage extends React.Component {
                     <EditableText content={content["labs-title"]} onSave={this.onSave("labs-title")} />
                   </h2>
                   <EditableParagraph content={content["labs-intro"]} onSave={this.onSave("labs-intro")} />
+
+                  <div className="pt-2 pb-2">
+                    <Link className="btn" to={this.props.data.fellowship.slug}>Learn more</Link>
+                  </div>
                 </Grid>
               </Grid>
 
@@ -469,6 +473,9 @@ export const query = graphql`
       content
       title
       description
+      slug
+    }
+    fellowship: pages(id: { eq:"fellowship" }) {
       slug
     }
   }
