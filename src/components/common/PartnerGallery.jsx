@@ -172,7 +172,7 @@ class PartnerGallery extends React.Component {
           </Slider>
         {
           itemsToShow < totalItems &&
-          <Grid container justify="center" className="mt-6">
+          <Grid container justify="center" className="mt-8">
             <Grid item>
               <Button
                 variant="outlined"

@@ -149,6 +149,7 @@ class CreatePageModal extends React.Component {
 
     const pageData = {
       ...this.state.page,
+      date: Date.now(),
       id: pageId,
       slug: `/${pageId}`,
       next: null,
