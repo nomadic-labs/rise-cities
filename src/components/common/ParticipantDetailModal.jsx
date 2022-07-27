@@ -1,11 +1,11 @@
 import React from "react";
-import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Grid from "@material-ui/core/Grid";
 import EmailIcon from '@material-ui/icons/Email';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LanguageIcon from '@material-ui/icons/Language';
+import DialogWithClose from "./DialogWithClose";
 
 const DEFAULT_IMAGE = '/default-profile-image.jpg'
 
@@ -18,7 +18,7 @@ const ParticipantDetailModal = ({ profile, closeModal }) => {
 
   return (
     <>
-      <Dialog maxWidth="sm" fullWidth open={Boolean(profile)} PaperProps={{ square: true }} onClose={closeModal}>
+      <DialogWithClose maxWidth="sm" fullWidth open={Boolean(profile)} PaperProps={{ square: true }} onClose={closeModal}>
         <DialogContent className="participant-modal">
           <Grid container>
             <Grid item xs={12} sm={4}>
@@ -83,7 +83,7 @@ const ParticipantDetailModal = ({ profile, closeModal }) => {
             </Grid>
           </Grid>
         </DialogContent>
-      </Dialog>
+      </DialogWithClose>
     </>
   );
 };

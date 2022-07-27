@@ -1,5 +1,5 @@
 import React from "react";
-import Dialog from "@material-ui/core/Dialog";
+import DialogWithClose from './DialogWithClose';
 import DialogContent from "@material-ui/core/DialogContent";
 import Grid from "@material-ui/core/Grid";
 import LanguageIcon from '@material-ui/icons/Language';
@@ -15,7 +15,7 @@ const TandemDetailModal = (props) => {
 
   return (
     <>
-      <Dialog maxWidth="sm" fullWidth open={Boolean(tandem)} PaperProps={{ square: true }} onClose={closeModal}>
+      <DialogWithClose maxWidth="sm" fullWidth open={Boolean(tandem)} PaperProps={{ square: true }} onClose={closeModal}>
         <DialogContent className="tandem-info">
           <Grid container>
             <Grid item xs={12}>
@@ -49,7 +49,7 @@ const TandemDetailModal = (props) => {
             </Grid>
           </Grid>
         </DialogContent>
-      </Dialog>
+      </DialogWithClose>
     </>
   );
 };
