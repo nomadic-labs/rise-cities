@@ -44,6 +44,14 @@ module.exports = {
             type: "Config",
             collection: "config",
           },
+          {
+            type: "Tandems",
+            collection: "tandems",
+          },
+          {
+            type: "Curriculum",
+            collection: "curriculum",
+          }
         ]
       }
     },

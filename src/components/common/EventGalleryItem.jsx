@@ -6,6 +6,9 @@ import ensureAbsoluteUrl from '../../utils/ensureAbsoluteUrl';
 import LazyLoad from 'react-lazyload';
 import { DateTime } from 'luxon';
 
+import upcomingIcon from '../../assets/images/icons/upcoming-icon.svg';
+import pastIcon from '../../assets/images/icons/past-icon.svg';
+
 const DEFAULT_IMAGE = '/default-profile-image.jpg'
 
 const formatDate = (str) => {
@@ -18,6 +21,19 @@ const formatDate = (str) => {
 
 const formatTime = (str, zone) => {
   return DateTime.fromISO(str).setZone(zone).toLocaleString(DateTime.TIME_SIMPLE);
+};
+
+const Period = ({ period }) => {
+
+  const icon = period === 'past' ? pastIcon : upcomingIcon;
+
+  return (
+    <div className="display-flex align-center">
+      <img src={icon} alt={period} />
+      <span className="text-uppercase text-xs ml-2">{period}</span>
+    </div>
+  );
+  
 };
 
 const EventGalleryItem = ({ id, content={} }) => {
@@ -61,11 +77,16 @@ const EventGalleryItem = ({ id, content={} }) => {
     timeString = formatTime(content.startTime, zone);
   }
 
+  const { period } = content;
+
   return (
     <div className="event pb-5">
       <Hidden xsDown>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={3} md={3}>
+            <div className="mb-5">
+              <Period period={period} />
+            </div>
             <div className="text-secondary text-xs mb-2">{content.location}</div>
             <div className="text-bold text-uppercase">{dateString}</div>
             { timeString && <div className="text-xs text-uppercase text-muted">{timeString}</div> }

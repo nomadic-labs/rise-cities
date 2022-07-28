@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import AgendaItem from "./AgendaItem"
 import AgendaModal from "./AgendaModal";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
-import {EditablesContext, EditorWrapper, theme, EditableText} from "react-easy-editables";
+import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
 
 const muiTheme = createMuiTheme({
   palette: {

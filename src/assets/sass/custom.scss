@@ -116,6 +116,10 @@ body .nl-page {
       &:last-of-type {
         margin-right: 0;
       }
+
+      &.is-active {
+        border-bottom: 2px solid $secondary-color;
+      }
     }
   }
 
@@ -295,9 +299,11 @@ body .nl-page {
     }
 
     .slick-dots {
+      /*
       li {
-        /*bottom: -40px;*/
+        bottom: -40px;
       }
+      */
 
       .slick-active > div {
         border: 2px solid $primary-color;
@@ -533,13 +539,15 @@ body .nl-page {
     }
   }
 
+  /*
   #logistics {
-    /*background: linear-gradient(90deg, $white 0%, $white 57%, $gray-600 57%, $gray-600 100%);*/
+    background: linear-gradient(90deg, $white 0%, $white 57%, $gray-600 57%, $gray-600 100%);
 
     .link-area {
-      /*padding-left: 40px;*/
+      padding-left: 40px;
     }
   }
+  */
 
   .events-column {
     flex: 1 1 0px;
@@ -756,9 +764,11 @@ body .nl-page {
     margin-bottom: 16px;
   }
 
+  /*
   .summary {
 
   }
+  */
 }
 
 button {
@@ -1092,41 +1102,41 @@ blockquote {
   }
 }
 
-#articles {
-  ul.filter {
-    display: flex;
-    padding: 0;
+//#articles {
+ul.filter {
+  display: flex;
+  padding: 0;
 
-    li {
-      margin-right: 40px;
-      list-style: none;
+  li {
+    margin-right: 40px;
+    list-style: none;
 
-      button {
-        background: transparent;
-        border: none;
-        font-size: $font-size-xs;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    button {
+      background: transparent;
+      border: none;
+      font-size: $font-size-xs;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
-        img {
-          height: 30px;
-          width: 30px;
-        }
+      img {
+        height: 30px;
+        width: 30px;
       }
+    }
 
-      &.active {
-        button {
-          &:after {
-            width: 100%;
-            border-color: $primary-color;
-          }
+    &.active {
+      button {
+        &:after {
+          width: 100%;
+          border-color: $primary-color;
         }
       }
     }
   }
 }
+//}
 
 #contact-button {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.25);
@@ -1149,5 +1159,174 @@ blockquote {
   white-space: pre-wrap;
 }
 
+#tandems {
+  .criteria {
+    font-size: 26px;
+    text-transform: uppercase;
+  }
+
+  .map-container {
+    overflow: hidden;
+    max-height: 600px;
+    width: 100%;
+  }
+
+  .tandem-row {
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    padding-right: $spacing-2;
+    width: 100%;
+    line-height: 1.4;
+    color: black;
+
+    &:hover {
+      animation-name: jump;
+      animation-duration: 0.5s;
+      animation-timing-function: ease;
+      animation-iteration-count: 1;
+    }
+  }
+
+  .tandem-marker {
+
+    // chrome likes to draw a box around it when you click it
+    // and I don't like that
+    &:focus {
+      outline: none;
+    }
+
+    &.shift {
+      transform: translate(-8px, -20px);
+    }
+
+    &.expand {
+      transform: scale(2) translate(-8px, -20px);
+    }
+
+    .marker-icon-text {
+      font-size: 9pt;
+      font-weight: bold;
+      fill: white;
+    }
+
+    .marker-tooltip {
+      &.marker-show {
+        fill-opacity: 1;
+        transition: fill-opacity 0.3s;
+      }
+
+      &.marker-hide {
+        fill-opacity: 0;
+        transition: fill-opacity 0.3s;
+      }
+    }
+
+    .marker-teardrop {
+      &.marker-grow {
+        transform: scale(1.7);
+        transform-origin: 1% 3%;
+        transition: transform 0.7s;
+      }
+
+      &.marker-shrink {
+        transform: none;
+        transform-origin: 1% 3%;
+        transition: transform 0.7s;
+      }
+    }
+  }
+
+}
+
+#fellowship-about {
+  .benefits {
+    margin-top: 120px;
+  }
+}
+
+.tandem-info {
+  .tandem-img {
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+#event-transition {
+  &.enter {
+    opacity: 0;
+  }
+
+  &.enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+  }
+
+  &.exit {
+    opacity: 1;
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
+  }
+}
+
+.curriculum-accordion {
+  border: none;
+  border-bottom: 2px solid black;
+}
+
+.curriculum-item {
+  button {
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+    color: black;
+
+    cursor: pointer;
+
+    .pretty-link {
+      @include pretty-link;
+    }
+
+    img {
+      width: 100%;
+      object-fit: scale-down;
+    }
+
+    &:hover {
+      .pretty-link:after {
+        width: 100%;
+      }
+    }
+
+    &:focus {
+      .pretty-link {
+        animation-name: bump;
+        animation-duration: 0.5s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+
+        &:after {
+          width: 100%;
+          border-color: $primary-color;
+        }
+      }
+    }
+
+  }
+}
 
 @import "responsive";

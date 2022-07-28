@@ -833,3 +833,78 @@ export function fetchUsers() {
       })
   };
 }
+
+export function saveDocument(collectionId, documentId, data) {
+  return (dispatch) => {
+    const db = firestore;
+
+    const collection = db.collection(collectionId);
+
+    new Promise((resolve) => {
+      if (documentId) {
+        resolve(collection.doc(documentId));
+      } else {
+        resolve(collection.add({}));
+      }
+    })
+    .then((doc) => {
+      doc
+        .update(data)
+        .then(() => {
+          dispatch(
+            showNotification(
+              "Your changes have been saved. Publish your changes to view and edit the page.",
+              "success"
+            )
+          );
+        });
+    })
+    .catch(error => {
+      dispatch(
+        showNotification(
+          `There was an error saving your changes: ${error}`,
+          "error"
+        )
+      );
+    });
+  };
+}
+
+export function saveCurriculum(id, module) {
+  return (dispatch) => {
+    dispatch(saveDocument('curriculum', id, module));
+  };
+}
+
+export function deleteCurriculum(id) {
+  return (dispatch) => {
+    const db = firestore;
+
+    db
+      .collection('curriculum')
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch(
+          showNotification(
+            "Your changes have been saved. Publish your changes to view and edit the page.",
+            "success"
+          )
+        );
+      })
+      .catch(error => {
+        dispatch(
+          showNotification(
+            `There was an error saving your changes: ${error}`,
+            "error"
+          )
+        );
+      })
+  };
+}
+
+export function saveTandem(id, tandem) {
+  return (dispatch) => {
+    dispatch(saveDocument('tandems', id, tandem));
+  };
+}

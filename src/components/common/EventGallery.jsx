@@ -8,7 +8,14 @@ import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {EditablesContext, EditorWrapper, theme} from "react-easy-editables";
 
 import groupBy from 'lodash/groupBy';
+import map from 'lodash/map';
 import { DateTime } from 'luxon';
+import Filter from './Filter';
+
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
+
+import upcomingIcon from '../../assets/images/icons/upcoming-icon.svg';
+import pastIcon from '../../assets/images/icons/past-icon.svg';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -54,12 +61,24 @@ const dateCompare = (a, b, reverse) => {
   return (bStart - aStart) * (reverse ? -1 : 1);
 };
 
+const FILTER_OPTS = [
+  {
+    value: 'Upcoming',
+    icon: upcomingIcon,
+  },
+  {
+    value: 'Past',
+    icon: pastIcon,
+  },
+];
+
 class EventGallery extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       showModal: false,
       editingEvent: null,
+      filter: 'Upcoming',
     }
   }
 
@@ -80,25 +99,35 @@ class EventGallery extends React.Component {
   }
 
   render() {
-    const { showModal, editingEvent } = this.state;
+    const { showModal, editingEvent, filter } = this.state;
     const events = Object.keys(this.props.content).reverse().map(key => this.props.content[key])
 
     const today = DateTime.now();
 
-    const groupedEvents = groupBy(events, (event) => {
-
+    const eventsWithPeriod = map(events, (event) => {
+      let period = 'upcoming';
       if (event.endDate && event.startDate) {
-        return DateTime.fromISO(event.endDate) < today ? 'past' : 'upcoming';
-      } else if (event.startDate) {
-        return DateTime.fromISO(event.startDate) < today ? 'past' : 'upcoming';
+        period = DateTime.fromISO(event.endDate) < today ? 'past' : 'upcoming';
+      } else {
+        period = DateTime.fromISO(event.startDate) < today ? 'past' : 'upcoming';
       }
 
-      return 'upcoming';
+      return { ...event, period };
     });
 
-    const { past, upcoming } = groupedEvents;
-    if (past) past.sort((a, b) => dateCompare(a, b, false));
-    if (upcoming) upcoming.sort((a, b) => dateCompare(a, b, true));
+    const groupedEvents = groupBy(eventsWithPeriod, 'period');
+
+    let { past, upcoming } = groupedEvents;
+    past = past || [];
+    upcoming = upcoming || [];
+
+    past.sort((a, b) => dateCompare(a, b, false));
+    upcoming.sort((a, b) => dateCompare(a, b, true));
+
+    // when editing, show all events; otherwise, it's filtered
+    const eventsToShow = this.props.isEditingPage ? 
+      [ ...past, ...upcoming ] : 
+      filter === 'Past' ? past : upcoming;
 
     return (
       <div id="event-gallery" className={`collection width-100 mt-2 ${this.props.classes}`}>
@@ -115,40 +144,30 @@ class EventGallery extends React.Component {
             </div>
           </div>
         }
-        { groupedEvents['upcoming'] &&
-        <>
-          <h3 className="text-black">
-            Upcoming Events
-          </h3>
-          {groupedEvents['upcoming'].map((event) => {
-            return (
+
+        { !this.props.isEditingPage &&
+          <div className="mt-6 mb-6" id="event-toggler">
+            <Filter options={FILTER_OPTS}
+              value={filter}
+              onChange={(filter) => this.setState({ filter })}
+            />
+          </div>
+        }
+
+        <SwitchTransition>
+          <CSSTransition key={filter} timeout={300}>
+            <div id="event-transition">
+            {eventsToShow.map((event) => (
               <Event key={event.id}
                 event={event}
                 startEditing={() => this.setState({ showModal: true, editingEvent: event })}
                 isEditingPage={this.props.isEditingPage}
                 theme={this.context.theme}
               />
-            );
-          })}
-        </>
-        }
-        { groupedEvents['past'] &&
-        <>
-          <h3 className="text-black">
-            Past Events
-          </h3>
-          {groupedEvents['past'].map((event) => {
-            return (
-              <Event key={event.id}
-                event={event}
-                startEditing={() => this.setState({ showModal: true, editingEvent: event })}
-                isEditingPage={this.props.isEditingPage}
-                theme={this.context.theme}
-              />
-            );
-          })}
-        </>
-        }
+            ))}
+            </div>
+          </CSSTransition>
+        </SwitchTransition>
 
         <EventModal
           event={editingEvent}

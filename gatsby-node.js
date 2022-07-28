@@ -7,7 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
       graphql(
         `
           {
-          allPages(filter: {template: { in: ["article.js", "event.js"]}, deleted: { ne: true } }) {
+          allPages(filter: {template: { in: ["article.js", "event.js", "fellowship.js"]}, deleted: { ne: true } }) {
             edges {
               node {
                 id
@@ -69,9 +69,9 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions, getConfig }) => {
             use: loaders.null(),
           },
           {
-            test: /react-rte/,
+            test: /svg-text/,
             use: loaders.null(),
-          },
+          }
         ],
       }
     })
