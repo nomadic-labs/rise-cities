@@ -356,9 +356,11 @@ class HomePage extends React.Component {
                   </h2>
                   <EditableParagraph content={content["labs-intro"]} onSave={this.onSave("labs-intro")} />
 
+                  {/*
                   <div className="pt-2 pb-2">
                     <Link className="btn" to={this.props.data.fellowship.slug}>Learn more</Link>
                   </div>
+                  */}
                 </Grid>
               </Grid>
 
